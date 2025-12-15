@@ -2,355 +2,366 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.">
-    <title>MOTUWA</title>
-    <link rel="stylesheet" href="../static/Bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/all.css">
-    <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/brands.css">
-    <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/fontawesome.css">
-    <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/regular.css">
-    <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/solid.css">
-    <link rel="stylesheet" href="../static/Bootstrap/css/bootstrap-grid.min.css">
-    <style>
-        body {
-            background-color: #f6faff;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.">
+  <title>MOTUWA</title>
+  <link rel="stylesheet" href="../static/Bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/all.css">
+  <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/brands.css">
+  <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/fontawesome.css">
+  <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/regular.css">
+  <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/solid.css">
+  <link rel="stylesheet" href="../static/Bootstrap/css/bootstrap-grid.min.css">
+  <style>
+    body {
+      background-color: #f6faff;
+    }
 
-        input.inputfield {
-            border: none;
-            background-color: #f6faff;
-            padding: 5px;
-            width: 100%;
-            border-radius: 10px;
-        }
+    input.inputfield {
+      border: none;
+      background-color: #f6faff;
+      padding: 5px;
+      width: 100%;
+      border-radius: 10px;
+    }
 
-        label {
-            margin-top: 20px;
-            font-weight: bold;
-            font-size: 13px;
-            margin-left: 5px;
-        }
+    label {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 13px;
+      margin-left: 5px;
+    }
 
-        .label {
-            margin-top: 25px;
-            font-size: 12px;
-            float: right;
-        }
+    .label {
+      margin-top: 25px;
+      font-size: 12px;
+      float: right;
+    }
 
-        .card1 {
+    .card1 {
 
-            background: linear-gradient(to bottom right, #0b1220, #0b61ff);
-            padding: 40px;
-            height: 100%;
-            font-family: 'Segoe UI', sans-serif;
-        }
+      background: linear-gradient(to bottom right, #0b1220, #0b61ff);
+      padding: 40px;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+    }
 
-        textarea.inputfield {
-            border: none;
-            background-color: #f6faff;
-            padding: 5px;
-            width: 100%;
-            border-radius: 10px;
-        }
+    textarea.inputfield {
+      border: none;
+      background-color: #f6faff;
+      padding: 5px;
+      width: 100%;
+      border-radius: 10px;
+    }
 
-        .container1 {
-            margin-left: 5%;
-            margin-right: 5%;
-        }
+    .container1 {
+      margin-left: 5%;
+      margin-right: 5%;
+    }
 
-        .container2 {
-            display: flex;
-            justify-content: flex-end;
-            /* Pushes content to the right end */
-        }
+    .container2 {
+      display: flex;
+      justify-content: flex-end;
+      /* Pushes content to the right end */
+    }
 
-        .btn1 {
-            border: none;
-            cursor: pointer;
-            padding: 10px;
-            background-color: #ffff00;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: bolder;
-        }
+    .btn1 {
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      background-color: #ffff00;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: bolder;
+    }
 
-        .dot {
-            display: inline-block;
-            width: 0.6em;
-            /* scales with font size */
-            height: 0.6em;
-            border-radius: 50%;
-            background: #ffff00;
-            /* inherits text color */
-            vertical-align: middle;
-            margin-left: 0.25em;
-            /* spacing if needed */
-            margin-right: 5px;
-        }
+    .dot {
+      display: inline-block;
+      width: 0.6em;
+      /* scales with font size */
+      height: 0.6em;
+      border-radius: 50%;
+      background: #ffff00;
+      /* inherits text color */
+      vertical-align: middle;
+      margin-left: 0.25em;
+      /* spacing if needed */
+      margin-right: 5px;
+    }
 
-        .dot1 {
-            display: inline-block;
-            width: 1.6em;
-            /* scales with font size */
-            height: 1.6em;
-            border-radius: 50%;
-            background-image: radial-gradient(#ffff00,
-                    #cf7c00);
-            /* inherits text color */
-            vertical-align: middle;
-            margin-left: 0.25em;
-            /* spacing if needed */
-            margin-right: 5px;
-            margin-top: 5px;
-        }
+    .dot1 {
+      display: inline-block;
+      width: 1.6em;
+      /* scales with font size */
+      height: 1.6em;
+      border-radius: 50%;
+      background-image: radial-gradient(#ffff00,
+          #cf7c00);
+      /* inherits text color */
+      vertical-align: middle;
+      margin-left: 0.25em;
+      /* spacing if needed */
+      margin-right: 5px;
+      margin-top: 5px;
+    }
 
-        .nav-link {
-            font-weight: 500;
-        }
-        :root {
-  --footer-bg: #0b0f14;           /* Deep near-black */
-  --footer-fg: #e7eef7;           /* Soft off-white text */
-  --footer-muted: #b7c3d1;        /* Muted text for descriptions */
-  --footer-accent: #6aa9ff;       /* Link accent */
-  --footer-accent-hover: #92c3ff; /* Hover accent */
-  --footer-divider: #1a212b;      /* Subtle divider line */
-}
+    .nav-link {
+      font-weight: 500;
+    }
 
-.footer {
-  background: var(--footer-bg);
-  color: var(--footer-fg);
-  padding: 56px 0 24px;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
-}
+    :root {
+      --footer-bg: #0b0f14;
+      /* Deep near-black */
+      --footer-fg: #e7eef7;
+      /* Soft off-white text */
+      --footer-muted: #b7c3d1;
+      /* Muted text for descriptions */
+      --footer-accent: #6aa9ff;
+      /* Link accent */
+      --footer-accent-hover: #92c3ff;
+      /* Hover accent */
+      --footer-divider: #1a212b;
+      /* Subtle divider line */
+    }
 
-.footer-inner {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 0 20px;
+    .footer {
+      background: var(--footer-bg);
+      color: var(--footer-fg);
+      padding: 56px 0 24px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    }
 
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr; /* Wider first column */
-  gap: 28px;
-}
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 20px;
 
-.footer-title {
-  margin: 0 0 12px;
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: 0.2px;
-}
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      /* Wider first column */
+      gap: 28px;
+    }
 
-.footer-desc {
-  margin: 0;
-  color: var(--footer-muted);
-  line-height: 1.6;
-  font-size: 15px;
-}
+    .footer-title {
+      margin: 0 0 12px;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
 
-.footer-heading {
-  margin: 0 0 12px;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-}
+    .footer-desc {
+      margin: 0;
+      color: var(--footer-muted);
+      line-height: 1.6;
+      font-size: 15px;
+    }
 
-.footer-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+    .footer-heading {
+      margin: 0 0 12px;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
 
-.footer-list li {
-  margin: 8px 0;
-}
+    .footer-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
 
-.footer-list a {
-  color: var(--footer-fg);
-  text-decoration: none;
-  font-size: 15px;
-  transition: color 0.2s ease, opacity 0.2s ease;
-  opacity: 0.92;
-}
+    .footer-list li {
+      margin: 8px 0;
+    }
 
-.footer-list a:hover,
-.footer-list a:focus {
-  color: var(--footer-accent);
-  opacity: 1;
-  outline: none;
-}
+    .footer-list a {
+      color: var(--footer-fg);
+      text-decoration: none;
+      font-size: 15px;
+      transition: color 0.2s ease, opacity 0.2s ease;
+      opacity: 0.92;
+    }
 
-.footer-bottom {
-  max-width: 1120px;
-  margin: 28px auto 0;
-  padding: 18px 20px 0;
-  border-top: 1px solid var(--footer-divider);
-  color: var(--footer-muted);
-  font-size: 14px;
-}
+    .footer-list a:hover,
+    .footer-list a:focus {
+      color: var(--footer-accent);
+      opacity: 1;
+      outline: none;
+    }
 
-.footer-bottom p {
-  margin: 0;
-}
+    .footer-bottom {
+      max-width: 1120px;
+      margin: 28px auto 0;
+      padding: 18px 20px 0;
+      border-top: 1px solid var(--footer-divider);
+      color: var(--footer-muted);
+      font-size: 14px;
+    }
 
-/* Responsive */
-@media (max-width: 960px) {
-  .footer-inner {
-    grid-template-columns: 1fr 1fr; /* Two columns */
-  }
-}
+    .footer-bottom p {
+      margin: 0;
+    }
 
-@media (max-width: 560px) {
-  .footer {
-    padding: 44px 0 20px;
-  }
-  .footer-inner {
-    grid-template-columns: 1fr; /* Single column */
-    gap: 20px;
-  }
-  .footer-bottom {
-    margin-top: 20px;
-  }
-}
-    </style>
+    /* Responsive */
+    @media (max-width: 960px) {
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+        /* Two columns */
+      }
+    }
+
+    @media (max-width: 560px) {
+      .footer {
+        padding: 44px 0 20px;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+        /* Single column */
+        gap: 20px;
+      }
+
+      .footer-bottom {
+        margin-top: 20px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg" style="background: linear-gradient(to bottom right, #0b1220, #0b61ff);">
-        <div class="container1">
-            <a class='navbar-brand text-white' href='/' style='font-weight: bolder; display: flex; margin-top: 10px;'>
-                <div class="dot1">
+  <nav class="navbar navbar-expand-lg" style="background: linear-gradient(to bottom right, #0b1220, #0b61ff);">
+    <div class="container1">
+      <a class='navbar-brand text-white' href='/' style='font-weight: bolder; display: flex; margin-top: 10px;'>
+        <div class="dot1">
 
-                </div>
-                <div>
-                    <h4 style='font-weight: bolder;'>MOTUWA</h4>
-                    <p style="margin-top: -10px; font-weight: 550; font-size: 10px;">The Right to Safe Ride with Pride
-                    </p>
-                </div>
-            </a>
         </div>
-        <!-- Mobile toggle -->
-        <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <!-- Navigation links -->
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav" style="margin-right: 100px;">
-            <ul class="navbar-nav ms-auto align-items-center">
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="#">Features</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="#">How It Works</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/contact">Contact</a>
-                </li>
-                <li class="nav-item ms-3">
-                    <a class="btn btn-outline-light" href="#">Log in</a>
-                </li>
-            </ul>
+        <div>
+          <h4 style='font-weight: bolder;'>MOTUWA</h4>
+          <p style="margin-top: -10px; font-weight: 550; font-size: 10px;">The Right to Safe Ride with Pride
+          </p>
         </div>
+      </a>
+    </div>
+    <!-- Mobile toggle -->
+    <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-    </nav>
-    <div class="container1"><br>
-        <h4 style="font-weight: bolder;">Contact Our Safety Team</h4>
-        <p style="font-size: 12px; width: 40%;">Share any worry you have during a ride, suggest improvements, or tell us
-            how MOTUWA can better protect you and your loved ones.</p>
-        <div class="container2">
-            <button class="btn1"> Average response time: under 24 hours</button><br>
-        </div><br>
-        <div class="row">
-            <div class="col-7">
-                <div class="card">
-                    <div class="container"><br>
-                        <h5 style="font-weight: bolder;">Send us a Message</h5>
-                        <p style="font-size: 12px; width: 100%;">Our team reviews every report and suggestion carefully
-                            to keep
-                            MOTUWA safer and more reliable for everyone.</p>
-                        <form action="">
-                            <label for="name">Full Name</label><br>
-                            <input type="text" class="inputfield" placeholder=" Jane Doe">
-                            <div class="row">
-                                <div class="col-6">
-                                    <label for="email">Email</label><br>
-                                    <input type="email" class="inputfield" placeholder=" you@example.com"><br>
-                                    <label for="topic">Topic</label><br>
-                                    <input type="text" class="inputfield" placeholder=" Choose a topic">
-                                </div>
-                                <div class="col-6">
-                                    <label for="tel">Phone (Optional)</label><br>
-                                    <input type="tel" class="inputfield" placeholder=" +1 202 555 0189"><br>
-                                    <label for="date">Ride Date (Optional)</label><span class="label">If related to a
-                                        specific trip</span><br>
-                                    <input type="text" class="inputfield" type="text" placeholder="DD / MM / YYYY"
-                                        pattern="\d{2}/\d{2}/\d{4}" required>
-                                </div>
-                            </div>
-                            <label for="">How can we help?</label><span class="label">Share worries, incident, or
-                                ideas</span>
-                            <textarea name="" id=""
-                                placeholder=" Describe what happened or what you would like us to improve..."
-                                class="inputfield" rows="4"></textarea><br>
-                            <label>Attach Screenshot (optional)</label><span class="label">Taxi receipt, app screen, or
-                                chat</span>
-                            <br><input type="file" name="file" accept=".pdf,.png,.jpg,.jpeg" class="inputfield">
+    <!-- Navigation links -->
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav" style="margin-right: 100px;">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="#">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="#">How It Works</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="#">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/contact">Contact</a>
+        </li>
+        <li class="nav-item ms-3">
+          <a class="btn btn-outline-light" href="#">Log in</a>
+        </li>
+      </ul>
+    </div>
 
-
-                        </form><br>
-                        <h6>Your Safety Feedback Matters.</h6>
-                        <div class="row">
-                            <div class="col-8">
-                                <p style="font-size: 13px;">We never share your personal details with drivers or third
-                                    parties without your consent.</p>
-                            </div>
-                            <div class="col-4"><button class="btn bg-primary text-white" style="float: right;">Send
-                                    Message</button></div>
-                        </div>
-                    </div><br>
+  </nav>
+  <div class="container1"><br>
+    <h4 style="font-weight: bolder;">Contact Our Safety Team</h4>
+    <p style="font-size: 12px; width: 40%;">Share any worry you have during a ride, suggest improvements, or tell us
+      how MOTUWA can better protect you and your loved ones.</p>
+    <div class="container2">
+      <button class="btn1"> Average response time: under 24 hours</button><br>
+    </div><br>
+    <div class="row">
+      <div class="col-7">
+        <div class="card">
+          <div class="container"><br>
+            <h5 style="font-weight: bolder;">Send us a Message</h5>
+            <p style="font-size: 12px; width: 100%;">Our team reviews every report and suggestion carefully
+              to keep
+              MOTUWA safer and more reliable for everyone.</p>
+            <form action="">
+              <label for="name">Full Name</label><br>
+              <input type="text" class="inputfield" placeholder=" Jane Doe">
+              <div class="row">
+                <div class="col-6">
+                  <label for="email">Email</label><br>
+                  <input type="email" class="inputfield" placeholder=" you@example.com"><br>
+                  <label for="topic">Topic</label><br>
+                  <input type="text" class="inputfield" placeholder=" Choose a topic">
                 </div>
+                <div class="col-6">
+                  <label for="tel">Phone (Optional)</label><br>
+                  <input type="tel" class="inputfield" placeholder=" +1 202 555 0189"><br>
+                  <label for="date">Ride Date (Optional)</label><span class="label">If related to a
+                    specific trip</span><br>
+                  <input type="text" class="inputfield" type="text" placeholder="DD / MM / YYYY"
+                    pattern="\d{2}/\d{2}/\d{4}" required>
+                </div>
+              </div>
+              <label for="">How can we help?</label><span class="label">Share worries, incident, or
+                ideas</span>
+              <textarea name="" id="" placeholder=" Describe what happened or what you would like us to improve..."
+                class="inputfield" rows="4"></textarea><br>
+              <label>Attach Screenshot (optional)</label><span class="label">Taxi receipt, app screen, or
+                chat</span>
+              <br><input type="file" name="file" accept=".pdf,.png,.jpg,.jpeg" class="inputfield">
+
+
+            </form><br>
+            <h6>Your Safety Feedback Matters.</h6>
+            <div class="row">
+              <div class="col-8">
+                <p style="font-size: 13px;">We never share your personal details with drivers or third
+                  parties without your consent.</p>
+              </div>
+              <div class="col-4"><button class="btn bg-primary text-white" style="float: right;">Send
+                  Message</button></div>
             </div>
-            <div class="col-5">
-                <div class="card card1">
-                    <div class="container text-white"><br>
-                        <p
-                            style="border: none; background-color: black; padding: 5px; border-radius: 20px; font-size: 12px;">
-                            <span class="dot" aria-hidden="true"></span>Always-on safety support
-                        </p>
-                        <h4 style="font-weight: bold;">Reach the MOTUWA Team</h4>
-                        <p style="font-size: 12px; width: 90%;">Whether you are in the middle of a ride or reflecting
-                            afterwards, you can always reach our team to report concerns or suggest improvements.</p>
-                        <hr style="border-color: rgba(255,255,255,0.3);">
-                        <p style="font-size: 13px;"><strong>Email support</strong><br>support@motuwa.app</p>
-                        <p style="font-size: 13px;"><strong>Safety hotline (non-emergency)</strong><br>+1 800 000 000
-                        </p>
-                        <p style="font-size: 13px;"><strong>Head office</strong><br>Your city, your country</p>
-                        <hr style="border-color: rgba(255,255,255,0.3);">
-                        <p style="font-size: 12px;">For urgent, life-threatening situations, please contact your local
-                            emergency number first.</p>
-                        <p style="font-size: 12px;">Attach any screenshots, taxi details, or locations that help us
-                            understand what happened.</p>
-                        <p style="font-size: 12px;">We use your reports to improve alerts, tracking, and the way MOTUWA
-                            informs your emergency contacts.</p><br>
-                    </div>
-                </div>
-            </div>
+          </div><br>
         </div>
-    </div><br><br>
+      </div>
+      <div class="col-5">
+        <div class="card card1">
+          <div class="container text-white"><br>
+            <p style="border: none; background-color: black; padding: 5px; border-radius: 20px; font-size: 12px;">
+              <span class="dot" aria-hidden="true"></span>Always-on safety support
+            </p>
+            <h4 style="font-weight: bold;">Reach the MOTUWA Team</h4>
+            <p style="font-size: 12px; width: 90%;">Whether you are in the middle of a ride or reflecting
+              afterwards, you can always reach our team to report concerns or suggest improvements.</p>
+            <hr style="border-color: rgba(255,255,255,0.3);">
+            <p style="font-size: 13px;"><strong>Email support</strong><br>support@motuwa.app</p>
+            <p style="font-size: 13px;"><strong>Safety hotline (non-emergency)</strong><br>+1 800 000 000
+            </p>
+            <p style="font-size: 13px;"><strong>Head office</strong><br>Your city, your country</p>
+            <hr style="border-color: rgba(255,255,255,0.3);">
+            <p style="font-size: 12px;">For urgent, life-threatening situations, please contact your local
+              emergency number first.</p>
+            <p style="font-size: 12px;">Attach any screenshots, taxi details, or locations that help us
+              understand what happened.</p>
+            <p style="font-size: 12px;">We use your reports to improve alerts, tracking, and the way MOTUWA
+              informs your emergency contacts.</p><br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><br><br>
 </body>
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-col">
       <h3 class="footer-title">MOTUWA</h3>
       <p class="footer-desc">
-        A safety-first companion for every public transport ride. Capture your journey, share your route, and stay connected to the people who care about you.
+        A safety-first companion for every public transport ride. Capture your journey, share your route, and stay
+        connected to the people who care about you.
       </p>
     </div>
 
@@ -385,4 +396,5 @@
     <p>© 2023 MOTUWA. All rights reserved.</p>
   </div>
 </footer>
+
 </html>
