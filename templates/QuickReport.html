@@ -562,6 +562,109 @@ label {
     </section>
   </main>
 
+ <script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  // --- TAB SWITCHING ---
+  const tabs = document.querySelectorAll(".tab");
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      tabs.forEach(t => t.classList.add("inactive"));
+      tab.classList.add("active");
+      tab.classList.remove("inactive");
+    });
+  });
+
+  // --- PILL SELECTION ---
+  function setupPillSelection(containerSelector, singleSelect = true) {
+    const pillsContainers = document.querySelectorAll(containerSelector);
+    pillsContainers.forEach(container => {
+      const pills = container.querySelectorAll(".pill");
+      pills.forEach(pill => {
+        pill.addEventListener("click", () => {
+          if (singleSelect) {
+            pills.forEach(p => p.classList.remove("selected"));
+          }
+          pill.classList.toggle("selected");
+        });
+      });
+    });
+  }
+
+  setupPillSelection(".pill-row"); // single select
+  setupPillSelection(".toggle-row", false); // multi-select for toggles
+
+  // Add selected styling
+  const style = document.createElement("style");
+  style.innerHTML = `
+    .pill.selected { border: 2px solid #1b63f3; font-weight: 600; }
+    .option.selected { border: 2px solid #1b63f3; }
+    .scale-item.selected { border: 2px solid #1b63f3; }
+  `;
+  document.head.appendChild(style);
+
+  // --- SCALE SELECTION ---
+  const scaleItems = document.querySelectorAll(".scale-item");
+  scaleItems.forEach(item => {
+    item.addEventListener("click", () => {
+      scaleItems.forEach(i => i.classList.remove("selected"));
+      item.classList.add("selected");
+    });
+  });
+
+  // --- STEP 3 OPTIONS SELECTION ---
+  const step3Options = document.querySelectorAll(".three-col .option");
+  step3Options.forEach(option => {
+    option.addEventListener("click", () => {
+      step3Options.forEach(o => o.classList.remove("selected"));
+      option.classList.add("selected");
+    });
+  });
+
+  // --- SEND REPORT TO FLASK ---
+  const sendBtn = document.querySelector(".btn.primary");
+  sendBtn.addEventListener("click", () => {
+    const selectedPills = Array.from(document.querySelectorAll(".pill.selected")).map(p => p.textContent.trim());
+    const selectedScale = document.querySelector(".scale-item.selected")?.textContent.trim() || null;
+    const selectedOption = document.querySelector(".three-col .option.selected")?.querySelector("strong")?.textContent.trim() || null;
+    const toggles = Array.from(document.querySelectorAll(".toggle-row .pill.selected")).map(p => p.textContent.trim());
+    const notes = document.querySelector(".note-input").value.trim();
+
+    const report = {
+      selectedPills,
+      selectedScale,
+      step3Option: selectedOption,
+      toggles,
+      notes
+    };
+
+    // Send JSON to Flask
+    fetch("/submit-report", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(report)
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      alert(data.message);
+      // Optionally reset form
+      // document.querySelectorAll('.pill.selected').forEach(p => p.classList.remove('selected'));
+      // document.querySelectorAll('.scale-item.selected').forEach(s => s.classList.remove('selected'));
+      // document.querySelectorAll('.option.selected').forEach(o => o.classList.remove('selected'));
+      // document.querySelector('.note-input').value = '';
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Failed to send report. Check console for details.");
+    });
+  });
+
+});
+</script>
+
+
 </body>
 </html>
 
