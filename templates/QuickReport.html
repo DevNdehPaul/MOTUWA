@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quick safety report</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family:  Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #f6faff;
+  color: #1f2937;
+}
+
+.page {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+
+.page-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.page-header p {
+  color: #6b7280;
+  max-width: 720px;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 2fr 1.4fr;
+  gap: 32px;
+  margin-top: 32px;
+}
+
+/* CARD */
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.tab-row {
+  display: flex;
+  border-radius: 999px;
+  padding: 4px;
+  margin-bottom: 24px;
+}
+
+.tab {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  margin-left: 10px;
+  border-radius: 13px;
+  font-weight: 500;
+}
+
+.tab.active {
+  background: #1b63f3;
+  color: #ffffff;
+}
+
+.tab.inactive {
+  color: #6b7280;
+}
+
+.step {
+  margin-bottom: 32px;
+}
+
+.step h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  /* margin-top: 10px; */
+}
+
+.hint {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+.pill-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.pill {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.green { background: #e7f9ee; color: #128a47; }
+.yellow { background: #fff5dc; color: #b26a00; }
+.red { background: #fde8e8; color: #b42318; }
+.gray { background: #f1f5f9; color: #475569; }
+
+.fix{
+    justify-content: space-between;
+    color: #6b7280;
+}
+
+.scale {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.scale-item {
+  flex: 1;
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 999px;
+  background: #f1f5f9;
+  font-size: 13px;
+}
+
+.scale-item.ok { background: #22c55e; color: #fff; }
+.scale-item.warning { background: #f97316; color: #fff; }
+.scale-item.sos { background: #ef4444; color: #fff; }
+
+.scale-note {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 6px;
+  display: block;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.three-col {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 16px;
+}
+
+label {
+  font-size: 13px;
+  font-weight: 500;
+  margin: 12px 0 6px;
+  display: block;
+}
+
+.note-input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  padding: 8px 0;
+  font-size: 14px;
+  outline: none;
+  resize: none;
+}
+
+.note-input::placeholder{
+    color: #9a9a9a;
+}
+
+.note-input:focus{
+    border-bottom-color: #000;
+}
+
+.option {
+  background-color: #e5e7eb;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 13px;
+}
+
+.toggle-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.side-page {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.side-page p {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+}
+
+.btn.primary { 
+  background: #1b63f3;
+  color: #fff;
+}
+
+.btn.secondary {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+/* INFO PANEL */
+.info {
+  background: linear-gradient(180deg, #0f2a5f, #1e40af);
+  color: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.badge {
+  font-size: 12px;
+  color: #fde047;
+}
+
+.back{
+    background-color: #1f2937;
+    padding: 4px;
+    border-radius: 100px;
+}
+
+.info h3 {
+  margin: 12px 0;
+}
+
+.info p {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.info ul {
+  margin: 16px 0;
+  padding-left: 18px;
+}
+
+.info li {
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.info-box {
+ background-color: #0f2a5f;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.stats {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.stat {
+  flex: 1;
+  background: rgba(0,0,0,0.2);
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.stat span {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* Tablets and small laptops */
+@media (max-width: 1024px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+
+  .info {
+    margin-top: 24px;
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 768px) {
+  .page {
+    padding: 0 16px;
+  }
+
+  .page-header h1 {
+    font-size: 24px;
+  }
+
+  .page-header p {
+    font-size: 14px;
+  }
+
+  .tab-row {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .tab {
+    width: 100%;
+    text-align: center;
+  }
+
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .three-col {
+    grid-template-columns: 1fr;
+  }
+
+  .scale {
+    flex-wrap: wrap;
+  }
+
+  .scale-item {
+    flex: 1 1 30%;
+  }
+
+  .toggle-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .stats {
+    flex-direction: column;
+  }
+
+  .info {
+    padding: 20px;
+  }
+}
+
+/* Very small devices */
+@media (max-width: 480px) {
+  .pill {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  input {
+    font-size: 14px;
+  }
+
+  .option {
+    font-size: 12px;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+  <main class="page">
+    <header class="page-header">
+      <h1>Quick safety report</h1>
+      <p>
+        Take 10 seconds to tell MOTUWA how this ride feels.
+        A short, clear <br>check-in to reassure you — and alert your trusted contacts if anything <br>changes.
+      </p>
+    </header>
+
+    <section class="content">
+      <!-- LEFT CARD -->
+      <div class="card">
+        <div class="tab-row">
+          <button class="tab inactive">Capture taxi &amp; driver</button>
+          <button class="tab active">Quick safety report</button>
+        </div>
+
+        <!-- STEP 1 -->
+        <div class="step">
+          <h2>Step 1 · How safe do you feel right now?</h2>
+          <p class="hint">
+            Choose the option that best matches your feeling.
+            You can update this anytime during the ride.
+          </p>
+
+          <div class="pill-row">
+            <span class="pill green">I feel safe</span>
+            <span class="pill yellow">Something feels off</span>
+            <span class="pill red">I feel unsafe</span>
+          </div>
+
+          <div class="fix" style="display: flex;"> 
+            <span style="color: black;" >safety scale</span>
+            <span class="scale-note">Green is calm, red is urgent</span>
+         </div>
+
+          <div class="scale">
+            <span class="scale-item ok">OK</span>
+            <span class="scale-item">2</span>
+            <span class="scale-item warning">3</span>
+            <span class="scale-item">4</span>
+            <span class="scale-item sos">SOS</span>
+          </div>
+
+         
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="step">
+          <h2>Step 2 · Quick yes / no safety checks</h2>
+          <p class="hint">
+            Answer a few short questions so MOTUWA can confirm that everything is going well.
+          </p>
+
+          <div class="two-col">
+            <div>
+              <label>Are you still on the expected route?</label>
+              <div class="pill-row">
+                <span class="pill green">Yes, looks normal</span>
+                <span class="pill gray">Not sure</span>
+              </div>
+              <br>
+              <label>Vehicle speed</label>
+              <div class="pill-row">
+                <span class="pill green">Feels safe</span>
+                <span class="pill yellow">Too fast / risky</span>
+              </div>
+            </div>
+
+            <div>
+              <label>Driver behavior</label>
+              <div class="pill-row">
+                <span class="pill green">Respectful &amp; calm</span>
+                <span class="pill yellow">Making me uncomfortable</span>
+              </div>
+
+              <label>Do you want extra attention?</label>
+              <div class="pill-row">
+                <span class="pill gray">Just monitoring</span>
+                <span class="pill yellow">Check in more often</span>
+              </div>
+            </div>
+          </div>
+          <div class="fix" style="display: flex;">
+            <label style="color: black;">Anything you want to note?</label>
+          <label style="font-weight: 100;">Optional · 1 sentence is enough</label>
+        </div>
+          
+          <textarea
+            class = note-input
+            placeholder='E.g. "Taxi took a different route" or "Another passenger made a comment"'>
+        </textarea>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="step">
+          <h2>Step 3 · What should happen after this check?</h2>
+          <p class="hint">
+            Choose how MOTUWA updates your emergency contacts over the next few minutes.
+          </p>
+
+          <div class="three-col">
+            <div class="option">
+              <strong>All good</strong>
+              <span>Mark ride as calm and continue silent monitoring.</span>
+            </div>
+            <div class="option">
+              <strong>Watch closely</strong>
+              <span>Keep alerts on and tighten checks every 10 mins.</span>
+            </div>
+            <div class="option">
+              <strong>Alert my people</strong>
+              <span>Send a caution update with your latest location.</span>
+            </div>
+          </div>
+
+          <div class="toggle-row">
+            <span class="pill green">✓ Keep sending my live location every 10 minutes</span>
+            <span class="pill gray">Pause updates once I arrive safely</span>
+          </div>
+        </div>
+
+        <div class="side-page">
+          <div>
+            <strong>Your safety snapshot is ready.</strong>
+            <p>
+              We turn this quick check into a simple safety report your trusted
+              contacts can see if anything changes.
+            </p>
+          </div>
+
+          <div class="actions">
+            <button class="btn secondary" style="border: 1px solid gray; ">Skip for now</button>
+            <button class="btn primary">Send quick safety report</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT INFO PANEL -->
+      <aside class="info">
+        <div class="back"><span class="badge">● <span style="color: #ffffff;">Reassurance in under 30 seconds</span></span></div>
+
+        <h3>A calm safety check, not an alarm</h3>
+        <p>
+          Quick reports are designed to help you notice how you feel,
+          capture the moment, and quietly keep your support system informed.
+        </p>
+
+        <ul>
+          <li><strong>Check-in only:</strong> Use this when everything seems fine but you still want MOTUWA watching over you.</li>
+          <li><strong>Soft alerts:</strong> If you choose “Watch closely” or “Alert my people”, your contacts get a gentle update, not a panic message.</li>
+          <li><strong>Full control:</strong> You decide when monitoring ends. You can send another quick report at any time.</li>
+        </ul>
+
+        <div class="info-box">
+          If you ever feel in immediate danger, you can trigger the full emergency
+          alert from the app for instant, high-priority help.
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <span>Average check-in time</span><br>
+            <strong style="color: #fde047;">18 seconds</strong>
+          </div>
+          <div class="stat">
+            <span >Riders feel safer</span><br>
+            <strong style="color: #fde047;">9 / 10</strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+ <script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  // --- TAB SWITCHING ---
+  const tabs = document.querySelectorAll(".tab");
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      tabs.forEach(t => t.classList.add("inactive"));
+      tab.classList.add("active");
+      tab.classList.remove("inactive");
+    });
+  });
+
+  // --- PILL SELECTION ---
+  function setupPillSelection(containerSelector, singleSelect = true) {
+    const pillsContainers = document.querySelectorAll(containerSelector);
+    pillsContainers.forEach(container => {
+      const pills = container.querySelectorAll(".pill");
+      pills.forEach(pill => {
+        pill.addEventListener("click", () => {
+          if (singleSelect) {
+            pills.forEach(p => p.classList.remove("selected"));
+          }
+          pill.classList.toggle("selected");
+        });
+      });
+    });
+  }
+
+  setupPillSelection(".pill-row"); // single select
+  setupPillSelection(".toggle-row", false); // multi-select for toggles
+
+  // Add selected styling
+  const style = document.createElement("style");
+  style.innerHTML = `
+    .pill.selected { border: 2px solid #1b63f3; font-weight: 600; }
+    .option.selected { border: 2px solid #1b63f3; }
+    .scale-item.selected { border: 2px solid #1b63f3; }
+  `;
+  document.head.appendChild(style);
+
+  // --- SCALE SELECTION ---
+  const scaleItems = document.querySelectorAll(".scale-item");
+  scaleItems.forEach(item => {
+    item.addEventListener("click", () => {
+      scaleItems.forEach(i => i.classList.remove("selected"));
+      item.classList.add("selected");
+    });
+  });
+
+  // --- STEP 3 OPTIONS SELECTION ---
+  const step3Options = document.querySelectorAll(".three-col .option");
+  step3Options.forEach(option => {
+    option.addEventListener("click", () => {
+      step3Options.forEach(o => o.classList.remove("selected"));
+      option.classList.add("selected");
+    });
+  });
+
+  // --- SEND REPORT TO FLASK ---
+  const sendBtn = document.querySelector(".btn.primary");
+  sendBtn.addEventListener("click", () => {
+    const selectedPills = Array.from(document.querySelectorAll(".pill.selected")).map(p => p.textContent.trim());
+    const selectedScale = document.querySelector(".scale-item.selected")?.textContent.trim() || null;
+    const selectedOption = document.querySelector(".three-col .option.selected")?.querySelector("strong")?.textContent.trim() || null;
+    const toggles = Array.from(document.querySelectorAll(".toggle-row .pill.selected")).map(p => p.textContent.trim());
+    const notes = document.querySelector(".note-input").value.trim();
+
+    const report = {
+      selectedPills,
+      selectedScale,
+      step3Option: selectedOption,
+      toggles,
+      notes
+    };
+
+    // Send JSON to Flask
+    fetch("/submit-report", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(report)
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      alert(data.message);
+      // Optionally reset form
+      // document.querySelectorAll('.pill.selected').forEach(p => p.classList.remove('selected'));
+      // document.querySelectorAll('.scale-item.selected').forEach(s => s.classList.remove('selected'));
+      // document.querySelectorAll('.option.selected').forEach(o => o.classList.remove('selected'));
+      // document.querySelector('.note-input').value = '';
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Failed to send report. Check console for details.");
+    });
+  });
+
+});
+</script>
+
+
+</body>
+</html>
+
