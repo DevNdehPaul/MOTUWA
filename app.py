@@ -51,10 +51,6 @@ init_db()
 def homepage():
     return render_template('MOTUWALanding.html')
 
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
 @app.route('/features')
 def features():
     return render_template('features.html')
@@ -67,9 +63,6 @@ def blog():
 def contact():
     return render_template('ContactSupport.html')
 
-@app.route('/QuickReport', methods=['GET', 'POST'])
-def quick_report():
-    return render_template('QuickReport.html')
 
 # API ENDPOINT FOR QUICK REPORT SUBMISSION
 @app.route('/submit-report', methods=['POST'])
