@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.3">
+  <title>MOTUWA</title>
+  <link rel="stylesheet" href="../static/Bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/all.css">
+  <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/brands.css">
+  <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/fontawesome.css">
+  <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/regular.css">
+  <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/solid.css">
+  <link rel="stylesheet" href="../static/Bootstrap/css/bootstrap-grid.min.css">
+  <style>
+    body {
+      background-color: #f6faff;
+    }
+
+    input.inputfield {
+      border: none;
+      background-color: #f6faff;
+      padding: 5px;
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    label {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 13px;
+      margin-left: 5px;
+    }
+
+    .label {
+      margin-top: 25px;
+      font-size: 12px;
+      float: right;
+    }
+
+    .card1 {
+
+      background: linear-gradient(to bottom right, #0b1220, #0b61ff);
+      padding: 10px;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    textarea.inputfield {
+      border: none;
+      background-color: #f6faff;
+      padding: 5px;
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .container1 {
+      margin-left: 5%;
+      margin-right: 5%;
+    }
+
+    .container2 {
+      display: flex;
+      justify-content: flex-end;
+      /* Pushes content to the right end */
+    }
+
+    .btn1 {
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      background-color: #ffff00;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: bolder;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 0.6em;
+      /* scales with font size */
+      height: 0.6em;
+      border-radius: 50%;
+      background: #ffff00;
+      /* inherits text color */
+      vertical-align: middle;
+      margin-left: 0.25em;
+      /* spacing if needed */
+      margin-right: 5px;
+    }
+    ul.list {
+        font-size: 12px;
+        margin-left: -20px;
+    }
+    ul.list li::marker {
+        color: blueviolet;
+        font-size: large;
+        font-weight: bolder;
+    }
+
+    .dot1 {
+      display: inline-block;
+      width: 1.6em;
+      /* scales with font size */
+      height: 1.6em;
+      border-radius: 50%;
+      background-image: radial-gradient(#ffff00,
+          #cf7c00);
+      /* inherits text color */
+      vertical-align: middle;
+      margin-left: 0.25em;
+      /* spacing if needed */
+      margin-right: 5px;
+      margin-top: 5px;
+    }
+
+    .nav-link {
+      font-weight: 500;
+    }
+    .para {
+        font-size: 12px;
+        background-color: black;
+        padding: 10px;
+    }
+
+    :root {
+      --footer-bg: #0b0f14;
+      /* Deep near-black */
+      --footer-fg: #e7eef7;
+      /* Soft off-white text */
+      --footer-muted: #b7c3d1;
+      /* Muted text for descriptions */
+      --footer-accent: #6aa9ff;
+      /* Link accent */
+      --footer-accent-hover: #92c3ff;
+      /* Hover accent */
+      --footer-divider: #1a212b;
+      /* Subtle divider line */
+    }
+
+    .footer {
+      background: var(--footer-bg);
+      color: var(--footer-fg);
+      padding: 56px 0 24px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    }
+
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 20px;
+
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      /* Wider first column */
+      gap: 28px;
+    }
+
+    .footer-title {
+      margin: 0 0 12px;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .footer-desc {
+      margin: 0;
+      color: var(--footer-muted);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .footer-heading {
+      margin: 0 0 12px;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+
+    .footer-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-list li {
+      margin: 8px 0;
+    }
+
+    .footer-list a {
+      color: var(--footer-fg);
+      text-decoration: none;
+      font-size: 15px;
+      transition: color 0.2s ease, opacity 0.2s ease;
+      opacity: 0.92;
+    }
+
+    .footer-list a:hover,
+    .footer-list a:focus {
+      color: var(--footer-accent);
+      opacity: 1;
+      outline: none;
+    }
+
+    .footer-bottom {
+      max-width: 1120px;
+      margin: 28px auto 0;
+      padding: 18px 20px 0;
+      border-top: 1px solid var(--footer-divider);
+      color: var(--footer-muted);
+      font-size: 14px;
+    }
+
+    .footer-bottom p {
+      margin: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+        /* Two columns */
+      }
+    }
+
+    @media (max-width: 560px) {
+      .footer {
+        padding: 44px 0 20px;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+        /* Single column */
+        gap: 20px;
+      }
+
+      .footer-bottom {
+        margin-top: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container"><br>
+    <h4 style="font-weight: bolder;">Log in to Your Account</h4>
+    <p style="font-size: 12px; width: 40%;">Access your MOTUWA safety profile, manage your trusted contacts, and start monitoring your next public transport ride.</p>
+    <div class="row"><br>
+      <div class="col-7">
+        <div class="card">
+          <div class="container"><br>
+            <h5 style="font-weight: bolder;">Welcome Back</h5>
+            <p style="font-size: 12px; width: 100%;">Use the email and password you registered with MOTUWA to sign in security.</p>
+            <form action="">
+              <label for="email">Email</label><br>
+                  <input type="email" class="inputfield" placeholder=" Enter Email...."><br>
+              <label for="topic">Password</label><br>
+                  <input type="password" class="inputfield" placeholder=" Enter Password....">
+                
+            </form><br>
+            <h6>Stay Safe, every time you ride</h6>
+            <div class="row">
+              <div class="col-8">
+                <p style="font-size: 13px;">Your login keeps your ride history, emergency contacts, and quick safety reports in one place.</p>
+              </div>
+              <div class="col-4"><button class="btn bg-primary text-white" style="float: right;">Login </button></div>
+            </div>
+            <a href="/forgot-password" style="font-size: 12px;color: blue;font-weight: bolder;margin-bottom: 10px;">Forgot your password?</a><br>
+            <span style="font-size: 12px;">New to MOTUWA? <a href="/signup" style="font-size: 12px;color: blue;font-weight: bolder;">Create an account</a></span>
+          </div><br>
+        </div>
+      </div>
+      <div class="col-5">
+        <div class="card card1">
+          <div class="container text-white"><br>
+            <p style="border: none; background-color: black; padding: 5px; border-radius: 20px; font-size: 12px;">
+              <span class="dot" aria-hidden="true"></span>Secure, privacy-first access
+            </p>
+            <h4 style="font-weight: bold;">Log in and start a safe journey</h4>
+            <p style="font-size: 12px; width: 90%;">Once you are signed in, you can start a ride, share your live location with your emergency contacts, and quick safety updates in just a tap.</p>
+            <ul class="list">
+                <li><strong>One Account for all Rides:</strong> Keep every taxi or bus trip protected under the same profile.</li>
+                <li><strong>Instant Alerts:</strong> Trigger an emergency alert from your dashboard and notify your contacts instantly.</li>
+                <li><strong>10-minute updates:</strong> MOTUWA xan keep your loved ones updated about where you are without you typing a single message.</li>
+            </ul>
+            <p class="para">Not registered yet? Create your account first so we know who to protect and who to notify when you need help.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><br><br>
+</body>
+
+</html>
