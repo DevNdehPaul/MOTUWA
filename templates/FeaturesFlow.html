@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Capture Your Ride | MOTUWA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/all.css">
+    <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/brands.css">
+    <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/fontawesome.css">
+    <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/regular.css">
+    <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/solid.css">
+</head>
+
+<body class="bg-[#f6faff] font-sans">
+     <!-- Navbar -->
+    <nav class="bg-gradient-to-br from-[#0b1220] to-[#0b61ff] py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="/" class="text-white flex items-center">
+                <div class="w-8 h-8 rounded-full mr-2" style="background: radial-gradient(#ffff00, #cf7c00);"></div>
+                <div>
+                    <h4 class="font-bold text-lg">MOTUWA</h4>
+                    <p class="text-xs font-medium mt-[-4px]">The Right to Safe Ride with Pride</p>
+                </div>
+            </a>
+            <!-- Mobile menu button -->
+            <button class="md:hidden text-white focus:outline-none">
+                <span class="block w-6 h-1 bg-white mb-1"></span>
+                <span class="block w-6 h-1 bg-white mb-1"></span>
+                <span class="block w-6 h-1 bg-white"></span>
+            </button>
+            <!-- Desktop menu -->
+            <div class="hidden md:flex items-center space-x-6 mr-24">
+                <a href="/" class="text-white font-medium hover:text-yellow-400">Home</a>
+                <a href="/features" class="text-white font-medium hover:text-yellow-400">Features</a>
+                <a href="/#Works" class="text-white font-medium hover:text-yellow-400">How It Works</a>
+                <a href="/#About" class="text-white font-medium hover:text-yellow-400">About</a>
+                <a href="/contact" class="text-white font-medium hover:text-yellow-400">Contact</a>
+                <a href="/login" class="border border-white text-white px-4 py-2 rounded hover:bg-white hover:text-blue-900 transition">Log in</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <h4 class="font-bold text-2xl mb-2">Capture Your Ride</h4>
+        <p class="text-sm mb-8 max-w-md">Upload a quick screenshot of the taxi you are in, log key driver details, and
+            create a fast web report so MOTUWA can alert your emergency contacts and keep sharing your live location
+            every 10 minutes.</p>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-7">
+                <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold mb-2">Capture your ride. Keep your people informed.</h2>
+                    <p class="text-sm text-gray-600 mb-6">
+                        Upload a quick screenshot of the taxi you are in, log key driver details, and create a fast web
+                        report so MOTUWA can alert your emergency contacts and keep sharing your live location every 10
+                        minutes.
+                    </p>
+
+                    <form class="space-y-6">
+                        <!-- Step 1 -->
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2">Step 1 - Add what you see</h3>
+                            <p class="text-sm text-gray-600 mb-4">You can use both options. The more details you share,
+                                the easier it is for your guardians to support you.</p>
+
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Taxi photo or screenshot <span
+                                            class="text-gray-500">(Optional but recommended)</span></label>
+                                    <div class="border border-dashed border-gray-300 rounded-lg p-4 text-center">
+                                        <p class="text-sm text-gray-500 mb-2">Drop image here or browse</p>
+                                        <button type="button"
+                                            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Upload
+                                            screenshot</button>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-2">Upload a clear photo of taxi, plate, or driver
+                                        ID card.</p>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">Taxi plate number</label>
+                                        <input type="text" placeholder="e.g. KAK 204D"
+                                            class="w-full bg-[#f6faff] border-none rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">Taxi / bus type</label>
+                                        <input type="text" placeholder="e.g. Yellow taxi, 14-seater matatu"
+                                            class="w-full bg-[#f6faff] border-none rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">Driver full name</label>
+                                        <input type="text" placeholder="Name shown on license or badge"
+                                            class="w-full bg-[#f6faff] border-none rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">Driver license / ID number</label>
+                                        <input type="text" placeholder="License number or public service ID"
+                                            class="w-full bg-[#f6faff] border-none rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">From</label>
+                                        <input type="text" placeholder="Current stop / pickup point"
+                                            class="w-full bg-[#f6faff] border-none rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">To</label>
+                                        <input type="text" placeholder="Your destination"
+                                            class="w-full bg-[#f6faff] border-none rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Anything that feels unsafe right now?
+                                        <span class="text-gray-500">(Optional)</span></label>
+                                    <textarea rows="3"
+                                        placeholder="Describe behavior, route changes, or anything worrying."
+                                        class="w-full bg-[#f6faff] border-none rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2">Step 2 - Choose how MOTUWA should protect you</h3>
+                            <p class="text-sm text-gray-600 mb-4">
+                                MOTUWA can alert your emergency contacts and keep them updated without you entering your
+                                live location every time.
+                            </p>
+
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Who should be notified?</label>
+                                    <input type="text" placeholder="Mum, Roommate Aisha, Campus safety office"
+                                        class="w-full bg-[#f6faff] border-none rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Update frequency</label>
+                                    <input type="text" placeholder="Live location every 10 minutes (default)"
+                                        class="w-full bg-[#f6faff] border-none rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="inline-flex items-center">
+                                        <input type="checkbox" checked class="form-checkbox text-indigo-600" />
+                                        <span class="ml-2 text-sm">Auto-share my live GPS location from this
+                                            device</span>
+                                    </label>
+                                    <label class="inline-flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-indigo-600" />
+                                        <span class="ml-2 text-sm">Send SMS-only alerts if data is weak</span>
+                                    </label>
+                                </div>
+                                <p class="text-sm text-gray-600">
+                                    You're in control of when alerts go out. Once you start ride alerts, live info and
+                                    GPS location link is sent to chosen contacts. They receive updated info every 10
+                                    minutes until you end the ride or cancel.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex justify-between items-center pt-4">
+                            <button type="button"
+                                class="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300">Save ride
+                                only</button>
+                            <button type="submit"
+                                class="bg-blue-600 text-white px-4 py-2 rounded font-bold hover:bg-blue-700 transition">Start
+                                monitoring & send alert</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="lg:col-span-5">
+                <div
+                    class="bg-gradient-to-br from-[#0b1220] to-[#0b61ff] rounded-lg shadow-md p-6 text-white min-h-full">
+                    <h3 class="text-xl font-semibold mb-4">What your emergency contacts will see</h3>
+                    <p class="text-sm mb-4">
+                        When you report a ride through MOTUWA, your guardians receive a simple, clear view of your
+                        journey and can act quickly if something feels wrong.
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 text-sm">
+                        <li><strong>Instant alert:</strong> taxi photo, plate number, driver name, and route are sent
+                            as a secure link.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+  <footer class="bg-[#0b0f14] text-[#e7eef7] py-14">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-gray-800 pb-12">
+            <div class="col-span-1 md:col-span-1">
+                <h3 class="text-white font-bold text-lg mb-4">MOTUWA</h3>
+                <p class="text-xs leading-relaxed">A safety-first companion for every public transport ride. Capture your journey, share your route, and stay connected to the people who care about you.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold text-sm mb-4">Product</h4>
+                <ul class="text-xs space-y-2">
+                    <li><a href="/features" class="hover:text-white">Features</a></li>
+                    <li><a href="/#Works" class="hover:text-white">How it works</a></li>
+                    <li><a href="#" class="hover:text-white">Download app</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold text-sm mb-4">Company</h4>
+                <ul class="text-xs space-y-2">
+                    <li><a href="/#About" class="hover:text-white">About</a></li>
+                    <li><a href="#" class="hover:text-white">Partners</a></li>
+                    <li><a href="/contact" class="hover:text-white">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold text-sm mb-4">Legal</h4>
+                <ul class="text-xs space-y-2">
+                    <li><a href="#" class="hover:text-white">Privacy policy</a></li>
+                    <li><a href="#" class="hover:text-white">Terms of use</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto pt-8 text-[10px]">
+            © 2025 MOTUWA. All rights reserved.
+        </div>
+    </footer>
+</body>
+
+</html>

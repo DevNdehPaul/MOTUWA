@@ -16,22 +16,33 @@
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
-
-    <nav class="flex items-center justify-between px-8 py-4 bg-white border-b border-gray-100">
-        <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-yellow-400 rounded-full"></div>
-            <span class="font-bold text-xl tracking-tight">MOTUWA</span>
-        </div>
-        <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
-            <a href="#" class="hover:text-blue-600">Home</a>
-            <a href="#" class="hover:text-blue-600">Features</a>
-            <a href="#" class="hover:text-blue-600">How It Works</a>
-            <a href="#" class="hover:text-blue-600">About</a>
-            <a href="#" class="hover:text-blue-600">Contact</a>
-            <button class="border border-gray-300 px-4 py-1.5 rounded-lg hover:bg-gray-50">Log In</button>
+     <!-- Navbar -->
+    <nav class="bg-gradient-to-br from-[#0b1220] to-[#0b61ff] py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="/" class="text-white flex items-center">
+                <div class="w-8 h-8 rounded-full mr-2" style="background: radial-gradient(#ffff00, #cf7c00);"></div>
+                <div>
+                    <h4 class="font-bold text-lg">MOTUWA</h4>
+                    <p class="text-xs font-medium mt-[-4px]">The Right to Safe Ride with Pride</p>
+                </div>
+            </a>
+            <!-- Mobile menu button -->
+            <button class="md:hidden text-white focus:outline-none">
+                <span class="block w-6 h-1 bg-white mb-1"></span>
+                <span class="block w-6 h-1 bg-white mb-1"></span>
+                <span class="block w-6 h-1 bg-white"></span>
+            </button>
+            <!-- Desktop menu -->
+            <div class="hidden md:flex items-center space-x-6 mr-24">
+                <a href="/" class="text-white font-medium hover:text-yellow-400">Home</a>
+                <a href="/features" class="text-white font-medium hover:text-yellow-400">Features</a>
+                <a href="/#Works" class="text-white font-medium hover:text-yellow-400">How It Works</a>
+                <a href="/#About" class="text-white font-medium hover:text-yellow-400">About</a>
+                <a href="/contact" class="text-white font-medium hover:text-yellow-400">Contact</a>
+                <a href="/login" class="border border-white text-white px-4 py-2 rounded hover:bg-white hover:text-blue-900 transition">Log in</a>
+            </div>
         </div>
     </nav>
-
     <main class="max-w-6xl mx-auto px-4 py-12">
         <header class="mb-10">
             <h1 class="text-3xl font-bold mb-3">Get started with MOTUWA</h1>
@@ -106,7 +117,7 @@
                     </div>
                 </form>
                 <p class="mt-8 text-center text-sm text-gray-500">
-                    Already signed up? <a href="#" class="text-blue-600 font-semibold">Log in to your account</a>
+                    Already signed up? <a href="/login" class="text-blue-600 font-semibold">Log in to your account</a>
                 </p>
             </div>
 
@@ -139,8 +150,8 @@
             </div>
         </div>
     </main>
-
-    <footer class="bg-dark-footer text-gray-400 py-16 px-8 mt-20">
+    <!-- Footer -->
+  <footer class="bg-[#0b0f14] text-[#e7eef7] py-14">
         <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-gray-800 pb-12">
             <div class="col-span-1 md:col-span-1">
                 <h3 class="text-white font-bold text-lg mb-4">MOTUWA</h3>
@@ -149,17 +160,17 @@
             <div>
                 <h4 class="text-white font-semibold text-sm mb-4">Product</h4>
                 <ul class="text-xs space-y-2">
-                    <li><a href="#" class="hover:text-white">Features</a></li>
-                    <li><a href="#" class="hover:text-white">How it works</a></li>
+                    <li><a href="/features" class="hover:text-white">Features</a></li>
+                    <li><a href="/#Works" class="hover:text-white">How it works</a></li>
                     <li><a href="#" class="hover:text-white">Download app</a></li>
                 </ul>
             </div>
             <div>
                 <h4 class="text-white font-semibold text-sm mb-4">Company</h4>
                 <ul class="text-xs space-y-2">
-                    <li><a href="#" class="hover:text-white">About</a></li>
+                    <li><a href="/#About" class="hover:text-white">About</a></li>
                     <li><a href="#" class="hover:text-white">Partners</a></li>
-                    <li><a href="#" class="hover:text-white">Contact</a></li>
+                    <li><a href="/contact" class="hover:text-white">Contact</a></li>
                 </ul>
             </div>
             <div>
@@ -174,6 +185,5 @@
             © 2025 MOTUWA. All rights reserved.
         </div>
     </footer>
-
 </body>
 </html>

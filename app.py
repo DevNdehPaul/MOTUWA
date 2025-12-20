@@ -53,7 +53,7 @@ def homepage():
 
 @app.route('/features')
 def features():
-    return render_template('features.html')
+    return render_template('FeaturesFlow.html')
 
 @app.route('/blog')
 def blog():
@@ -71,9 +71,13 @@ def login():
 def signup():
     return render_template('UserRegistration.html')
 
+@app.route('/forgot-password', methods=['GET', 'POST'])
+def forgotpassword():
+    return render_template('PasswordReset.html')
+
 # API ENDPOINT FOR QUICK REPORT SUBMISSION
-@app.route('/submit-report', methods=['POST'])
-def submit_report():
+# @app.route('/submit-report', methods=['POST'])
+# def submit_report():
     data = request.get_json()
     if not data:
         return jsonify({"status": "error", "message": "No data received"}), 400
@@ -83,6 +87,10 @@ def submit_report():
 
     print("Quick Safety Report Received:", data)
     return jsonify({"status": "success", "message": "Report received successfully"})
+
+@app.route('/submit-report', methods=['GET','POST'])
+def submit_report():
+    return render_template('QuickReport.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
