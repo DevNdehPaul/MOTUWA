@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOTUWA - Create Your Account</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .bg-custom-blue { background-color: #1d4ed8; } /* Primary Blue */
+        .bg-dark-footer { background-color: #0a0c10; }
+        .gradient-sidebar {
+            background: linear-gradient(180deg, #1e293b 0%, #1d4ed8 100%);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <nav class="flex items-center justify-between px-8 py-4 bg-white border-b border-gray-100">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-yellow-400 rounded-full"></div>
+            <span class="font-bold text-xl tracking-tight">MOTUWA</span>
+        </div>
+        <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
+            <a href="#" class="hover:text-blue-600">Home</a>
+            <a href="#" class="hover:text-blue-600">Features</a>
+            <a href="#" class="hover:text-blue-600">How It Works</a>
+            <a href="#" class="hover:text-blue-600">About</a>
+            <a href="#" class="hover:text-blue-600">Contact</a>
+            <button class="border border-gray-300 px-4 py-1.5 rounded-lg hover:bg-gray-50">Log In</button>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 py-12">
+        <header class="mb-10">
+            <h1 class="text-3xl font-bold mb-3">Get started with MOTUWA</h1>
+            <p class="text-gray-500 max-w-xl leading-relaxed">
+                Create your safety profile so MOTUWA can watch over your rides and keep your emergency contacts updated every 10 minutes when you need it.
+            </p>
+        </header>
+
+        <div class="flex flex-col lg:flex-row gap-0 rounded-3xl overflow-hidden shadow-2xl shadow-blue-100">
+            
+            <div class="flex-1 bg-white p-8 md:p-12">
+                <h2 class="text-2xl font-bold mb-2">Create your account</h2>
+                <p class="text-sm text-gray-500 mb-8">We use these details only to protect you and notify your trusted contacts in real time.</p>
+
+                <form class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Full name</label>
+                        <input type="text" placeholder="Enter your full name" class="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Email</label>
+                            <input type="email" placeholder="you@example.com" class="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none">
+                        </div>
+                        <div>
+                            <div class="flex justify-between">
+                                <label class="block text-sm font-semibold mb-2">Phone number</label>
+                                <span class="text-xs text-gray-400">With country code</span>
+                            </div>
+                            <input type="text" placeholder="+91 **** *** ***" class="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none">
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-gray-100">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="font-bold">Emergency contacts (2 required)</h3>
+                            <span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-1 rounded-full font-medium">We notify them only when you ask us to</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-500 mb-1">Email</label>
+                                <input type="email" placeholder="parent@example.com" class="w-full p-2.5 border border-gray-100 bg-gray-50 rounded-lg text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-500 mb-1">Phone number</label>
+                                <input type="text" placeholder="+91 **** *** ***" class="w-full p-2.5 border border-gray-100 bg-gray-50 rounded-lg text-sm">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-500 mb-1">Email</label>
+                                <input type="email" placeholder="friend@example.com" class="w-full p-2.5 border border-gray-100 bg-gray-50 rounded-lg text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-500 mb-1">Phone number</label>
+                                <input type="text" placeholder="+91 **** *** ***" class="w-full p-2.5 border border-gray-100 bg-gray-50 rounded-lg text-sm">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row items-center justify-between pt-6 gap-4">
+                        <p class="text-xs text-gray-400 max-w-xs text-center md:text-left">
+                            We only contact your trusted people when you trigger monitoring or an emergency from MOTUWA.
+                        </p>
+                        <div class="flex gap-3">
+                            <button type="button" class="px-6 py-3 border border-gray-200 rounded-xl text-sm font-semibold hover:bg-gray-50">Back to home</button>
+                            <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition">Create my account</button>
+                        </div>
+                    </div>
+                </form>
+                <p class="mt-8 text-center text-sm text-gray-500">
+                    Already signed up? <a href="#" class="text-blue-600 font-semibold">Log in to your account</a>
+                </p>
+            </div>
+
+            <div class="w-full lg:w-[400px] gradient-sidebar p-10 text-white flex flex-col justify-center">
+                <div class="bg-black/20 backdrop-blur-md rounded-full px-4 py-1 text-[10px] w-fit mb-6 flex items-center gap-2">
+                    <span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
+                    Built for safe public transport rides
+                </div>
+                <h2 class="text-2xl font-bold mb-6 leading-tight">Your details, their peace of mind</h2>
+                <p class="text-blue-100 text-sm mb-8 leading-relaxed">
+                    Setting up your profile once means MOTUWA can instantly share your live location, taxi details, and quick safety reports with the people you trust most.
+                </p>
+                <ul class="space-y-6 text-sm">
+                    <li class="flex gap-3">
+                        <div class="mt-1.5 w-1 h-1 bg-white rounded-full flex-shrink-0"></div>
+                        <p><span class="font-bold">Live tracking:</span> Share your route automatically — no need to copy links or send constant updates.</p>
+                    </li>
+                    <li class="flex gap-3">
+                        <div class="mt-1.5 w-1 h-1 bg-white rounded-full flex-shrink-0"></div>
+                        <p><span class="font-bold">10-minute check-ins:</span> MOTUWA can keep your contacts updated every 10 minutes when monitoring is on.</p>
+                    </li>
+                    <li class="flex gap-3">
+                        <div class="mt-1.5 w-1 h-1 bg-white rounded-full flex-shrink-0"></div>
+                        <p><span class="font-bold">Privacy first:</span> Your information is encrypted and only used to protect you during rides.</p>
+                    </li>
+                </ul>
+                <div class="mt-10 p-4 bg-black/30 rounded-xl text-xs text-blue-100 border border-white/10">
+                    You can pause monitoring any time once you arrive safely — MOTUWA works on your terms, at your pace.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark-footer text-gray-400 py-16 px-8 mt-20">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-gray-800 pb-12">
+            <div class="col-span-1 md:col-span-1">
+                <h3 class="text-white font-bold text-lg mb-4">MOTUWA</h3>
+                <p class="text-xs leading-relaxed">A safety-first companion for every public transport ride. Capture your journey, share your route, and stay connected to the people who care about you.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold text-sm mb-4">Product</h4>
+                <ul class="text-xs space-y-2">
+                    <li><a href="#" class="hover:text-white">Features</a></li>
+                    <li><a href="#" class="hover:text-white">How it works</a></li>
+                    <li><a href="#" class="hover:text-white">Download app</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold text-sm mb-4">Company</h4>
+                <ul class="text-xs space-y-2">
+                    <li><a href="#" class="hover:text-white">About</a></li>
+                    <li><a href="#" class="hover:text-white">Partners</a></li>
+                    <li><a href="#" class="hover:text-white">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold text-sm mb-4">Legal</h4>
+                <ul class="text-xs space-y-2">
+                    <li><a href="#" class="hover:text-white">Privacy policy</a></li>
+                    <li><a href="#" class="hover:text-white">Terms of use</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto pt-8 text-[10px]">
+            © 2025 MOTUWA. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>

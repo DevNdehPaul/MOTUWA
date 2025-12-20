@@ -67,6 +67,10 @@ def contact():
 def login():
     return render_template('UserLogin.html')
 
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    return render_template('UserRegistration.html')
+
 # API ENDPOINT FOR QUICK REPORT SUBMISSION
 @app.route('/submit-report', methods=['POST'])
 def submit_report():

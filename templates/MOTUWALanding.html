@@ -3,605 +3,244 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.3">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MOTUWA</title>
-    <link rel="stylesheet" href="../static/Bootstrap/css/bootstrap.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/all.css">
     <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/brands.css">
     <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/fontawesome.css">
     <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/regular.css">
     <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/solid.css">
-    <link rel="stylesheet" href="../static/Bootstrap/css/bootstrap-grid.min.css">
-    <style>
-    .container1 {
-            margin-left: 5%;
-            margin-right: 5%;
-        }
-
-        .header {
-            background: linear-gradient(to bottom left, #0b1220, #0b61ff);
-            padding: 40px;
-            height: 100%;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        .buttons {
-            display: flex;
-
-        }
-
-        .buttons p {
-            margin: 2px;
-        }
-
-        .button1 {
-            background-color: #ffff00;
-            border: none;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 550;
-            padding: 10px;
-            margin-right: 5px;
-        }
-
-        .button2 {
-            background-color: transparent;
-            border: 1px solid white;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 550;
-            padding: 10px;
-            color: white;
-            margin-left: 5px;
-        }
-
-        .dot {
-            display: inline-block;
-            width: 0.6em;
-            /* scales with font size */
-            height: 0.6em;
-            border-radius: 50%;
-            background: #ffffff;
-            /* inherits text color */
-            vertical-align: middle;
-            margin-left: 5px;
-            /* spacing if needed */
-            margin-right: 5px;
-        }
-
-        .dot2 {
-            display: inline-block;
-            width: 2em;
-            /* scales with font size */
-            height: 2em;
-            border-radius: 50%;
-            background: #ffff00;
-            /* inherits text color */
-            vertical-align: middle;
-            margin-left: 5px;
-            /* spacing if needed */
-            margin-right: 5px;
-            margin-top: 5px;
-        }
-
-        .dot1 {
-            display: inline-block;
-            width: 0.6em;
-            /* scales with font size */
-            height: 0.6em;
-            border-radius: 50%;
-            background: skyblue;
-            /* inherits text color */
-            vertical-align: middle;
-            margin-left: 5px;
-            /* spacing if needed */
-            margin-right: 5px;
-        }
-        .dot3 {
-            display: inline-block;
-            width: 0.6em;
-            /* scales with font size */
-            height: 0.6em;
-            border-radius: 50%;
-            background: rgb(194, 194, 194);
-            /* inherits text color */
-            vertical-align: middle;
-            margin-left: 5px;
-            /* spacing if needed */
-            margin-right: 5px;
-            margin-bottom: 3px;
-        }
-
-        .card2 {
-            border: 1px solid skyblue;
-            border-radius: 20px;
-            padding: 10px;
-        }
-
-        .card3 {
-            border: 1px solid skyblue;
-            border-radius: 5px;
-            padding-top: 10px;
-            padding-left: 10px;
-            padding-right: 10px;
-            margin: 5px;
-        }
-
-        .card4 {
-            border: 1px dashed skyblue;
-            border-radius: 5px;
-            padding-top: 5px;
-            padding-left: 5px;
-            padding-right: 5px;
-            padding-bottom: 5px;
-            margin-left: 5px;
-            margin-bottom: 10px;
-            margin-top: 10px;
-            margin-right: -10px;
-        }
-
-        .card5 {
-            border: 1px dashed skyblue;
-            border-radius: 5px;
-            padding-top: 5px;
-            padding-left: 5px;
-            padding-right: 5px;
-            padding-bottom: 5px;
-            margin-left: -10px;
-            margin-bottom: 10px;
-            margin-top: 10px;
-            margin-right: 5px;
-        }
-
-        .btn1 {
-            border: none;
-            cursor: pointer;
-            padding: 5px;
-            color: #ffffff;
-            background-color: rgb(237, 121, 121);
-            border-radius: 5px;
-            font-size: 12px;
-            font-weight: bolder;
-            margin-top: 5px;
-        }
-
-        .container2 {
-            display: flex;
-            justify-content: flex-end;
-            /* Pushes content to the right end */
-        }
-
-        .container3 {
-            margin-right: 60px;
-            margin-left: 60px;
-        }
-
-        .btn2 {
-            background-color: orange;
-            color: #ffffff;
-            border: none;
-            border-radius: 10px;
-            font-size: 12px;
-            font-weight: 550;
-            padding: 10px;
-            margin-right: 5px;
-            font-weight: bolder;
-        }
-
-        .section1 {
-            background-color: #f6faff;
-        }
-
-        .icon {
-            color: blue;
-            padding: 7px;
-            background-color: rgb(220, 246, 255);
-            border-radius: 5px;
-            margin: 10px;
-        }
-
-        .container4 {
-            padding: 15px;
-        }
-
-        .container4 h6 {
-            font-size: 14px;
-        }
-
-        .section2 {
-            background-color: #d8ecff;
-        }
-
-        .number {
-            color: blue;
-            border: 2px solid blue;
-            border-radius: 30%;
-            padding-left: 3px;
-            padding-right: 3px;
-            padding-top: 0px;
-            padding-bottom: 0px;
-            font-weight: bolder;
-        }
-        .img-container {
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-    </style>
 </head>
 
-<body>
-    <section class="header">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-7 col-sm-12">
-                    <div><br><br>
-                        <p
-                            style="border: none; background-color: black; padding: 5px; border-radius: 20px; font-size: 12px; color: white; width: 100%; margin-bottom: 30px;">
-                            <span class="fas fa-dot-circle"
-                                style="margin-right:5px; margin-left: 5px; color: #ffff00; border: 2px solid #00000000;"></span>Real-time
-                            Safety for Every Public Ride
+<body class="font-sans">
+    <section class="bg-gradient-to-bl from-[#0b1220] to-[#0b61ff] p-10 min-h-screen">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="md:w-7/12 w-full">
+                    <div class="py-8">
+                        <p class="bg-black text-white text-xs rounded-full px-4 py-2 mb-6 inline-flex items-center">
+                            <span class="fas fa-dot-circle text-yellow-400 mr-2"></span>Real-time Safety for Every Public Ride
                         </p>
-                        <h1 class="text-white" style="font-weight: bolder;  width: 90%;">Feel seen, Supported, and Safe
-                            on
-                            Every
-                            Public Ride.</h1><br><br>
-                        <p class="text-white" style="font-size: 13px;width: 90%;">MOTUWA is your safety-focused
-                            companion
-                            for
-                            public transportation, verifying taxi details, tracking your live route, and connecting you
-                            to
-                            trusted help in an instant.</p><br>
-                        <div class="buttons">
-                            <p
-                                style="border: none; background-color: black; padding: 10px; border-radius: 20px; font-size: 12px; color: white;">
-                                <span class="fas fa-check"
-                                    style="margin-right:5px; margin-left: 5px; color: #ffffff; border: 2px solid #00000000;"></span>
-                                Taxi & Driver Verification
+                        <h1 class="text-white font-bold text-3xl md:text-4xl leading-tight mb-6">Feel seen, Supported, and Safe on Every Public Ride.</h1>
+                        <p class="text-white text-base mb-6">MOTUWA is your safety-focused companion for public transportation, verifying taxi details, tracking your live route, and connecting you to trusted help in an instant.</p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <p class="bg-black text-white text-xs rounded-full px-4 py-2 flex items-center">
+                                <span class="fas fa-check text-white mr-2"></span>Taxi & Driver Verification
                             </p>
-                            <p
-                                style="border: none; background-color: black; padding: 10px; border-radius: 20px; font-size: 12px; color: white;">
-                                <span class="fas fa-check"
-                                    style="margin-right:5px; margin-left: 5px; color: #ffffff; border: 2px solid #00000000;"></span>
-                                Live location & Itinerary trace
+                            <p class="bg-black text-white text-xs rounded-full px-4 py-2 flex items-center">
+                                <span class="fas fa-check text-white mr-2"></span>Live location & Itinerary trace
                             </p>
-                            <p
-                                style="border: none; background-color: black; padding: 10px; border-radius: 20px; font-size: 12px; color: white;">
-                                <span class="fas fa-check"
-                                    style="margin-right:5px; margin-left: 5px; color: #ffffff; border: 2px solid #00000000;"></span>
-                                One-tap emergency alert
+                            <p class="bg-black text-white text-xs rounded-full px-4 py-2 flex items-center">
+                                <span class="fas fa-check text-white mr-2"></span>One-tap emergency alert
                             </p>
-                        </div><br>
-                        <div>
-                            <button class="button1">Download App</button>
-                            <button class="button2">Learn More</button>
-                        </div><br>
-                        <p class="text-white" style="font-size: 12px;width: 80%;">Available soon on Android and IOS;
-                            Designed for Commuters, Parents, Universities, and City Partners.</p>
+                        </div>
+                        <div class="flex gap-4 mb-6">
+                            <button class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-4 rounded-lg">Download App</button>
+                            <button class="border border-white text-white hover:bg-white hover:text-blue-900 font-semibold py-2 px-4 rounded-lg">Learn More</button>
+                        </div>
+                        <p class="text-white text-sm">Available soon on Android and IOS; Designed for Commuters, Parents, Universities, and City Partners.</p>
                     </div>
                 </div>
-                <div class="col-md-5 col-sm-12">
-                    <div class="container">
-                        <div class="card2">
-                            <div class="row">
-                                <div class="col-7">
-                                    <p
-                                        style="border: none; background-color: transparent; border-radius: 20px; font-size: 11px; color: white; width: 100%; font-weight: bolder;">
-                                        Current Ride<span class="dot"></span>Public Taxi
-                                    </p>
-                                    <p style="color: white; font-size: 11px; margin-top: -12px;">CBD Bus Stop <span
-                                            class="fas fa-arrow-right"
-                                            style="margin-left: 2px; margin-right: 2px;"></span>
-                                        Campus Gate</p>
-                                </div>
-                                <div class="col-5">
-                                    <div class="container2">
-                                        <button class="btn1"> Live Monitoring</button><br>
-                                    </div><br>
-                                </div>
+                <div class="md:w-5/12 w-full">
+                    <div class="bg-white bg-opacity-10 backdrop-blur-sm border border-sky-400 rounded-2xl p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <p class="text-white text-sm font-bold flex items-center">
+                                    Current Ride<span class="inline-block w-2 h-2 rounded-full bg-white ml-2 mr-2"></span>Public Taxi
+                                </p>
+                                <p class="text-white text-xs mt-1">CBD Bus Stop <span class="mx-1">→</span> Campus Gate</p>
                             </div>
-                            <div style="display: flex; justify-content: space-between;" class="card3">
-                                <div style="display: flex; gap: 2px;">
-                                    <span class="dot2"></span>
-                                    <div>
-                                        <p style="color: white; font-size: 12px; font-weight: bolder;">James K.<span
-                                                class="dot"></span>Verified driver</p>
-                                        <p style="color: skyblue; font-size: 12px; margin-top: -12px;">ID: TX-4839<span
-                                                class="dot1"></span>4.9 Safety Rating</p>
-                                    </div>
-                                </div>
+                            <button class="bg-red-500 hover:bg-red-600 text-white text-xs font-bold py-1 px-2 rounded">Live Monitoring</button>
+                        </div>
+                        <div class="flex justify-between items-center bg-white bg-opacity-10 border border-sky-400 rounded-lg p-4 mb-4">
+                            <div class="flex items-center gap-3">
+                                <span class="w-10 h-10 rounded-full bg-yellow-400"></span>
                                 <div>
-                                    <p style="color: #ffffff; font-size: 13px; font-weight: bolder; margin-top: 5px;">
-                                        KAX
-                                        204D</p>
+                                    <p class="text-white text-sm font-bold flex items-center">
+                                        James K.<span class="inline-block w-2 h-2 rounded-full bg-white ml-1 mr-1"></span>Verified driver
+                                    </p>
+                                    <p class="text-sky-400 text-xs">ID: TX-4839<span class="inline-block w-2 h-2 rounded-full bg-sky-400 ml-1 mr-1"></span>4.9 Safety Rating</p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="card4">
-                                        <p style="color: skyblue; font-size: 12px;">ETA</p>
-                                        <p
-                                            style="color: white; font-weight: bolder; font-size: 13px; margin-top: -12px; margin-bottom: -.01px;">
-                                            7 mins</p>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="card5">
-                                        <p style="color: skyblue; font-size: 12px;">Guardian</p>
-                                        <p
-                                            style="color: white; font-weight: bolder; font-size: 13px; margin-top: -12px; margin-bottom: -.01px;">
-                                            Mum Watching</p>
-                                    </div>
-                                </div>
+                            <p class="text-white text-lg font-bold">KAX 204D</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div class="border border-dashed border-sky-400 rounded-lg p-3">
+                                <p class="text-sky-400 text-sm">ETA</p>
+                                <p class="text-white font-bold text-base">7 mins</p>
                             </div>
-                            <img src="../static/Images/map.jpeg" alt="" class="" width="100%" height="300rem"
-                                style="border-radius: 5px; margin-bottom: 10px;">
-                            <div class="row">
-                                <div class="col-4">
-                                    <p style="font-size: 13px; font-weight: bolder; color: white;">Emergency</p>
-                                    <div><button class="btn2">Send Alert</button></div>
-                                </div>
-                                <div class="col-8">
-                                    <div class="container2">
-                                        <div>
-                                            <p style="font-size: 11px; font-weight: bolder; color: skyblue;">Live Route
-                                                Shared with 2
-                                                Contacts</p>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="border border-dashed border-sky-400 rounded-lg p-3">
+                                <p class="text-sky-400 text-sm">Guardian</p>
+                                <p class="text-white font-bold text-base">Mum Watching</p>
                             </div>
+                        </div>
+                        <img src="../static/Images/map.jpeg" alt="Map" class="w-full h-64 rounded-lg mb-4 object-cover">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-white text-base font-bold">Emergency</p>
+                                <button class="bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold py-2 px-3 rounded-lg mt-2">Send Alert</button>
+                            </div>
+                            <p class="text-sky-400 text-sm font-bold">Live Route Shared with 2 Contacts</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <section class="bg-[#f6faff] py-16">
+        <div class="container mx-auto px-4">
+            <h3 class="font-bold text-2xl md:text-3xl mb-4">Built for Safer Rides, not Just Faster Ones.</h3>
+            <p class="text-base mb-8 max-w-md">Everything inside MOTUWA is designed to give you and your loved ones more visibility, more control, and faster support during every trip.</p>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6 text-center">
+                    <span class="fas fa-address-card text-blue-500 bg-blue-50 p-3 rounded-full mb-4 block mx-auto w-fit"></span>
+                    <h6 class="font-bold text-lg mb-2">Taxi Registration & Driver Details</h6>
+                    <p class="text-sm text-gray-600">Captures plate numbers, driver ID, and route in seconds so someone you trust always knows who you are riding with.</p>
+                </div>
+                <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6 text-center">
+                    <span class="fas fa-map-marker-alt text-blue-500 bg-blue-50 p-3 rounded-full mb-4 block mx-auto w-fit"></span>
+                    <h6 class="font-bold text-lg mb-2">Live Location Tracking</h6>
+                    <p class="text-sm text-gray-600">Share your exact route, stops, and ETA with guardians who can follow along in real time from anywhere.</p>
+                </div>
+                <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6 text-center">
+                    <span class="fas fa-exclamation-triangle text-blue-500 bg-blue-50 p-3 rounded-full mb-4 block mx-auto w-fit"></span>
+                    <h6 class="font-bold text-lg mb-2">Emergency Alert Button</h6>
+                    <p class="text-sm text-gray-600">Trigger discreet alerts to pre-selected contacts or partners if you feel unsafe at any point in your journey.</p>
+                </div>
+                <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6 text-center">
+                    <span class="far fa-clock text-blue-500 bg-blue-50 p-3 rounded-full mb-4 block mx-auto w-fit"></span>
+                    <h6 class="font-bold text-lg mb-2">ETA & Destination Tracking</h6>
+                    <p class="text-sm text-gray-600">Keep track of when you should depart, when you should arrive, and whether the vehicle is off the expected path.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                        </div>
-                    </div>
-                </div>
-            </div><br>
-        </div>
-    </section>
-    <section class="section1">
-        <div class="container"><br><br>
-            <h3 style="width: 70%; font-weight: bolder; margin-left: 10px;">Built for Safer Rides, not Just Faster Ones.
-            </h3><br>
-            <p style="width: 40%; font-size: 12px; margin-left: 10px;">Everything inside MOTUWA is designed to give you
-                and your loved ones
-                more visibility, more control, and faster support during every trip.</p><br>
-            <div style="display: flex; width: 100%;">
-                <div style="width: 25%;margin-left: 5px; margin-right: 5px;">
-                    <div class="card">
-                        <div class="container4">
-                            <span class="far fa-address-card icon"></span><br> <br>
-                            <h6 style="font-weight: bolder;">Taxi Registration & Driver Details</h6>
-                            <br>
-                            <p style="font-size: 12px;">Captures plate numbers, driver ID, and route in seconds so
-                                someone you trust always knows who you are riding with.</p>
-                        </div>
-                    </div>
-                </div>
-                <div style="width: 25%;margin-left: 5px; margin-right: 5px;">
-                    <div class="card">
-                        <div class="container4">
-                            <span class="fas fa-map-marker-alt icon"></span><br> <br>
-                            <h6 style="font-weight: bolder;">Emergency Alert Button</h6>
-                            <br>
-                            <p style="font-size: 12px;">Share your exact route, stops, and ETA with guardians who can
-                                follow along in real time from anywhere.</p>
-                        </div>
-                    </div>
-                </div>
-                <div style="width: 25%;margin-left: 5px; margin-right: 5px;">
-                    <div class="card">
-                        <div class="container4">
-                            <span class="fas fa-exclamation-triangle icon"></span><br> <br>
-                            <h6 style="font-weight: bolder;">Emergency Alert Button</h6>
-                            <br>
-                            <p style="font-size: 12px;">Trigger discreet alerts to pre-selected contacts or patners if
-                                you feel unsafe at any point in your journey.</p>
-                        </div>
-                    </div>
-                </div>
-                <div style="width: 25%;margin-left: 5px; margin-right: 5px;">
-                    <div class="card">
-                        <div class="container4">
-                            <span class="far fa-clock icon"></span><br> <br>
-                            <h6 style="font-weight: bolder;">ETA & Destination Tracking</h6>
-                            <br>
-                            <p style="font-size: 12px;">Keep track of when you should depart, when you should arrive,
-                                and whether the vechile is off the expected path.</p>
-                        </div>
-                    </div>
-                </div>
-            </div><br>
-        </div>
-        <br>
-    </section>
-    <section class="section2" id="Works"><br><br><br>
-        <div class="container">
-            <h3 style=" font-weight: bolder; margin-left: 10px;">How MOTUWA Works in 3 Simple Steps.</h3>
-            <p style=" font-size: 12px; margin-left: 10px;margin-top: 30px;">From Boarding to arrival, MOTUWA
-                stays with you and keeps you trusted contacts informed at every step.</p>
-            <div style="display: flex; width: 100%;">
-                <div style="display: flex; gap: 10px; width: 33.3%; margin: 20px;">
+    <section class="bg-[#d8ecff] py-16" id="Works">
+        <div class="container mx-auto px-4">
+            <h3 class="font-bold text-2xl md:text-3xl mb-4">How MOTUWA Works in 3 Simple Steps.</h3>
+            <p class="text-base mb-8">From Boarding to arrival, MOTUWA stays with you and keeps your trusted contacts informed at every step.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="flex gap-4">
+                    <p class="text-blue-500 font-bold border-2 border-blue-500 rounded-full w-8 h-8 flex items-center justify-center">1</p>
                     <div>
-                        <p class="number">1</p>
-                    </div>
-                    <div>
-                        <h6 style="font-size: 12px; font-weight: bolder;">Enter Your Ride Details</h6>
-                        <p style="font-size: 12px;margin-top: -5px;">Log the taxi or bus plate, driver ID, and where
-                            you're heading in under 30 seconds.</p>
+                        <h6 class="font-bold text-lg mb-2">Enter Your Ride Details</h6>
+                        <p class="text-sm text-gray-600">Log the taxi or bus plate, driver ID, and where you're heading in under 30 seconds.</p>
                     </div>
                 </div>
-                <div style="display: flex; gap: 10px; width: 33.3%; margin: 20px;">
+                <div class="flex gap-4">
+                    <p class="text-blue-500 font-bold border-2 border-blue-500 rounded-full w-8 h-8 flex items-center justify-center">2</p>
                     <div>
-                        <p class="number">2</p>
-                    </div>
-                    <div>
-                        <h6 style="font-size: 12px; font-weight: bolder;">Share Your Live Location</h6>
-                        <p style="font-size: 12px;margin-top: -5px;">Send a Secure tracking link to a family, friend, or
-                            campus security so they can follow your journey.</p>
+                        <h6 class="font-bold text-lg mb-2">Share Your Live Location</h6>
+                        <p class="text-sm text-gray-600">Send a secure tracking link to a family, friend, or campus security so they can follow your journey.</p>
                     </div>
                 </div>
-                <div style="display: flex; gap: 10px; width: 33.3%; margin: 20px;">
+                <div class="flex gap-4">
+                    <p class="text-blue-500 font-bold border-2 border-blue-500 rounded-full w-8 h-8 flex items-center justify-center">3</p>
                     <div>
-                        <p class="number">3</p>
-                    </div>
-                    <div>
-                        <h6 style="font-size: 12px; font-weight: bolder;">Get Instant Help if Needed</h6>
-                        <p style="font-size: 12px;margin-top: -5px;">If Something feels wrong, use the emergency button
-                            to alert your guardians and partners with key trip data.</p>
+                        <h6 class="font-bold text-lg mb-2">Get Instant Help if Needed</h6>
+                        <p class="text-sm text-gray-600">If something feels wrong, use the emergency button to alert your guardians and partners with key trip data.</p>
                     </div>
                 </div>
             </div>
         </div>
-        <br><br>
     </section>
-    <section class="section1"><br><br>
-        <div class="container">
-            <h3 style="width: 100%; font-weight: bolder; margin-left: 10px;">Reducing Insecurity and Saving Lives, One
-                Ride at a Time.</h3>
-            <p style="width: 100%; font-size: 12px; margin-left: 10px; margin-top: 30px;">MOTUWA is built hand-in-hand
-                with students, parents, and city partners to make public transport feel safer and more accountable</p>
-            <br><br>
-            <div class="row">
-                <div class="col-md-7">
-                    <div class="row">
-                        <div class="col-7">
-                            <div class="card">
-                                <div class="container"><br>
-                                    <h6 style="color: blue; font-size: 24px; font-weight: bolder;">80%</h6>
-                                    <p style="font-size: 12px; margin-top: -1px; margin-bottom: 25px;">Of Users report
-                                        feeling Safer on Public Rides</p>
-                                </div>
-                            </div><br>
-                            <div class="card">
-                                <div class="container"><br>
-                                    <h6 style="color: blue; font-size: 24px; font-weight: bolder;">24 / 7</h6>
-                                    <p style="font-size: 12px; margin-top: -1px; margin-bottom: 25px;">Continuous
-                                        Monitoring & Emergency Support</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-5">
-                            <div class="card  d-none d-sm-block" style="background-color: transparent; color: transparent; border: none;">
-                                <div class="container"><br>
-                                    <h6 style="color: transparent; font-size: 24px; font-weight: bolder;">80%</h6>
-                                    <p style="font-size: 12px; margin-top: -1px; margin-bottom: 25px;">Of Users report
-                                        feeling Safer </p>
-                                </div>
-                            </div><br>
-                            <div class="card">
-                                <div class="container"><br>
-                                    <h6 style="color: blue; font-size: 24px; font-weight: bolder;">10K+</h6>
-                                    <p style="font-size: 12px; margin-top: -1px; margin-bottom: 25px;">Rides Monitored
-                                        in Early Pilots</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <p style="width: 80%; font-size: 12px; margin-left: 10px; margin-top: 30px;">Impact Metrics are
-                        Interative and will be Updated as MOTUWA expands with new partners and regions.</p>
-                </div>
-                <div class="col-md-5">
-                    <div class="card" style="height: 100%;"><br>
-                        <div class="container">
-                            <p style="font-size: 14px;">Recognized and supported by</p>
-                            <div class="row">
-                                <div class="col-md-3"><p style="padding: 5px; font-size: 11px; font-weight: bolder; border-radius: 5px; background-color: #e6ecf4; text-align: center;">Rise Program</p></div>
-                                <div class="col-md-3"><p style="padding: 5px; font-size: 11px; font-weight: bolder; border-radius: 5px; background-color: #e6ecf4; text-align: center;">Chegg</p></div>
-                                <div class="col-md-3"><p style="padding: 5px; font-size: 11px; font-weight: bolder; border-radius: 5px; background-color: #e6ecf4; text-align: center;">LaunchX</p></div>
-                                <div class="col-md-3"><p style="padding: 5px; font-size: 11px; font-weight: bolder; border-radius: 5px; background-color: #e6ecf4; text-align: center;">WCF</p></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div><br>
-    </section>
-    <section class="section2" id="About"><br><br><br>
-       <div class="container">
-        <div class="row">
-            <div class="col-md-5">
-                <div class="container">
-                    <h3 style="width: 70%; font-weight: bolder; margin-left: 10px;">About MOTUWA</h3>
-        <p style="width: 100%; font-size: 12px; margin-left: 10px; margin-top: 20px;">A movement for Safe, dignified public transportation, starting with the most vulnerable riders.</p>
-        <p style="width: 100%; font-size: 12px; margin-left: 10px; margin-top: 30px;">MOTUWA was born from lived experiences of unsafe public rides, late-night commutes, unregistered taxis, and the constant fear that nobody knows where you are. Our mission is simple: to turn every trip into a traceable, accountable, and supported journey.</p>
-        <p style="width: 100%; font-size: 12px; margin-left: 10px; margin-top: 20px;">By combining live tracking, verified driver details, and rapid emergency alerts, we empower riders to claim their right to move freely and safely, while giving families, schools, and cities clear visiblity when it matters most.</p>
 
-                </div>
-            </div>
-            <div class="col-md-7">
-                <div class="container">
-                    <div class="d-none d-sm-block">
-                        <h3 style="font-weight: bolder; margin-left: 10px; color: transparent;">About MOTUWA</h3>
-                <p style="width: 100%; font-size: 12px; margin-left: 10px; margin-top: 20px; color: transparent;">A movement for Safe, dignified public transportation, starting with the most vulnerable riders.</p>
-                <p style="width: 100%; font-size: 12px; margin-left: 10px; margin-top: 50px; margin-bottom: 40px;">The Team behind MOTUWA</p>
-                
-                    </div>
-                    <div class="container">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="img-container">
-                    <img src="../static/Images/cedric.png" alt="" width="50px" style="border-radius: 100%;">
-                    <h6 style="font-size: 12px; font-weight: bolder; margin-top: 5px;">Ntyam Princia</h6>
-                    <p style="font-size: 12px; margin-top: -2px; text-align: center;">Founder & Product Lead</p>
-                </div><br>
+    <section class="bg-[#f6faff] py-16">
+        <div class="container mx-auto px-4">
+            <h3 class="font-bold text-2xl md:text-3xl mb-4">Reducing Insecurity and Saving Lives, One Ride at a Time.</h3>
+            <p class="text-base mb-8">MOTUWA is built hand-in-hand with students, parents, and city partners to make public transport feel safer and more accountable.</p>
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="md:w-7/12 w-full">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6 text-center">
+                            <h6 class="text-blue-500 text-3xl font-bold mb-2">80%</h6>
+                            <p class="text-sm text-gray-600">Of Users report feeling Safer on Public Rides</p>
                         </div>
-                        <div class="col-md-4">
-                            <div class="img-container">
-                    <img src="../static/Images/cedric.png" alt="" width="50px" style="border-radius: 100%;">
-                    <h6 style="font-size: 12px; font-weight: bolder; margin-top: 5px;">Ntyam Princia</h6>
-                    <p style="font-size: 12px; margin-top: -2px; text-align: center;">Founder & Product Lead</p>
-                </div><br>
+                        <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6 text-center md:col-start-1">
+                            <h6 class="text-blue-500 text-3xl font-bold mb-2">24 / 7</h6>
+                            <p class="text-sm text-gray-600">Continuous Monitoring & Emergency Support</p>
                         </div>
-                        <div class="col-md-4">
-                            <div class="img-container">
-                    <img src="../static/Images/cedric.png" alt="" width="50px" style="border-radius: 100%;">
-                    <h6 style="font-size: 12px; font-weight: bolder; margin-top: 5px;">Ntyam Princia</h6>
-                    <p style="font-size: 12px; margin-top: -2px; text-align: center;">Founder & Product Lead</p>
-                </div><br>
+                        <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6 text-center md:col-start-2 md:row-start-2">
+                            <h6 class="text-blue-500 text-3xl font-bold mb-2">10K+</h6>
+                            <p class="text-sm text-gray-600">Rides Monitored in Early Pilots</p>
                         </div>
                     </div>
+                    <p class="text-sm text-gray-600">Impact Metrics are Interactive and will be Updated as MOTUWA expands with new partners and regions.</p>
                 </div>
-        
+                <div class="md:w-5/12 w-full">
+                    <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6 h-full">
+                        <p class="text-lg font-semibold mb-4">Recognized and supported by</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="bg-[#e6ecf4] text-sm font-bold py-2 px-3 rounded text-center">Rise Program</div>
+                            <div class="bg-[#e6ecf4] text-sm font-bold py-2 px-3 rounded text-center">Chegg</div>
+                            <div class="bg-[#e6ecf4] text-sm font-bold py-2 px-3 rounded text-center">LaunchX</div>
+                            <div class="bg-[#e6ecf4] text-sm font-bold py-2 px-3 rounded text-center">WCF</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-       </div>
     </section>
-    <section class="section1">
-        <div class="container"><br><br>
-            <h3 style="width: 70%; font-weight: bolder; margin-left: 10px;">Stories From Riders And Guardians.
-            </h3><br>
-            <p style="width: 40%; font-size: 12px; margin-left: 10px;">MOTUWA gives riders confidence and gives guardians peace of mind, especially during late journeys and unfamilliar routes.</p><br>
-            <div style="display: flex; width: 100%;">
-                <div style="width: 33.3%;margin-left: 5px; margin-right: 5px;">
-                    <div class="card">
-                        <div class="container4">    
-                            <p style="font-size: 12px;font-weight: bolder;">"For the first time. I feel like someone is riding with me. My mum follows my route from home and calls if anything looks off."</p>
-                            <span style="font-size: 12px; color: rgb(194, 194, 194);font-weight: bolder;">University Student<span class="dot3" style="color: black;"></span>Evening Commuter</span>
+
+    <section class="bg-[#d8ecff] py-16" id="About">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="md:w-5/12 w-full">
+                    <h3 class="font-bold text-2xl md:text-3xl mb-4">About MOTUWA</h3>
+                    <p class="text-base mb-4">A movement for Safe, dignified public transportation, starting with the most vulnerable riders.</p>
+                    <p class="text-base mb-4">MOTUWA was born from lived experiences of unsafe public rides, late-night commutes, unregistered taxis, and the constant fear that nobody knows where you are. Our mission is simple: to turn every trip into a traceable, accountable, and supported journey.</p>
+                    <p class="text-base">By combining live tracking, verified driver details, and rapid emergency alerts, we empower riders to claim their right to move freely and safely, while giving families, schools, and cities clear visibility when it matters most.</p>
+                </div>
+                <div class="md:w-7/12 w-full">
+                    <div class="hidden md:block mb-8">
+                        <h3 class="font-bold text-2xl md:text-3xl text-transparent">About MOTUWA</h3>
+                        <p class="text-base text-transparent">A movement for Safe, dignified public transportation, starting with the most vulnerable riders.</p>
+                        <p class="text-base mt-8">The Team behind MOTUWA</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="text-center">
+                            <img src="../static/Images/cedric.png" alt="Team Member" class="w-16 h-16 rounded-full mx-auto mb-4">
+                            <h6 class="font-bold text-lg mb-1">Ntyam Princia</h6>
+                            <p class="text-sm text-gray-600">Founder & Product Lead</p>
+                        </div>
+                        <div class="text-center">
+                            <img src="../static/Images/cedric.png" alt="Team Member" class="w-16 h-16 rounded-full mx-auto mb-4">
+                            <h6 class="font-bold text-lg mb-1">Ntyam Princia</h6>
+                            <p class="text-sm text-gray-600">Founder & Product Lead</p>
+                        </div>
+                        <div class="text-center">
+                            <img src="../static/Images/cedric.png" alt="Team Member" class="w-16 h-16 rounded-full mx-auto mb-4">
+                            <h6 class="font-bold text-lg mb-1">Ntyam Princia</h6>
+                            <p class="text-sm text-gray-600">Founder & Product Lead</p>
                         </div>
                     </div>
                 </div>
-                <div style="width: 33.3%;margin-left: 5px; margin-right: 5px;">
-                    <div class="card">
-                        <div class="container4">    
-                            <p style="font-size: 12px;font-weight: bolder;">"When my daughter takes a taxi to campus, I get her live location and driver details instantly. It changes how I worry."</p>
-                            <span style="font-size: 12px; color: rgb(194, 194, 194);font-weight: bolder;">Parent of Commuter<span class="dot3" style="color: black;"></span>Guardian User</span>
-                        </div>
-                    </div>
-                </div>
-                <div style="width: 33.3%;margin-left: 5px; margin-right: 5px;">
-                    <div class="card">
-                        <div class="container4">    
-                            <p style="font-size: 12px;font-weight: bolder;">"MOTUWA gives us the data we need to respond quickly when a student feels unsafe, including the plate and route."</p>
-                            <span style="font-size: 12px; color: rgb(194, 194, 194);font-weight: bolder;">Campus Safety Officer<span class="dot3" style="color: black;"></span>Pilot Partner</span>
-                        </div>
-                    </div>
-                </div>
-            </div><br>
+            </div>
         </div>
-        <br>
+    </section>
+
+    <section class="bg-[#f6faff] py-16">
+        <div class="container mx-auto px-4">
+            <h3 class="font-bold text-2xl md:text-3xl mb-4">Stories From Riders And Guardians.</h3>
+            <p class="text-base mb-8 max-w-md">MOTUWA gives riders confidence and gives guardians peace of mind, especially during late journeys and unfamiliar routes.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6">
+                    <p class="text-sm font-bold mb-4">"For the first time. I feel like someone is riding with me. My mum follows my route from home and calls if anything looks off."</p>
+                    <span class="text-sm text-gray-500 font-bold">University Student<span class="inline-block w-2 h-2 rounded-full bg-black ml-1 mr-1"></span>Evening Commuter</span>
+                </div>
+                <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6">
+                    <p class="text-sm font-bold mb-4">"When my daughter takes a taxi to campus, I get her live location and driver details instantly. It changes how I worry."</p>
+                    <span class="text-sm text-gray-500 font-bold">Parent of Commuter<span class="inline-block w-2 h-2 rounded-full bg-black ml-1 mr-1"></span>Guardian User</span>
+                </div>
+                <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6">
+                    <p class="text-sm font-bold mb-4">"MOTUWA gives us the data we need to respond quickly when a student feels unsafe, including the plate and route."</p>
+                    <span class="text-sm text-gray-500 font-bold">Campus Safety Officer<span class="inline-block w-2 h-2 rounded-full bg-black ml-1 mr-1"></span>Pilot Partner</span>
+                </div>
+            </div>
+        </div>
     </section>
 </body>
 
