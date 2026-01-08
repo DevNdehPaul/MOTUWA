@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Create New Password - MOTUWA</title>
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top-bar"></header>
+
+  <main class="main-container">
+    <h1 class="page-title">Create a new password</h1>
+    <p class="page-description">
+      You are just one step away from getting back to a safer ride experience.
+      Choose a strong password to keep your journeys and emergency contacts protected.
+    </p>
+
+    <section class="content-wrapper">
+      <aside class="card reset-password-card">
+        <h2>Reset your password</h2>
+        <p class="form-description">
+          Enter the email linked to your MOTUWA account and set a new password. Use at least 8 characters, including a number.
+        </p>
+
+        <form>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" type="email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="new-password">New password</label>
+            <div class="password-input-wrapper">
+              <input id="new-password" type="password" value="">
+              <span class="password-hint">At least 8 characters</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="confirm-password">Confirm new password</label>
+            <input id="confirm-password" type="password" value="">
+          </div>
+
+          <h3 class="security-heading">Secure your MOTUWA account.</h3>
+          <p class="security-text">
+            Your new password protects your ride history, quick safety reports, and the people you trust to receive alerts.
+          </p>
+
+          <p class="login-link-text">
+            Remembered your password? <a class="login-link" href="#">Back to login</a>
+          </p>
+
+          <div class="button-row">
+            <button type="submit" class="save-password-button">Save new password</button>
+          </div>
+        </form>
+      </aside>
+
+      <aside class="card safety-tips-card">
+        <div class="tip-header">
+          <span class="dot" aria-hidden="true"></span>
+          <span>Password safety tips</span>
+        </div>
+
+        <h2>Keep your rides protected</h2>
+
+        <p class="tip-description">
+          Your MOTUWA account holds sensitive information: your routes, emergency contacts, and ride reports. A strong password is your first safety shield.
+        </p>
+
+        <ul class="tips-list">
+          <li>Use a unique password. Avoid reusing passwords from other apps or social media.</li>
+          <li>Combine characters: Mix letters, numbers, and symbols to make it harder to guess.</li>
+          <li>Protect your alerts: A secure account ensures only you can trigger or edit emergency notifications.</li>
+        </ul>
+
+        <p class="tip-footer-text">
+          Once your password is updated, you can log in again, start a new ride, and let MOTUWA keep your loved ones updated every 10 minutes.
+        </p>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="bottom-bar"></footer>
+</body>
+</html>
