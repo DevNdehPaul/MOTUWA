@@ -14,7 +14,7 @@
 </head>
 
 <body class="bg-[#f6faff] font-sans">
-     <!-- Navbar -->
+  <!-- Navbar -->
     <nav class="bg-gradient-to-br from-[#0b1220] to-[#0b61ff] py-4">
         <div class="container mx-auto px-4 flex justify-between items-center">
             <a href="/" class="text-white flex items-center">
@@ -33,113 +33,163 @@
             <!-- Desktop menu -->
             <div class="hidden md:flex items-center space-x-6 mr-24">
                 <a href="/" class="text-white font-medium hover:text-yellow-400">Home</a>
+                {% if 'user_id' in session %}
                 <a href="/features" class="text-white font-medium hover:text-yellow-400">Features</a>
                 <a href="/#Works" class="text-white font-medium hover:text-yellow-400">How It Works</a>
                 <a href="/#About" class="text-white font-medium hover:text-yellow-400">About</a>
                 <a href="/contact" class="text-white font-medium hover:text-yellow-400">Contact</a>
+                <a href="/blog" class="text-white font-medium hover:text-yellow-400">Blog</a>
+                {% else %}
+                <a href="/#Works" class="text-white font-medium hover:text-yellow-400">How It Works</a>
+                <a href="/#About" class="text-white font-medium hover:text-yellow-400">About</a>
+                <a href="/contact" class="text-white font-medium hover:text-yellow-400">Contact</a>
+                {% endif %}
+                {% if 'user_id' not in session %}
                 <a href="/login" class="border border-white text-white px-4 py-2 rounded hover:bg-white hover:text-blue-900 transition">Log in</a>
+                {% else %}
+        <a href="/logout" class="border border-white text-white px-4 py-2 rounded hover:bg-white hover:text-blue-900 transition">Logout</a>
+        {% endif %}
             </div>
         </div>
     </nav>
-    <!-- Main Content -->
-    <div class="container mx-auto px-4 py-8">
-        <h4 class="font-bold text-2xl mb-2">Log in to Your Account</h4>
-        <p class="text-sm mb-8 max-w-md">Access your MOTUWA safety profile, manage your trusted contacts, and start monitoring your next public transport ride.</p>
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div class="lg:col-span-7">
-                <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6 min-h-full">
-                    <h5 class="font-bold text-xl mb-2">Welcome Back</h5>
-                    <p class="text-sm mb-6">Use the email and password you registered with MOTUWA to sign in securely.</p>
-                    <form>
-                        <label class="block font-bold text-sm mb-2">Email</label>
-                        <input type="email" class="w-full bg-[#f6faff] border-none rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter Email....">
+  <!-- Main Content -->
+  <div class="container mx-auto px-4 py-8">
+    <h4 class="font-bold text-2xl mb-2">Log in to Your Account</h4>
+    <p class="text-sm mb-8 max-w-md">Access your MOTUWA safety profile, manage your trusted contacts, and start
+      monitoring your next public transport ride.</p>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div class="lg:col-span-7">
+        <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6 min-h-full">
+          <h5 class="font-bold text-xl mb-2">Welcome Back</h5>
+          <p class="text-sm mb-6">Use the email and password you registered with MOTUWA to sign in securely.</p>
+         
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          <div class="mb-4">
+            {% for category, message in messages %}
+            {% if category == 'success' %}
+            <div class="p-3 rounded-lg bg-green-100 text-green-700 font-semibold">
+              {{ message }}
+            </div>
+            {% elif category == 'danger' %}
+            <div class="p-3 rounded-lg bg-red-100 text-red-700 font-semibold">
+              {{ message }}
+            </div>
+            {% else %}
+            <div class="p-3 rounded-lg bg-blue-100 text-blue-700 font-semibold">
+              {{ message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+          {% endif %}
+          {% endwith %}
+         
+          
 
-                        <label class="block font-bold text-sm mb-2">Password</label>
-                        <input type="password" class="w-full bg-[#f6faff] border-none rounded-lg px-3 py-2 mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter Password....">
-                    </form>
-                    <h6 class="font-bold mb-4">Stay Safe, every time you ride</h6>
-                    <div class="flex justify-between items-center mb-4">
-                        <p class="text-sm max-w-xs">Your login keeps your ride history, emergency contacts, and quick safety reports in one place.</p>
-                        <button class="bg-blue-600 text-white px-4 py-2 rounded font-bold hover:bg-blue-700 transition">Login</button>
-                    </div>
-                    <a href="/forgot-password" class="text-blue-600 font-bold text-sm block mb-2">Forgot your password?</a>
-                    <span class="text-sm">New to MOTUWA? <a href="/signup" class="text-blue-600 font-bold">Create an account</a></span>
-                </div>
+          <form method="POST" action="/login">
+            <label class="block font-bold text-sm mb-2">Email</label>
+            <input type="email" name="email"
+              class="w-full bg-[#f6faff] border-none rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter Email...." required>
+
+            <label class="block font-bold text-sm mb-2">Password</label>
+            <input type="password" name="password"
+              class="w-full bg-[#f6faff] border-none rounded-lg px-3 py-2 mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter Password...." required>
+
+            <h6 class="font-bold mb-4">Stay Safe, every time you ride</h6>
+            <div class="flex justify-between items-center mb-4">
+              <p class="text-sm max-w-xs">Your login keeps your ride history, emergency contacts, and quick safety
+                reports in one place.</p>
+              <button type="submit"
+                class="bg-blue-600 text-white px-4 py-2 rounded font-bold hover:bg-blue-700 transition">Login</button>
             </div>
-            <div class="lg:col-span-5">
-                <div class="bg-gradient-to-br from-[#0b1220] to-[#0b61ff] rounded-lg shadow-md p-6 text-white min-h-full">
-                    <p class="bg-black text-white text-xs rounded-full px-3 py-1 mb-4 inline-flex items-center">
-                        <span class="w-2 h-2 rounded-full bg-yellow-400 mr-2"></span>Secure, privacy-first access
-                    </p>
-                    <h4 class="font-bold text-2xl mb-4">Log in and start a safe journey</h4>
-                    <p class="text-sm mb-6 max-w-sm">Once you are signed in, you can start a ride, share your live location with your emergency contacts, and send quick safety updates in just a tap.</p>
-                    <ul class="text-sm space-y-3 mb-6" style="list-style: none; padding-left: 0;">
-                        <li class="flex items-start">
-                            <span class="text-blue-400 font-bold mr-2" style="font-size: 1.2em;">•</span>
-                            <span><strong>One Account for all Rides:</strong> Keep every taxi or bus trip protected under the same profile.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-blue-400 font-bold mr-2" style="font-size: 1.2em;">•</span>
-                            <span><strong>Instant Alerts:</strong> Trigger an emergency alert from your dashboard and notify your contacts instantly.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-blue-400 font-bold mr-2" style="font-size: 1.2em;">•</span>
-                            <span><strong>10-minute updates:</strong> MOTUWA can keep your loved ones updated about where you are without you typing a single message.</span>
-                        </li>
-                    </ul>
-                    <p class="bg-black text-white text-sm rounded-lg p-4">Not registered yet? Create your account first so we know who to protect and who to notify when you need help.</p>
-                </div>
-            </div>
+          </form>
+          <a href="/reset_password" class="text-blue-600 font-bold text-sm block mb-2">Forgot your password?</a>
+          <span class="text-sm">New to MOTUWA? <a href="/signup" class="text-blue-600 font-bold">Create an
+              account</a></span>
         </div>
+      </div>
+      <div class="lg:col-span-5">
+        <div class="bg-gradient-to-br from-[#0b1220] to-[#0b61ff] rounded-lg shadow-md p-6 text-white min-h-full">
+          <p class="bg-black text-white text-xs rounded-full px-3 py-1 mb-4 inline-flex items-center">
+            <span class="w-2 h-2 rounded-full bg-yellow-400 mr-2"></span>Secure, privacy-first access
+          </p>
+          <h4 class="font-bold text-2xl mb-4">Log in and start a safe journey</h4>
+          <p class="text-sm mb-6 max-w-sm">Once you are signed in, you can start a ride, share your live location with
+            your emergency contacts, and send quick safety updates in just a tap.</p>
+          <ul class="text-sm space-y-3 mb-6" style="list-style: none; padding-left: 0;">
+            <li class="flex items-start">
+              <span class="text-blue-400 font-bold mr-2" style="font-size: 1.2em;">•</span>
+              <span><strong>One Account for all Rides:</strong> Keep every taxi or bus trip protected under the same
+                profile.</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-blue-400 font-bold mr-2" style="font-size: 1.2em;">•</span>
+              <span><strong>Instant Alerts:</strong> Trigger an emergency alert from your dashboard and notify your
+                contacts instantly.</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-blue-400 font-bold mr-2" style="font-size: 1.2em;">•</span>
+              <span><strong>10-minute updates:</strong> MOTUWA can keep your loved ones updated about where you are
+                without you typing a single message.</span>
+            </li>
+          </ul>
+          <p class="bg-black text-white text-sm rounded-lg p-4">Not registered yet? Create your account first so we know
+            who to protect and who to notify when you need help.</p>
+        </div>
+      </div>
     </div>
-    <!-- Footer -->
+  </div>
+  <!-- Footer -->
   <footer class="bg-gray-900 text-gray-300 py-10">
-  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
-    
-    <!-- Brand -->
-    <div>
-      <h3 class="text-xl font-bold text-white mb-4">MOTUWA</h3>
-      <p class="text-sm leading-relaxed">
-        A safety-first companion for every public transport ride. Capture your journey, share your route, and stay
-        connected to the people who care about you.
-      </p>
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+
+      <!-- Brand -->
+      <div>
+        <h3 class="text-xl font-bold text-white mb-4">MOTUWA</h3>
+        <p class="text-sm leading-relaxed">
+          A safety-first companion for every public transport ride. Capture your journey, share your route, and stay
+          connected to the people who care about you.
+        </p>
+      </div>
+
+      <!-- Product -->
+      <div>
+        <h4 class="text-lg font-semibold text-white mb-3">Product</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="hover:text-white transition">Features</a></li>
+          <li><a href="#" class="hover:text-white transition">How it works</a></li>
+          <li><a href="#" class="hover:text-white transition">Download app</a></li>
+        </ul>
+      </div>
+
+      <!-- Company -->
+      <div>
+        <h4 class="text-lg font-semibold text-white mb-3">Company</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="hover:text-white transition">About</a></li>
+          <li><a href="#" class="hover:text-white transition">Partners</a></li>
+          <li><a href="#" class="hover:text-white transition">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal -->
+      <div>
+        <h4 class="text-lg font-semibold text-white mb-3">Legal</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="hover:text-white transition">Privacy policy</a></li>
+          <li><a href="#" class="hover:text-white transition">Terms of use</a></li>
+        </ul>
+      </div>
     </div>
 
-    <!-- Product -->
-    <div>
-      <h4 class="text-lg font-semibold text-white mb-3">Product</h4>
-      <ul class="space-y-2">
-        <li><a href="#" class="hover:text-white transition">Features</a></li>
-        <li><a href="#" class="hover:text-white transition">How it works</a></li>
-        <li><a href="#" class="hover:text-white transition">Download app</a></li>
-      </ul>
+    <!-- Bottom -->
+    <div class="border-t border-gray-700 mt-10 pt-6 text-center">
+      <p class="text-sm text-gray-400">© 2023 MOTUWA. All rights reserved.</p>
     </div>
-
-    <!-- Company -->
-    <div>
-      <h4 class="text-lg font-semibold text-white mb-3">Company</h4>
-      <ul class="space-y-2">
-        <li><a href="#" class="hover:text-white transition">About</a></li>
-        <li><a href="#" class="hover:text-white transition">Partners</a></li>
-        <li><a href="#" class="hover:text-white transition">Contact</a></li>
-      </ul>
-    </div>
-
-    <!-- Legal -->
-    <div>
-      <h4 class="text-lg font-semibold text-white mb-3">Legal</h4>
-      <ul class="space-y-2">
-        <li><a href="#" class="hover:text-white transition">Privacy policy</a></li>
-        <li><a href="#" class="hover:text-white transition">Terms of use</a></li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Bottom -->
-  <div class="border-t border-gray-700 mt-10 pt-6 text-center">
-    <p class="text-sm text-gray-400">© 2023 MOTUWA. All rights reserved.</p>
-  </div>
-</footer>
+  </footer>
 
 </body>
 

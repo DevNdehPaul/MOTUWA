@@ -33,11 +33,22 @@
             <!-- Desktop menu -->
             <div class="hidden md:flex items-center space-x-6 mr-24">
                 <a href="/" class="text-white font-medium hover:text-yellow-400">Home</a>
+                {% if 'user_id' in session %}
                 <a href="/features" class="text-white font-medium hover:text-yellow-400">Features</a>
                 <a href="/#Works" class="text-white font-medium hover:text-yellow-400">How It Works</a>
                 <a href="/#About" class="text-white font-medium hover:text-yellow-400">About</a>
                 <a href="/contact" class="text-white font-medium hover:text-yellow-400">Contact</a>
+                <a href="/blog" class="text-white font-medium hover:text-yellow-400">Blog</a>
+                {% else %}
+                <a href="/#Works" class="text-white font-medium hover:text-yellow-400">How It Works</a>
+                <a href="/#About" class="text-white font-medium hover:text-yellow-400">About</a>
+                <a href="/contact" class="text-white font-medium hover:text-yellow-400">Contact</a>
+                {% endif %}
+                {% if 'user_id' not in session %}
                 <a href="/login" class="border border-white text-white px-4 py-2 rounded hover:bg-white hover:text-blue-900 transition">Log in</a>
+                {% else %}
+        <a href="/logout" class="border border-white text-white px-4 py-2 rounded hover:bg-white hover:text-blue-900 transition">Logout</a>
+        {% endif %}
             </div>
         </div>
     </nav>
@@ -232,7 +243,7 @@
                         <div class="text-center">
                             <img src="../static/Images/WhatsApp Image 2025-12-20 at 11.31.59 PM.jpeg" alt="Team Member" class="w-16 h-16 rounded-full mx-auto mb-4">
                             <h6 class="font-bold text-lg mb-1">Ntyam Princia</h6>
-                            <p class="text-sm text-gray-600">Founder & Product Lead</p>
+                            <p class="text-sm text-gray-600">Founder & CEO</p>
                         </div>
                         <div class="text-center">
                             <img src="../static/Images/Software.jpeg" alt="Team Member" class="w-16 h-16 rounded-full mx-auto mb-4">

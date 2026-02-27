@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MOTUWA – Stories & Safety Reports</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+<!-- Header -->
+<!-- Navbar -->
+    <nav class="bg-gradient-to-br from-[#0b1220] to-[#0b61ff] py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="/" class="text-white flex items-center">
+                <div class="w-8 h-8 rounded-full mr-2" style="background: radial-gradient(#ffff00, #cf7c00);"></div>
+                <div>
+                    <h4 class="font-bold text-lg">MOTUWA</h4>
+                    <p class="text-xs font-medium mt-[-4px]">The Right to Safe Ride with Pride</p>
+                </div>
+            </a>
+            <!-- Mobile menu button -->
+            <button class="md:hidden text-white focus:outline-none">
+                <span class="block w-6 h-1 bg-white mb-1"></span>
+                <span class="block w-6 h-1 bg-white mb-1"></span>
+                <span class="block w-6 h-1 bg-white"></span>
+            </button>
+            <!-- Desktop menu -->
+            <div class="hidden md:flex items-center space-x-6 mr-24">
+                <a href="/" class="text-white font-medium hover:text-yellow-400">Home</a>
+                {% if 'user_id' in session %}
+                <a href="/features" class="text-white font-medium hover:text-yellow-400">Features</a>
+                <a href="/#Works" class="text-white font-medium hover:text-yellow-400">How It Works</a>
+                <a href="/#About" class="text-white font-medium hover:text-yellow-400">About</a>
+                <a href="/contact" class="text-white font-medium hover:text-yellow-400">Contact</a>
+                <a href="/blog" class="text-white font-medium hover:text-yellow-400">Blog</a>
+                {% else %}
+                <a href="/#Works" class="text-white font-medium hover:text-yellow-400">How It Works</a>
+                <a href="/#About" class="text-white font-medium hover:text-yellow-400">About</a>
+                <a href="/contact" class="text-white font-medium hover:text-yellow-400">Contact</a>
+                {% endif %}
+                {% if 'user_id' not in session %}
+                <a href="/login" class="border border-white text-white px-4 py-2 rounded hover:bg-white hover:text-blue-900 transition">Log in</a>
+                {% else %}
+        <a href="/logout" class="border border-white text-white px-4 py-2 rounded hover:bg-white hover:text-blue-900 transition">Logout</a>
+        {% endif %}
+            </div>
+        </div>
+    </nav>
+
+<!-- Main -->
+<main class="max-w-6xl mx-auto px-6 py-10 grid lg:grid-cols-3 gap-8">
+
+  <!-- LEFT CONTENT -->
+  <div class="lg:col-span-2 space-y-8">
+
+    <h1 class="text-3xl font-bold mb-8">Community Safety Reports</h1>
+
+<div class="space-y-8 px-4 md:px-0">
+  {% for report in reports %}
+  <div class="relative bg-gradient-to-r from-purple-50 via-pink-50 to-yellow-50 p-6 rounded-3xl shadow-2xl hover:scale-105 transform transition-all duration-300 border border-gray-200">
+
+    <!-- HEADER -->
+    <div class="flex justify-between items-start">
+      <div>
+        <h2 class="font-extrabold text-2xl text-purple-800">
+          {{ report.transport_type }} • {{ report.license_plate }}
+        </h2>
+        <p class="text-sm text-gray-500 mt-1">
+          {{ report.created_at }}
+        </p>
+      </div>
+
+      <!-- RATING BADGE -->
+      <div class="flex items-center space-x-1 text-yellow-400 text-lg font-bold">
+        {% for i in range(report.rating|int) %}
+          <span>⭐</span>
+        {% endfor %}
+        <span class="ml-2 text-sm text-gray-600 font-semibold">({{ report.rating }}/5)</span>
+      </div>
+    </div>
+    <!-- USER INFO -->
+<p class="text-sm text-gray-600 mt-1">
+    Posted by <span class="font-semibold">{{ report.user_name }}</span> ({{ report.user_email }})
+</p>
+    <!-- ROUTE & COMPANY BADGES -->
+    <div class="mt-4 flex flex-wrap gap-3">
+      {% if report.route %}
+        <span class="px-3 py-1 bg-purple-200 text-purple-800 rounded-full font-semibold text-sm shadow-sm">
+          Route: {{ report.route }}
+        </span>
+      {% endif %}
+      {% if report.company %}
+        <span class="px-3 py-1 bg-pink-200 text-pink-800 rounded-full font-semibold text-sm shadow-sm">
+          Company: {{ report.company }}
+        </span>
+      {% endif %}
+    </div>
+
+    <!-- DRIVER INFO -->
+    <div class="mt-5 bg-gradient-to-r from-indigo-50 to-blue-50 p-4 rounded-2xl border border-blue-100 shadow-inner">
+      <p class="font-bold text-indigo-800 mb-3 text-lg">Driver Information</p>
+      <div class="grid md:grid-cols-2 gap-4 text-gray-700 text-sm">
+        {% if report.driver_name %}
+          <p><span class="font-semibold">Name:</span> {{ report.driver_name }}</p>
+        {% endif %}
+        {% if report.driver_contact %}
+          <p><span class="font-semibold">Contact:</span> {{ report.driver_contact }}</p>
+        {% endif %}
+        <p><span class="font-semibold">Behavior:</span> {{ report.driver_behavior }}</p>
+        <p><span class="font-semibold">Driving Quality:</span> {{ report.driving_quality }}</p>
+      </div>
+    </div>
+
+    <!-- REVIEW TEXT -->
+    <div class="mt-5">
+      <p class="font-bold text-purple-700 mb-2 text-lg">Rider Experience</p>
+      <p class="bg-gradient-to-r from-pink-50 via-yellow-50 to-green-50 p-4 rounded-2xl text-gray-800 shadow-lg text-sm">
+        {{ report.review }}
+      </p>
+    </div>
+
+    <!-- NEW ribbon -->
+    {% if report.is_new %}
+      <div class="absolute top-0 right-0 mt-2 mr-2 bg-red-500 text-white px-3 py-1 rounded-full font-bold text-xs shadow-lg">
+        NEW
+      </div>
+    {% endif %}
+
+  </div>
+  {% endfor %}
+</div>
+</div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="space-y-6">
+
+    <div class="bg-white p-6 rounded-xl border shadow-sm">
+      <h4 class="font-semibold">Submit a Safety Report</h4>
+      <p class="text-sm text-gray-600 mt-2">
+        Share your ride experience using the Quick Safety Check system.
+      </p>
+      <button type="button" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg font-medium"  onclick="window.location.href='{{ url_for('submit_report') }}'">
+        Start Report
+      </button>
+      
+    </div>
+
+    <div class="bg-white p-6 rounded-xl border shadow-sm">
+      <h4 class="font-semibold">Report Tags</h4>
+      <div class="flex flex-wrap gap-2 mt-3 text-xs">
+        <span class="bg-gray-100 px-3 py-1 rounded-full">Safe arrival</span>
+        <span class="bg-gray-100 px-3 py-1 rounded-full">Route deviation</span>
+        <span class="bg-gray-100 px-3 py-1 rounded-full">Driver behavior</span>
+        <span class="bg-gray-100 px-3 py-1 rounded-full">Police alert</span>
+      </div>
+    </div>
+
+  </aside>
+
+</main>
+
+ <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 py-10">
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+    
+    <!-- Brand -->
+    <div>
+      <h3 class="text-xl font-bold text-white mb-4">MOTUWA</h3>
+      <p class="text-sm leading-relaxed">
+        A safety-first companion for every public transport ride. Capture your journey, share your route, and stay
+        connected to the people who care about you.
+      </p>
+    </div>
+
+    <!-- Product -->
+    <div>
+      <h4 class="text-lg font-semibold text-white mb-3">Product</h4>
+      <ul class="space-y-2">
+        <li><a href="#" class="hover:text-white transition">Features</a></li>
+        <li><a href="#" class="hover:text-white transition">How it works</a></li>
+        <li><a href="#" class="hover:text-white transition">Download app</a></li>
+      </ul>
+    </div>
+
+    <!-- Company -->
+    <div>
+      <h4 class="text-lg font-semibold text-white mb-3">Company</h4>
+      <ul class="space-y-2">
+        <li><a href="#" class="hover:text-white transition">About</a></li>
+        <li><a href="#" class="hover:text-white transition">Partners</a></li>
+        <li><a href="#" class="hover:text-white transition">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Legal -->
+    <div>
+      <h4 class="text-lg font-semibold text-white mb-3">Legal</h4>
+      <ul class="space-y-2">
+        <li><a href="#" class="hover:text-white transition">Privacy policy</a></li>
+        <li><a href="#" class="hover:text-white transition">Terms of use</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Bottom -->
+  <div class="border-t border-gray-700 mt-10 pt-6 text-center">
+    <p class="text-sm text-gray-400">© 2023 MOTUWA. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>
