@@ -10,25 +10,53 @@
 
 <body class="bg-gradient-to-b from-blue-50 via-purple-50 to-pink-50 font-sans">
 
-    <!-- Navbar -->
-    <nav class="bg-gradient-to-r from-blue-900 to-blue-600 py-4 shadow-lg">
-        <div class="container mx-auto flex justify-between items-center px-4">
-            <a href="/" class="text-white font-bold text-lg">MOTUWA</a>
-            <div class="space-x-4">
-                <a href="/" class="text-white hover:text-yellow-300">Home</a>
-                <a href="/features" class="text-white hover:text-yellow-300">Features</a>
-                <a href="/contact" class="text-white hover:text-yellow-300">Contact</a>
+   <!-- Navbar -->
+    <nav class="bg-gradient-to-br from-[#0b1220] to-[#0b61ff] py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="/" class="text-white flex items-center">
+                <div class="w-8 h-8 rounded-full mr-2" style="background: radial-gradient(#ffff00, #cf7c00);"></div>
+                <div>
+                    <h4 class="font-bold text-lg">MOTUWA</h4>
+                    <p class="text-xs font-medium mt-[-4px]">The Right to Safe Ride with Pride</p>
+                </div>
+            </a>
+            <!-- Mobile menu button -->
+            <button class="md:hidden text-white focus:outline-none">
+                <span class="block w-6 h-1 bg-white mb-1"></span>
+                <span class="block w-6 h-1 bg-white mb-1"></span>
+                <span class="block w-6 h-1 bg-white"></span>
+            </button>
+            <!-- Desktop menu -->
+            <div class="hidden md:flex items-center space-x-6 mr-24">
+                <a href="/" class="text-white font-medium hover:text-yellow-400">Home</a>
                 {% if 'user_id' in session %}
-                <a href="/logout" class="text-white border px-3 py-1 rounded hover:bg-white hover:text-blue-800 transition">Logout</a>
+                <a href="/features" class="text-white font-medium hover:text-yellow-400">Features</a>
+                <a href="/#Works" class="text-white font-medium hover:text-yellow-400">How It Works</a>
+                <a href="/#About" class="text-white font-medium hover:text-yellow-400">About</a>
+                <a href="/contact" class="text-white font-medium hover:text-yellow-400">Contact</a>
+                <a href="/blog" class="text-white font-medium hover:text-yellow-400">Blog</a>
                 {% else %}
-                <a href="/login" class="text-white border px-3 py-1 rounded hover:bg-white hover:text-blue-800 transition">Login</a>
+                <a href="/#Works" class="text-white font-medium hover:text-yellow-400">How It Works</a>
+                <a href="/#About" class="text-white font-medium hover:text-yellow-400">About</a>
+                <a href="/contact" class="text-white font-medium hover:text-yellow-400">Contact</a>
                 {% endif %}
+                {% if 'user_id' not in session %}
+                <a href="/login" class="border border-white text-white px-4 py-2 rounded hover:bg-white hover:text-blue-900 transition">Log in</a>
+                {% else %}
+        <a href="/logout" class="border border-white text-white px-4 py-2 rounded hover:bg-white hover:text-blue-900 transition">Logout</a>
+        {% endif %}
             </div>
         </div>
     </nav>
 
     <!-- Main Form -->
     <div class="container mx-auto px-4 py-10">
+        {% if alert_message %}
+<div class="alert alert-success">
+    {{ alert_message }}
+</div>
+{% endif %}
+<br>
         <div class="max-w-4xl mx-auto bg-white shadow-2xl rounded-3xl p-8 border border-gray-200">
             <h1 class="text-3xl font-bold text-blue-900 mb-4">Capture Your Ride</h1>
             <p class="text-gray-600 mb-6">
@@ -104,5 +132,51 @@
         </div>
     </div>
 </body>
+ <footer class="bg-gray-900 text-gray-300 py-10">
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+    
+    <!-- Brand -->
+    <div>
+      <h3 class="text-xl font-bold text-white mb-4">MOTUWA</h3>
+      <p class="text-sm leading-relaxed">
+        A safety-first companion for every public transport ride. Capture your journey, share your route, and stay
+        connected to the people who care about you.
+      </p>
+    </div>
 
+    <!-- Product -->
+    <div>
+      <h4 class="text-lg font-semibold text-white mb-3">Product</h4>
+      <ul class="space-y-2">
+        <li><a href="#" class="hover:text-white transition">Features</a></li>
+        <li><a href="#" class="hover:text-white transition">How it works</a></li>
+        <li><a href="#" class="hover:text-white transition">Download app</a></li>
+      </ul>
+    </div>
+
+    <!-- Company -->
+    <div>
+      <h4 class="text-lg font-semibold text-white mb-3">Company</h4>
+      <ul class="space-y-2">
+        <li><a href="#" class="hover:text-white transition">About</a></li>
+        <li><a href="#" class="hover:text-white transition">Partners</a></li>
+        <li><a href="#" class="hover:text-white transition">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Legal -->
+    <div>
+      <h4 class="text-lg font-semibold text-white mb-3">Legal</h4>
+      <ul class="space-y-2">
+        <li><a href="#" class="hover:text-white transition">Privacy policy</a></li>
+        <li><a href="#" class="hover:text-white transition">Terms of use</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Bottom -->
+  <div class="border-t border-gray-700 mt-10 pt-6 text-center">
+    <p class="text-sm text-gray-400">© 2023 MOTUWA. All rights reserved.</p>
+  </div>
+</footer>
 </html>

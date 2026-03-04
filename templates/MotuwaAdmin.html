@@ -1,0 +1,1118 @@
+<div
+  class="export-wrapper"
+  style="
+    width: 1440px;
+    min-height: 812px;
+    position: relative;
+    font-family: var(--font-family-body);
+    background-color: var(--background);
+  "
+>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100;200;300;400;500;600;700;800;900&family=Geist:wght@100;200;300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@100;200;300;400;500;600;700&family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900&family=PT+Serif:wght@400;700&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&family=Shantell+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <html>
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Motuwa Admin Portal</title>
+      <style id="base-styles">
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+        .export-wrapper {
+          font-family: var(
+            --font-family-body,
+            system-ui,
+            -apple-system,
+            sans-serif
+          );
+          background-color: var(--background);
+          color: var(--foreground);
+          font-size: 14px;
+          line-height: 1.5;
+        }
+        .admin-layout {
+          display: flex;
+          height: 100vh;
+          width: 100%;
+          overflow: hidden;
+        }
+        a {
+          text-decoration: none;
+          color: inherit;
+        }
+        button {
+          font-family: inherit;
+          cursor: pointer;
+          border: none;
+          background: none;
+        }
+      </style>
+
+      <style id="sidebar-styles">
+        .sidebar {
+          width: 260px;
+          background-color: var(--sidebar);
+          color: var(--sidebar-foreground);
+          border-right: 1px solid var(--border);
+          display: flex;
+          flex-direction: column;
+          flex-shrink: 0;
+        }
+        .sidebar-header {
+          padding: 24px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          border-bottom: 1px solid var(--border);
+        }
+        .logo-icon {
+          width: 32px;
+          height: 32px;
+          background-color: var(--primary);
+          color: var(--primary-foreground);
+          border-radius: var(--radius-md);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 700;
+          font-size: 18px;
+        }
+        .logo-text {
+          font-size: 18px;
+          font-weight: 600;
+          letter-spacing: -0.5px;
+        }
+        .sidebar-nav {
+          padding: 24px 16px;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+        .nav-item {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 10px 16px;
+          border-radius: var(--radius-md);
+          color: var(--sidebar-foreground);
+          font-weight: 500;
+          transition: background-color 0.2s;
+        }
+        .nav-item.active {
+          background-color: var(--sidebar-primary);
+          color: var(--sidebar-primary-foreground);
+        }
+        .nav-section-title {
+          font-size: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          color: var(--muted-foreground);
+          margin-top: 16px;
+          margin-bottom: 8px;
+          padding-left: 16px;
+          font-weight: 600;
+        }
+        .sidebar-footer {
+          padding: 16px;
+          border-top: 1px solid var(--border);
+        }
+        .user-profile-sm {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        .user-avatar {
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+        .user-details-sm {
+          display: flex;
+          flex-direction: column;
+        }
+        .user-name-sm {
+          font-weight: 500;
+          font-size: 14px;
+        }
+        .user-role-sm {
+          font-size: 12px;
+          color: var(--muted-foreground);
+        }
+      </style>
+
+      <style id="main-content-styles">
+        .main-content {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          background-color: var(--background);
+          overflow-y: auto;
+        }
+        .top-header {
+          height: 64px;
+          border-bottom: 1px solid var(--border);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 32px;
+          background-color: var(--background);
+          flex-shrink: 0;
+        }
+        .page-title {
+          font-size: 20px;
+          font-weight: 600;
+        }
+        .header-actions {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
+        .search-bar {
+          display: flex;
+          align-items: center;
+          background-color: var(--input);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-md);
+          padding: 6px 12px;
+          width: 280px;
+        }
+        .search-input {
+          border: none;
+          background: none;
+          outline: none;
+          margin-left: 8px;
+          width: 100%;
+          color: var(--foreground);
+          font-family: inherit;
+          font-size: 14px;
+        }
+        .icon-btn {
+          width: 36px;
+          height: 36px;
+          border-radius: var(--radius-md);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--muted-foreground);
+          border: 1px solid transparent;
+        }
+        .dashboard-container {
+          padding: 32px;
+          display: flex;
+          flex-direction: column;
+          gap: 32px;
+          max-width: 1200px;
+          margin: 0 auto;
+          width: 100%;
+        }
+      </style>
+
+      <style id="stats-cards-styles">
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 24px;
+        }
+        .stat-card {
+          background-color: var(--card);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-lg);
+          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+        .stat-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          color: var(--muted-foreground);
+        }
+        .stat-title {
+          font-size: 14px;
+          font-weight: 500;
+        }
+        .stat-value {
+          font-size: 28px;
+          font-weight: 700;
+          color: var(--card-foreground);
+        }
+        .stat-trend {
+          font-size: 13px;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+        .trend-up {
+          color: var(--success);
+        }
+        .trend-down {
+          color: var(--destructive);
+        }
+      </style>
+
+      <style id="table-section-styles">
+        .section-container {
+          background-color: var(--card);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-lg);
+          overflow: hidden;
+        }
+        .section-header {
+          padding: 20px 24px;
+          border-bottom: 1px solid var(--border);
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .section-title-area {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+        .section-title {
+          font-size: 18px;
+          font-weight: 600;
+          color: var(--card-foreground);
+        }
+        .section-desc {
+          font-size: 14px;
+          color: var(--muted-foreground);
+        }
+        .table-wrapper {
+          width: 100%;
+          overflow-x: auto;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          text-align: left;
+        }
+        th,
+        td {
+          padding: 16px 24px;
+          border-bottom: 1px solid var(--border);
+        }
+        th {
+          font-size: 13px;
+          font-weight: 500;
+          color: var(--muted-foreground);
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          background-color: var(--secondary);
+        }
+        tr:last-child td {
+          border-bottom: none;
+        }
+        .user-cell {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        .user-info {
+          display: flex;
+          flex-direction: column;
+        }
+        .primary-text {
+          font-weight: 500;
+          color: var(--card-foreground);
+        }
+        .secondary-text {
+          font-size: 13px;
+          color: var(--muted-foreground);
+        }
+        .badge {
+          display: inline-flex;
+          align-items: center;
+          padding: 4px 10px;
+          border-radius: var(--radius-xl);
+          font-size: 12px;
+          font-weight: 500;
+          white-space: nowrap;
+        }
+        .badge-success {
+          background-color: rgba(34, 197, 94, 0.15);
+          color: #16a34a;
+        }
+        .badge-warning {
+          background-color: rgba(234, 179, 8, 0.15);
+          color: #ca8a04;
+        }
+        .badge-neutral {
+          background-color: var(--muted);
+          color: var(--muted-foreground);
+        }
+        .actions-cell {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        .btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: 8px 16px;
+          border-radius: var(--radius-md);
+          font-size: 13px;
+          font-weight: 500;
+          white-space: nowrap;
+        }
+        .btn-primary {
+          background-color: var(--primary);
+          color: var(--primary-foreground);
+        }
+        .btn-outline {
+          border: 1px solid var(--border);
+          background-color: transparent;
+          color: var(--foreground);
+        }
+        .btn-ghost {
+          background-color: transparent;
+          color: var(--foreground);
+        }
+        .btn-success {
+          background-color: #16a34a;
+          color: white;
+        }
+        .btn-destructive {
+          background-color: var(--destructive);
+          color: var(--destructive-foreground);
+        }
+        .btn-sm {
+          padding: 6px 12px;
+          font-size: 12px;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="admin-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+          <div class="sidebar-header">
+            <div class="logo-icon">M</div>
+            <span class="logo-text">Motuwa Admin</span>
+          </div>
+
+          <nav class="sidebar-nav">
+            <div class="nav-item active" data-media-type="banani-button">
+              <div
+                style="
+                  width: 20px;
+                  height: 20px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:layout-dashboard"
+                  style="font-size: 20px; color: inherit"
+                ></iconify-icon>
+              </div>
+              Dashboard
+            </div>
+
+            <div class="nav-section-title">Management</div>
+
+            <div class="nav-item" data-media-type="banani-button">
+              <div
+                style="
+                  width: 20px;
+                  height: 20px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:users"
+                  style="font-size: 20px; color: inherit"
+                ></iconify-icon>
+              </div>
+              User Database
+            </div>
+
+            <div class="nav-item" data-media-type="banani-button">
+              <div
+                style="
+                  width: 20px;
+                  height: 20px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:file-text"
+                  style="font-size: 20px; color: inherit"
+                ></iconify-icon>
+              </div>
+              Blog Content
+            </div>
+
+            <div class="nav-item" data-media-type="banani-button">
+              <div
+                style="
+                  width: 20px;
+                  height: 20px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:shield-check"
+                  style="font-size: 20px; color: inherit"
+                ></iconify-icon>
+              </div>
+              Verifications
+            </div>
+
+            <div class="nav-section-title">System</div>
+
+            <div class="nav-item" data-media-type="banani-button">
+              <div
+                style="
+                  width: 20px;
+                  height: 20px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:settings"
+                  style="font-size: 20px; color: inherit"
+                ></iconify-icon>
+              </div>
+              Settings
+            </div>
+          </nav>
+
+          <div class="sidebar-footer">
+            <div class="user-profile-sm">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FEuropean%2F4"
+                alt="Admin Avatar"
+                class="user-avatar"
+              />
+              <div class="user-details-sm">
+                <span class="user-name-sm">Sarah Jenkins</span>
+                <span class="user-role-sm">Super Admin</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+          <header class="top-header">
+            <h1 class="page-title">Dashboard Overview</h1>
+
+            <div class="header-actions">
+              <div class="search-bar">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:search"
+                    style="font-size: 16px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+                <input
+                  type="text"
+                  class="search-input"
+                  placeholder="Search users, posts..."
+                />
+              </div>
+
+              <button class="icon-btn" data-media-type="banani-button">
+                <div
+                  style="
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:bell"
+                    style="font-size: 20px; color: inherit"
+                  ></iconify-icon>
+                </div>
+              </button>
+            </div>
+          </header>
+
+          <div class="dashboard-container">
+            <!-- Key Metrics -->
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-header">
+                  <span class="stat-title">Total Users</span>
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:users"
+                      style="font-size: 16px; color: inherit"
+                    ></iconify-icon>
+                  </div>
+                </div>
+                <div class="stat-value">12,489</div>
+                <div class="stat-trend trend-up">
+                  <div
+                    style="
+                      width: 14px;
+                      height: 14px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:arrow-up-right"
+                      style="font-size: 14px; color: inherit"
+                    ></iconify-icon>
+                  </div>
+                  +12% from last month
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-header">
+                  <span class="stat-title">Pending Verifications</span>
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:shield-alert"
+                      style="font-size: 16px; color: inherit"
+                    ></iconify-icon>
+                  </div>
+                </div>
+                <div class="stat-value">42</div>
+                <div class="stat-trend trend-down">
+                  <div
+                    style="
+                      width: 14px;
+                      height: 14px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:arrow-down-right"
+                      style="font-size: 14px; color: inherit"
+                    ></iconify-icon>
+                  </div>
+                  -5% from last week
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-header">
+                  <span class="stat-title">Pending Blog Posts</span>
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:file-edit"
+                      style="font-size: 16px; color: inherit"
+                    ></iconify-icon>
+                  </div>
+                </div>
+                <div class="stat-value">18</div>
+                <div class="stat-trend trend-up">
+                  <div
+                    style="
+                      width: 14px;
+                      height: 14px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:arrow-up-right"
+                      style="font-size: 14px; color: inherit"
+                    ></iconify-icon>
+                  </div>
+                  Requires action
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-header">
+                  <span class="stat-title">Active Sessions</span>
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:activity"
+                      style="font-size: 16px; color: inherit"
+                    ></iconify-icon>
+                  </div>
+                </div>
+                <div class="stat-value">1,204</div>
+                <div class="stat-trend trend-up">
+                  <div
+                    style="
+                      width: 14px;
+                      height: 14px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:arrow-up-right"
+                      style="font-size: 14px; color: inherit"
+                    ></iconify-icon>
+                  </div>
+                  Normal load
+                </div>
+              </div>
+            </div>
+
+            <!-- User Database Section -->
+            <section class="section-container">
+              <div class="section-header">
+                <div class="section-title-area">
+                  <h2 class="section-title">
+                    User Database &amp; Verifications
+                  </h2>
+                  <p class="section-desc">
+                    Manage user accounts and verify their identity status.
+                  </p>
+                </div>
+                <button class="btn btn-outline" data-media-type="banani-button">
+                  View All Users
+                </button>
+              </div>
+
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>User</th>
+                      <th>Role</th>
+                      <th>Date Joined</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="user-cell">
+                          <img
+                            src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F25-35%2FAfrican%2F1"
+                            class="user-avatar"
+                            alt=""
+                          />
+                          <div class="user-info">
+                            <span class="primary-text">Marcus Johnson</span>
+                            <span class="secondary-text"
+                              >marcus.j@example.com</span
+                            >
+                          </div>
+                        </div>
+                      </td>
+                      <td><span class="primary-text">Contributor</span></td>
+                      <td><span class="secondary-text">Oct 24, 2023</span></td>
+                      <td>
+                        <span class="badge badge-warning">Unverified</span>
+                      </td>
+                      <td>
+                        <div class="actions-cell">
+                          <button
+                            class="btn btn-primary btn-sm"
+                            data-media-type="banani-button"
+                          >
+                            Verify User
+                          </button>
+                          <button
+                            class="btn btn-ghost btn-sm icon-btn"
+                            data-media-type="banani-button"
+                          >
+                            <div
+                              style="
+                                width: 16px;
+                                height: 16px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                              "
+                            >
+                              <iconify-icon
+                                icon="lucide:more-horizontal"
+                                style="
+                                  font-size: 16px;
+                                  color: var(--muted-foreground);
+                                "
+                              ></iconify-icon>
+                            </div>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="user-cell">
+                          <img
+                            src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F18-25%2FEast%20Asian%2F2"
+                            class="user-avatar"
+                            alt=""
+                          />
+                          <div class="user-info">
+                            <span class="primary-text">Emily Chen</span>
+                            <span class="secondary-text"
+                              >emily.chen@example.com</span
+                            >
+                          </div>
+                        </div>
+                      </td>
+                      <td><span class="primary-text">Reader</span></td>
+                      <td><span class="secondary-text">Oct 23, 2023</span></td>
+                      <td>
+                        <span class="badge badge-warning">Unverified</span>
+                      </td>
+                      <td>
+                        <div class="actions-cell">
+                          <button
+                            class="btn btn-primary btn-sm"
+                            data-media-type="banani-button"
+                          >
+                            Verify User
+                          </button>
+                          <button
+                            class="btn btn-ghost btn-sm icon-btn"
+                            data-media-type="banani-button"
+                          >
+                            <div
+                              style="
+                                width: 16px;
+                                height: 16px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                              "
+                            >
+                              <iconify-icon
+                                icon="lucide:more-horizontal"
+                                style="
+                                  font-size: 16px;
+                                  color: var(--muted-foreground);
+                                "
+                              ></iconify-icon>
+                            </div>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="user-cell">
+                          <img
+                            src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FNorth%20American%2F3"
+                            class="user-avatar"
+                            alt=""
+                          />
+                          <div class="user-info">
+                            <span class="primary-text">David Smith</span>
+                            <span class="secondary-text"
+                              >d.smith@example.com</span
+                            >
+                          </div>
+                        </div>
+                      </td>
+                      <td><span class="primary-text">Author</span></td>
+                      <td><span class="secondary-text">Oct 15, 2023</span></td>
+                      <td>
+                        <span class="badge badge-success">
+                          <div
+                            style="
+                              width: 12px;
+                              height: 12px;
+                              display: flex;
+                              align-items: center;
+                              justify-content: center;
+                              margin-right: 4px;
+                            "
+                          >
+                            <iconify-icon
+                              icon="lucide:check-circle-2"
+                              style="font-size: 12px; color: inherit"
+                            ></iconify-icon>
+                          </div>
+                          Verified
+                        </span>
+                      </td>
+                      <td>
+                        <div class="actions-cell">
+                          <button
+                            class="btn btn-outline btn-sm"
+                            data-media-type="banani-button"
+                          >
+                            Revoke
+                          </button>
+                          <button
+                            class="btn btn-ghost btn-sm icon-btn"
+                            data-media-type="banani-button"
+                          >
+                            <div
+                              style="
+                                width: 16px;
+                                height: 16px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                              "
+                            >
+                              <iconify-icon
+                                icon="lucide:more-horizontal"
+                                style="
+                                  font-size: 16px;
+                                  color: var(--muted-foreground);
+                                "
+                              ></iconify-icon>
+                            </div>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <!-- Blog Approval Section -->
+            <section class="section-container">
+              <div class="section-header">
+                <div class="section-title-area">
+                  <h2 class="section-title">Pending Blog Approvals</h2>
+                  <p class="section-desc">
+                    Review information and articles before they go live on the
+                    blog.
+                  </p>
+                </div>
+                <button class="btn btn-outline" data-media-type="banani-button">
+                  View All Posts
+                </button>
+              </div>
+
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Article Details</th>
+                      <th>Author</th>
+                      <th>Submitted On</th>
+                      <th>Word Count</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="user-info">
+                          <span class="primary-text"
+                            >The Future of AI in Daily Operations</span
+                          >
+                          <span
+                            class="secondary-text"
+                            style="
+                              max-width: 300px;
+                              overflow: hidden;
+                              text-overflow: ellipsis;
+                              white-space: nowrap;
+                            "
+                            >An in-depth look at how artificial intelligence is
+                            shaping the way small businesses operate...</span
+                          >
+                        </div>
+                      </td>
+                      <td>
+                        <div class="user-cell">
+                          <img
+                            src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FHispanic%2F5"
+                            class="user-avatar"
+                            style="width: 24px; height: 24px"
+                            alt=""
+                          />
+                          <span class="primary-text">Maria Garcia</span>
+                        </div>
+                      </td>
+                      <td>
+                        <span class="secondary-text">Today, 09:41 AM</span>
+                      </td>
+                      <td><span class="secondary-text">1,240</span></td>
+                      <td>
+                        <div class="actions-cell">
+                          <button
+                            class="btn btn-success btn-sm"
+                            data-media-type="banani-button"
+                          >
+                            Approve
+                          </button>
+                          <button
+                            class="btn btn-destructive btn-sm"
+                            data-media-type="banani-button"
+                          >
+                            Reject
+                          </button>
+                          <button
+                            class="btn btn-outline btn-sm"
+                            data-media-type="banani-button"
+                          >
+                            Review
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="user-info">
+                          <span class="primary-text"
+                            >Top 10 Security Practices for 2024</span
+                          >
+                          <span
+                            class="secondary-text"
+                            style="
+                              max-width: 300px;
+                              overflow: hidden;
+                              text-overflow: ellipsis;
+                              white-space: nowrap;
+                            "
+                            >Ensuring your data remains safe requires
+                            implementing these key strategies
+                            immediately...</span
+                          >
+                        </div>
+                      </td>
+                      <td>
+                        <div class="user-cell">
+                          <img
+                            src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FNorth%20American%2F3"
+                            class="user-avatar"
+                            style="width: 24px; height: 24px"
+                            alt=""
+                          />
+                          <span class="primary-text">David Smith</span>
+                        </div>
+                      </td>
+                      <td>
+                        <span class="secondary-text">Yesterday, 14:22 PM</span>
+                      </td>
+                      <td><span class="secondary-text">850</span></td>
+                      <td>
+                        <div class="actions-cell">
+                          <button
+                            class="btn btn-success btn-sm"
+                            data-media-type="banani-button"
+                          >
+                            Approve
+                          </button>
+                          <button
+                            class="btn btn-destructive btn-sm"
+                            data-media-type="banani-button"
+                          >
+                            Reject
+                          </button>
+                          <button
+                            class="btn btn-outline btn-sm"
+                            data-media-type="banani-button"
+                          >
+                            Review
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </main>
+      </div>
+
+      <!-- Iconify Script included via environment usually, but SVG/Icon setup requires no external JS per rules. The tags are ready. -->
+    </body>
+  </html>
+  <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+  <style>
+    :root {
+      --background: #f7fafc;
+      --foreground: #0f1724;
+      --border: #00000014;
+      --input: #ffffff;
+      --primary: #0b6efd;
+      --primary-foreground: #ffffff;
+      --secondary: #f0f6ff;
+      --secondary-foreground: #0b3a66;
+      --muted: #f3f4f6;
+      --muted-foreground: #6b7280;
+      --success: #16a34a;
+      --success-foreground: #ffffff;
+      --accent: #f59e0b;
+      --accent-foreground: #08131a;
+      --destructive: #dc2626;
+      --destructive-foreground: #ffffff;
+      --warning: #f97316;
+      --warning-foreground: #08131a;
+      --card: #ffffff;
+      --card-foreground: #0f1724;
+      --sidebar: #eaf2ff;
+      --sidebar-foreground: #08304f;
+      --sidebar-primary: #0b6efd;
+      --sidebar-primary-foreground: #ffffff;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: Inter;
+    }
+  </style>
+</div>

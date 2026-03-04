@@ -119,8 +119,8 @@ def valid_password(password):
 def send_alert(contacts, subject, body): 
     # Replace with Twilio/SendGrid for SMS/email in production 
     print(f"[ALERT] {subject}: {body} → {contacts}") 
-# Background thread to send alerts every 3 minutes
-def monitor_ride(report_id, interval=180):
+# Background thread to send alerts every 1 minutes
+def monitor_ride(report_id, interval=60):
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
     cursor.execute("""
@@ -138,12 +138,12 @@ def monitor_ride(report_id, interval=180):
     body = f"""
 Hello {ride[5]},
 
-Your contact is on a ride. Details:
+Your Love one is on a ride. Details:
 Taxi: {ride[1]} ({ride[0]})
 Driver: {ride[2]}
 From: {ride[3]} To: {ride[4]}
 
-This alert will repeat every 3 minutes until the ride is marked safe.
+This alert will repeat every 1 minutes until the ride is marked safe.
 """
     # Loop to send repeated alerts
     while True:
@@ -152,7 +152,7 @@ This alert will repeat every 3 minutes until the ride is marked safe.
 # Function to send email
 def send_email(to_email, subject, body):
     EMAIL_ADDRESS = "paulndeh86@gmail.com"
-    EMAIL_PASSWORD = "TabeShama2014&"
+    EMAIL_PASSWORD = "qqww pglu zzje bcsd"
     
     msg = EmailMessage()
     msg['Subject'] = subject
@@ -200,7 +200,11 @@ def features():
         # Start background thread for email alerts
         threading.Thread(target=monitor_ride, args=(report_id,), daemon=True).start()
 
-        return "Ride monitoring started. Emergency contact will receive emails every 3 minutes."
+        # Render the same page with a success message
+        return render_template(
+            "FeaturesFlow.html",
+            alert_message="Ride monitoring started. Emergency contact will receive emails every 1 minutes."
+        )
 
     return render_template("FeaturesFlow.html")
 @app.route('/contact', methods=['GET', 'POST'])
