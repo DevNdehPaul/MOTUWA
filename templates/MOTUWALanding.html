@@ -11,6 +11,25 @@
     <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/fontawesome.css">
     <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/regular.css">
     <link rel="stylesheet" href="../static/Fontawesome/fontawesome-free-6.7.2-web/css/solid.css">
+    <style>
+        .animated-bg {
+  background: linear-gradient(-45deg, #0b61ff, #0b1220, #1a3cff, #0b1220);
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+    </style>
 </head>
 
 <body class="font-sans">
@@ -53,7 +72,7 @@
         </div>
     </nav>
 
-    <section class="bg-gradient-to-bl from-[#0b61ff] to-[#0b1220] p-10 min-h-screen">
+    <section class="animated-bg p-10 min-h-screen">
         <div class="container mx-auto">
             <div class="flex flex-col md:flex-row gap-8">
                 <div class="md:w-7/12 w-full">

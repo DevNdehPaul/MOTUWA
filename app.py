@@ -1,6 +1,8 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for, session, flash
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session, flash, send_from_directory
+
 import sqlite3
 import re
+import os
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from apscheduler.schedulers.background import BackgroundScheduler 
@@ -10,13 +12,20 @@ import smtplib
 from email.message import EmailMessage
 import time
 from datetime import datetime, timedelta
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+# Hard-coded admin credentials
+ADMIN_USERNAME = "AdminPrincaMotuwa@gmail.com"
+ADMIN_PASSWORD = "DecJanFebMotuwa1201022026&"
 app.secret_key = "super_secret_key"  # Needed for sessions
 DB_NAME = 'safety_reports.db'
 # Background scheduler 
 scheduler = BackgroundScheduler() 
 scheduler.start()
+UPLOAD_FOLDER = os.path.join(app.root_path, "static", "uploads")
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 def get_db(): 
     conn = sqlite3.connect(DB_NAME) 
     conn.row_factory = sqlite3.Row 
@@ -36,7 +45,10 @@ def init_db():
                emergency_email2 TEXT NOT NULL,
                emergency_phone2 TEXT NOT NULL,
                password TEXT NOT NULL,
-               timestamp TEXT NOT NULL
+               national_id_file TEXT,
+               status TEXT DEFAULT 'Unverified',  
+               timestamp TEXT
+
                ) """)
 
     # Reports table
@@ -54,7 +66,8 @@ driver_behavior TEXT,
 driving_quality TEXT,
 rating INTEGER,
 review TEXT,
-created_at TEXT
+created_at TEXT,
+status TEXT DEFAULT 'Pending'
 )
 """)
 
@@ -166,6 +179,9 @@ def send_email(to_email, subject, body):
 @app.route('/')
 def homepage():
     return render_template('MOTUWALanding.html')
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 @app.route("/features", methods=["GET", "POST"])
 def features():
     if request.method == "POST":
@@ -256,21 +272,31 @@ def login():
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
+
+        # Check if admin login
+        if email == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+            session["role"] = "admin"
+            flash("Admin login successful!", "success")
+            return redirect(url_for("admin"))  # admin dashboard route
+
+        # Otherwise check normal user login
         conn = sqlite3.connect(DB_NAME)
+        conn.row_factory = sqlite3.Row
         c = conn.cursor()
         c.execute("SELECT id, password FROM users WHERE email = ?", (email,))
         user = c.fetchone()
         conn.close()
 
-        if user and check_password_hash(user[1], password):
-            session['user_id'] = user[0]  # Store user ID in session
+        if user and check_password_hash(user["password"], password):
+            session["user_id"] = user["id"]
+            session["role"] = "user"
             flash("Login successful!", "success")
-            return redirect(url_for("features"))
+            return redirect(url_for("features"))  # normal user dashboard
         else:
             flash("Invalid email or password", "danger")
             return redirect(url_for("login"))
 
-    return render_template('UserLogin.html')
+    return render_template("UserLogin.html")
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
@@ -282,7 +308,7 @@ def signup():
         emergency_email2 = request.form.get("emergency_email2")
         emergency_phone2 = request.form.get("emergency_phone2")
         password = request.form.get("password")
-
+        national_id = request.files.get("national_id")
         if not valid_password(password):
             flash("Password must be at least 8 characters long and include letters, numbers, and special symbols.", "danger")
             return redirect(url_for("signup"))
@@ -293,11 +319,20 @@ def signup():
         if c.fetchone():
             flash("Email already exists. Please log in.", "danger")
             return redirect(url_for("signup"))
+        # Handle file upload
+        filename = None
+        if national_id and national_id.filename != "":
+            filename = secure_filename(national_id.filename)
+            national_id.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+
+        # Insert into database
 
         hashed_password = generate_password_hash(password)
-        c.execute("""INSERT INTO users (name, email, phone, emergency_email1, emergency_phone1, emergency_email2, emergency_phone2, password, timestamp)
-                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                  (name, email, phone, emergency_email1, emergency_phone1, emergency_email2, emergency_phone2, hashed_password, datetime.now().isoformat()))
+        c.execute("""INSERT INTO users 
+                     (name, email, phone, emergency_email1, emergency_phone1, emergency_email2, emergency_phone2, password, national_id_file, timestamp)
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                  (name, email, phone, emergency_email1, emergency_phone1, emergency_email2, emergency_phone2,
+                   hashed_password, filename, datetime.now().isoformat()))
         conn.commit()
         conn.close()
 
@@ -355,9 +390,11 @@ def blog():
     cursor = conn.cursor()
     cursor.execute("""
     SELECT transport_reviews.*, users.name, users.email
-    FROM transport_reviews
-    LEFT JOIN users ON transport_reviews.user_id = users.id
-    ORDER BY transport_reviews.created_at DESC
+FROM transport_reviews
+LEFT JOIN users ON transport_reviews.user_id = users.id
+WHERE transport_reviews.status = 'Approved'
+ORDER BY transport_reviews.created_at DESC;
+
 """)
     reports = cursor.fetchall()
     conn.close()
@@ -388,11 +425,69 @@ def blog():
         formatted_reports.append(report)
 
     return render_template("Weblog.html", reports=formatted_reports)
+@app.route("/admin")
+def admin():
+    conn = sqlite3.connect(DB_NAME)
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    c.execute("SELECT id, name, email, timestamp, national_id_file, status FROM users ")
+    users = c.fetchall()
+    c.execute("""SELECT id, name, email, phone, emergency_email1, emergency_phone1,
+                    emergency_email2, emergency_phone2, timestamp, national_id_file, status
+             FROM users""")
+    user1s = c.fetchall()
+    c.execute("""
+    SELECT tr.id, tr.transport_type, tr.license_plate, tr.route, tr.company,
+           tr.driver_name, tr.driver_contact, tr.driver_behavior, tr.driving_quality,
+           tr.rating, tr.review, tr.created_at, tr.status,
+           u.name AS author_name, u.email AS author_email
+    FROM transport_reviews tr
+    JOIN users u ON tr.user_id = u.id
+""")
+    reviews = c.fetchall()
+    conn.close()
+    return render_template("MotuwaAdmin.html", users=users, user1s=user1s, reviews=reviews)
+@app.route("/verify/<int:user_id>", methods=["POST"])
+def verify_user(user_id):
+    conn = sqlite3.connect(DB_NAME)
+    c = conn.cursor()
+    c.execute("UPDATE users SET status = ? WHERE id = ?", ("Verified", user_id))
+    conn.commit()
+    conn.close()
+    flash("User verified successfully!", "success")
+    return redirect(url_for("admin"))
+@app.route("/revoke/<int:user_id>", methods=["POST"])
+def revoke_user(user_id):
+    conn = sqlite3.connect(DB_NAME)
+    c = conn.cursor()
+    c.execute("UPDATE users SET status = ? WHERE id = ?", ("Unverified", user_id))
+    conn.commit()
+    conn.close()
+    flash("User status revoked.", "danger")
+    return redirect(url_for("admin"))
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
     flash("Logged out successfully.", "info")
     return redirect(url_for("homepage"))
+@app.route("/admin/reviews/<int:review_id>/approve", methods=["POST"])
+def approve_review(review_id):
+    conn = sqlite3.connect(DB_NAME)
+    c = conn.cursor()
+    # Example: mark review as approved
+    c.execute("UPDATE transport_reviews SET status = 'Approved' WHERE id = ?", (review_id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for("admin"))
+@app.route("/admin/reviews/<int:review_id>/reject", methods=["POST"])
+def reject_review(review_id):
+    conn = sqlite3.connect(DB_NAME)
+    c = conn.cursor()
+    # Example: mark review as rejected
+    c.execute("UPDATE transport_reviews SET status = 'Rejected' WHERE id = ?", (review_id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for("admin"))
 if __name__ == '__main__':
     init_db()
     app.run(debug=True)
