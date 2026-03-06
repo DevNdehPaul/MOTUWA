@@ -150,15 +150,80 @@
 
   <!-- SIDEBAR -->
   <aside class="space-y-6">
-    <div class="bg-white p-4 sm:p-6 rounded-xl border shadow-sm">
+
+    <div class="bg-white p-6 rounded-xl border shadow-sm">
       <h4 class="font-semibold">Submit a Safety Report</h4>
-      <p class="text-xs sm:text-sm text-gray-600 mt-2">
+      <p class="text-sm text-gray-600 mt-2">
         Share your ride experience using the Quick Safety Check system.
       </p>
-      <button type="button" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg font-medium"  
-              onclick="window.location.href='{{ url_for('submit_report') }}'">
+      <button type="button" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg font-medium"  onclick="window.location.href='{{ url_for('submit_report') }}'">
         Start Report
       </button>
+      
     </div>
 
-    <div class="bg-white
+    <div class="bg-white p-6 rounded-xl border shadow-sm">
+      <h4 class="font-semibold">Report Tags</h4>
+      <div class="flex flex-wrap gap-2 mt-3 text-xs">
+        <span class="bg-gray-100 px-3 py-1 rounded-full">Safe arrival</span>
+        <span class="bg-gray-100 px-3 py-1 rounded-full">Route deviation</span>
+        <span class="bg-gray-100 px-3 py-1 rounded-full">Driver behavior</span>
+        <span class="bg-gray-100 px-3 py-1 rounded-full">Police alert</span>
+      </div>
+    </div>
+
+  </aside>
+
+</main>
+
+ <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 py-10">
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+    
+    <!-- Brand -->
+    <div>
+      <h3 class="text-xl font-bold text-white mb-4">MOTUWA</h3>
+      <p class="text-sm leading-relaxed">
+        A safety-first companion for every public transport ride. Capture your journey, share your route, and stay
+        connected to the people who care about you.
+      </p>
+    </div>
+
+    <!-- Product -->
+    <div>
+      <h4 class="text-lg font-semibold text-white mb-3">Product</h4>
+      <ul class="space-y-2">
+        <li><a href="#" class="hover:text-white transition">Features</a></li>
+        <li><a href="#" class="hover:text-white transition">How it works</a></li>
+        <li><a href="#" class="hover:text-white transition">Download app</a></li>
+      </ul>
+    </div>
+
+    <!-- Company -->
+    <div>
+      <h4 class="text-lg font-semibold text-white mb-3">Company</h4>
+      <ul class="space-y-2">
+        <li><a href="#" class="hover:text-white transition">About</a></li>
+        <li><a href="#" class="hover:text-white transition">Partners</a></li>
+        <li><a href="#" class="hover:text-white transition">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Legal -->
+    <div>
+      <h4 class="text-lg font-semibold text-white mb-3">Legal</h4>
+      <ul class="space-y-2">
+        <li><a href="#" class="hover:text-white transition">Privacy policy</a></li>
+        <li><a href="#" class="hover:text-white transition">Terms of use</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Bottom -->
+  <div class="border-t border-gray-700 mt-10 pt-6 text-center">
+    <p class="text-sm text-gray-400">© 2023 MOTUWA. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>
