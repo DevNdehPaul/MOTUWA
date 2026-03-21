@@ -17,9 +17,9 @@
   <!-- Navbar -->
     <nav class="bg-gradient-to-br from-[#0b1220] to-[#0b61ff] py-4">
         <div class="container mx-auto px-4 flex justify-between items-center">
-            <a href="/" class="text-white flex items-center">
-                <div class="w-8 h-8 rounded-full mr-2" style="background: radial-gradient(#ffff00, #cf7c00);"></div>
-                <div>
+            <a href="/" class="text-white flex items-center gap-3">
+                <img src="../static/Images/WhatsApp Image 2026-02-28 at 12.58.09 AM.jpeg" alt="Sarah Jenkins" class="w-14 h-14 rounded-full object-cover">
+                    <div>
                     <h4 class="font-bold text-lg">MOTUWA</h4>
                     <p class="text-xs font-medium mt-[-4px]">The Right to Safe Ride with Pride</p>
                 </div>
@@ -92,9 +92,22 @@
               placeholder="Enter Email...." required>
 
             <label class="block font-bold text-sm mb-2">Password</label>
-            <input type="password" name="password"
-              class="w-full bg-[#f6faff] border-none rounded-lg px-3 py-2 mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter Password...." required>
+            <div class="relative mb-6">
+    <input 
+        type="password" 
+        id="password"
+        name="password"
+        class="w-full bg-[#f6faff] border-none rounded-lg px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Enter Password....">
+
+    <!-- Toggle button -->
+    <button 
+        type="button" 
+        onclick="togglePassword()"
+        class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-500 focus:outline-none">
+        <i id="eyeIcon" class="fas fa-eye"></i>
+    </button>
+</div>
 
             <h6 class="font-bold mb-4">Stay Safe, every time you ride</h6>
             <div class="flex justify-between items-center mb-4">
@@ -135,7 +148,9 @@
             </li>
           </ul>
           <p class="bg-black text-white text-sm rounded-lg p-4">Not registered yet? Create your account first so we know
-            who to protect and who to notify when you need help.</p>
+            who to protect and who to notify when you need help.</p><br>
+            <span class="text-sm">New to MOTUWA? <a href="/signup" class="text-600 font-bold" style="text-decoration: underline;">Create an
+              account</a></span>
         </div>
       </div>
     </div>
@@ -190,5 +205,18 @@
   </footer>
 
 </body>
+<script>
+    function togglePassword() {
+        const input = document.getElementById('password');
+        const icon  = document.getElementById('eyeIcon');
 
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
+</script>
 </html>

@@ -40,9 +40,9 @@ def init_db():
                name TEXT NOT NULL,
                email TEXT NOT NULL UNIQUE,
                phone TEXT NOT NULL,
-               emergency_email1 TEXT NOT NULL,
+               emergency_name1 TEXT NOT NULL,
                emergency_phone1 TEXT NOT NULL,
-               emergency_email2 TEXT NOT NULL,
+               emergency_name2 TEXT NOT NULL,
                emergency_phone2 TEXT NOT NULL,
                password TEXT NOT NULL,
                national_id_file TEXT,
@@ -304,9 +304,9 @@ def signup():
         email = request.form.get("email")
         phone = request.form.get("phone")
         emergency_email1 = request.form.get("emergency_email1")
-        emergency_phone1 = request.form.get("emergency_phone1")
+        emergency_name1 = request.form.get("emergency_name1")
         emergency_email2 = request.form.get("emergency_email2")
-        emergency_phone2 = request.form.get("emergency_phone2")
+        emergency_name2 = request.form.get("emergency_name2")
         password = request.form.get("password")
         national_id = request.files.get("national_id")
         if not valid_password(password):
@@ -329,9 +329,9 @@ def signup():
 
         hashed_password = generate_password_hash(password)
         c.execute("""INSERT INTO users 
-                     (name, email, phone, emergency_email1, emergency_phone1, emergency_email2, emergency_phone2, password, national_id_file, timestamp)
+                     (name, email, phone, emergency_name1, emergency_phone1, emergency_name2, emergency_phone2, password, national_id_file, timestamp)
                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                  (name, email, phone, emergency_email1, emergency_phone1, emergency_email2, emergency_phone2,
+                  (name, email, phone, emergency_email1, emergency_name1, emergency_email2, emergency_name2,
                    hashed_password, filename, datetime.now().isoformat()))
         conn.commit()
         conn.close()
@@ -432,8 +432,8 @@ def admin():
     c = conn.cursor()
     c.execute("SELECT id, name, email, timestamp, national_id_file, status FROM users ")
     users = c.fetchall()
-    c.execute("""SELECT id, name, email, phone, emergency_email1, emergency_phone1,
-                    emergency_email2, emergency_phone2, timestamp, national_id_file, status
+    c.execute("""SELECT id, name, email, phone, emergency_name1, emergency_phone1, emergency_name2
+                    emergency_email2, timestamp, national_id_file, status
              FROM users""")
     user1s = c.fetchall()
     c.execute("""
