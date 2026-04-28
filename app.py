@@ -1,584 +1,493 @@
-import os
-import re
-import sqlite3
-import threading
-import time
-import smtplib
-from datetime import datetime, timedelta
-from email.message import EmailMessage
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session, flash, send_from_directory
 
-from flask import (Flask, flash, jsonify, redirect, render_template,
-                   request, send_from_directory, session, url_for)
-from werkzeug.security import check_password_hash, generate_password_hash
+import sqlite3
+import re
+import os
+from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
+from apscheduler.schedulers.background import BackgroundScheduler 
+from geopy.distance import geodesic 
+import threading
+import smtplib
+from email.message import EmailMessage
+import time
+from datetime import datetime, timedelta
 from werkzeug.utils import secure_filename
 
-# ---------------------------------------------------------------------------
-# App setup
-# ---------------------------------------------------------------------------
-
 app = Flask(__name__)
-
-# ⚠️  Move these to environment variables before going to production:
-#     export MOTUWA_SECRET_KEY="..."
-#     export ADMIN_USERNAME="..."
-#     export ADMIN_PASSWORD="..."
-#     export EMAIL_ADDRESS="..."
-#     export EMAIL_PASSWORD="..."
-app.secret_key       = os.environ.get("MOTUWA_SECRET_KEY", "change-me-in-production")
-ADMIN_USERNAME       = os.environ.get("ADMIN_USERNAME", "AdminPrincaMotuwa@gmail.com")
-ADMIN_PASSWORD       = os.environ.get("ADMIN_PASSWORD", "DecJanFebMotuwa1201022026&")
-EMAIL_ADDRESS        = os.environ.get("EMAIL_ADDRESS", "paulndeh86@gmail.com")
-EMAIL_PASSWORD       = os.environ.get("EMAIL_PASSWORD", "qqww pglu zzje bcsd")
-
-DB_NAME = "safety_reports.db"
-
+# Hard-coded admin credentials
+ADMIN_USERNAME = "AdminPrincaMotuwa@gmail.com"
+ADMIN_PASSWORD = "DecJanFebMotuwa1201022026&"
+app.secret_key = "super_secret_key"  # Needed for sessions
+DB_NAME = 'safety_reports.db'
+# Background scheduler 
+scheduler = BackgroundScheduler() 
+scheduler.start()
 UPLOAD_FOLDER = os.path.join(app.root_path, "static", "uploads")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-
-# ---------------------------------------------------------------------------
-# Database helpers
-# ---------------------------------------------------------------------------
-
-def get_db():
-    """Return a connected SQLite connection with row_factory set."""
-    conn = sqlite3.connect(DB_NAME)
-    conn.row_factory = sqlite3.Row
+def get_db(): 
+    conn = sqlite3.connect(DB_NAME) 
+    conn.row_factory = sqlite3.Row 
     return conn
-
-
 def init_db():
-    """Create all tables if they don't already exist."""
-    with get_db() as conn:
-        c = conn.cursor()
+    conn = sqlite3.connect(DB_NAME)
+    c = conn.cursor()
 
-        c.execute("""
-            CREATE TABLE IF NOT EXISTS users (
-                id                INTEGER PRIMARY KEY AUTOINCREMENT,
-                name              TEXT    NOT NULL,
-                email             TEXT    NOT NULL UNIQUE,
-                phone             TEXT    NOT NULL,
-                emergency_name1   TEXT    NOT NULL,
-                emergency_phone1  TEXT    NOT NULL,
-                emergency_name2   TEXT    NOT NULL,
-                emergency_phone2  TEXT    NOT NULL,
-                password          TEXT    NOT NULL,
-                national_id_file  TEXT,
-                status            TEXT    DEFAULT 'Unverified',
-                timestamp         TEXT
-            )
-        """)
+    # Users table
+    c.execute(""" CREATE TABLE IF NOT EXISTS users (
+               id INTEGER PRIMARY KEY AUTOINCREMENT,
+               name TEXT NOT NULL,
+               email TEXT NOT NULL UNIQUE,
+               phone TEXT NOT NULL,
+               emergency_name1 TEXT NOT NULL,
+               emergency_phone1 TEXT NOT NULL,
+               emergency_name2 TEXT NOT NULL,
+               emergency_phone2 TEXT NOT NULL,
+               password TEXT NOT NULL,
+               national_id_file TEXT,
+               status TEXT DEFAULT 'Unverified',  
+               timestamp TEXT
 
-        c.execute("""
-            CREATE TABLE IF NOT EXISTS transport_reviews (
-                id               INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id          INTEGER,
-                transport_type   TEXT,
-                license_plate    TEXT,
-                route            TEXT,
-                company          TEXT,
-                driver_name      TEXT,
-                driver_contact   TEXT,
-                driver_behavior  TEXT,
-                driving_quality  TEXT,
-                rating           INTEGER,
-                review           TEXT,
-                created_at       TEXT,
-                status           TEXT DEFAULT 'Pending'
-            )
-        """)
+               ) """)
 
-        c.execute("""
-            CREATE TABLE IF NOT EXISTS contacts (
-                id         INTEGER PRIMARY KEY AUTOINCREMENT,
-                name       TEXT,
-                email      TEXT,
-                topic      TEXT,
-                phone      TEXT,
-                ride_date  TEXT,
-                message    TEXT,
-                timestamp  TEXT
-            )
-        """)
+    # Reports table
+    c.execute("""
+CREATE TABLE IF NOT EXISTS transport_reviews (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+user_id INTEGER,
+transport_type TEXT,
+license_plate TEXT,
+route TEXT,
+company TEXT,
+driver_name TEXT,
+driver_contact TEXT,
+driver_behavior TEXT,
+driving_quality TEXT,
+rating INTEGER,
+review TEXT,
+created_at TEXT,
+status TEXT DEFAULT 'Pending'
+)
+""")
 
-        c.execute("""
-            CREATE TABLE IF NOT EXISTS ride_reports (
-                id              INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id         INTEGER,
-                plate_number    TEXT,
-                vehicle_type    TEXT,
-                driver_name     TEXT,
-                driver_id       TEXT,
-                pickup_text     TEXT,
-                dest_text       TEXT,
-                unsafe_notes    TEXT,
-                emergency_name  TEXT,
-                emergency_email TEXT,
-                created_at      TEXT,
-                is_active       INTEGER DEFAULT 1
-            )
-        """)
+    # Contact messages table
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS contacts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            email TEXT,
+            topic TEXT,
+            phone TEXT,
+            ride_date TEXT,
+            message TEXT,
+            timestamp TEXT
+        )
+    ''')
 
-        conn.commit()
+    c.execute("""CREATE TABLE IF NOT EXISTS ride_reports (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    plate_number TEXT,
+    vehicle_type TEXT,
+    driver_name TEXT,
+    driver_id TEXT,
+    pickup_text TEXT,
+    dest_text TEXT,
+    unsafe_notes TEXT,
+    emergency_name TEXT,
+    emergency_email TEXT,
+    created_at TEXT
+);
+              """)
 
-# ---------------------------------------------------------------------------
-# Auth helpers
-# ---------------------------------------------------------------------------
+    conn.commit()
+    conn.close()
+def save_report(data):
+    conn = sqlite3.connect(DB_NAME)
+    c = conn.cursor()
+    c.execute('''
+        INSERT INTO reports (selected_pills, selected_scale, step3_option, toggles, notes, timestamp)
+        VALUES (?, ?, ?, ?, ?, ?)
+    ''', (
+        ', '.join(data.get('selectedPills', [])),
+        data.get('selectedScale'),
+        data.get('step3Option'),
+        ', '.join(data.get('toggles', [])),
+        data.get('notes'),
+        datetime.now().isoformat()
+    ))
+    conn.commit()
+    conn.close()
+def valid_password(password): 
+    if len(password) < 8:
+        return False 
+    if not re.search(r"[A-Za-z]", password): # must contain letters 
+        return False 
+    if not re.search(r"\d", password): # must contain numbers 
+        return False 
+    if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password): # must contain special char 
+        return False 
+    return True
+def send_alert(contacts, subject, body): 
+    # Replace with Twilio/SendGrid for SMS/email in production 
+    print(f"[ALERT] {subject}: {body} → {contacts}") 
+# Background thread to send alerts every 1 minutes
+def monitor_ride(report_id, interval=60):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT plate_number, vehicle_type, driver_name, pickup_text, dest_text,
+               emergency_name, emergency_email
+        FROM ride_reports WHERE id = ?
+    """, (report_id,))
+    ride = cursor.fetchone()
+    conn.close()
 
-def login_required(f):
-    """Decorator: redirect to login if no user session exists."""
-    from functools import wraps
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        if "user_id" not in session:
-            flash("Please log in to continue.", "warning")
-            return redirect(url_for("login"))
-        return f(*args, **kwargs)
-    return decorated
-
-
-def admin_required(f):
-    """Decorator: redirect to login if the session role is not admin."""
-    from functools import wraps
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        if session.get("role") != "admin":
-            flash("Admin access required.", "danger")
-            return redirect(url_for("login"))
-        return f(*args, **kwargs)
-    return decorated
-
-
-def valid_password(password):
-    """Enforce a minimum password policy."""
-    return (
-        len(password) >= 8
-        and re.search(r"[A-Za-z]", password)
-        and re.search(r"\d", password)
-        and re.search(r'[!@#$%^&*(),.?":{}|<>]', password)
-    )
-
-# ---------------------------------------------------------------------------
-# Email / alert helpers
-# ---------------------------------------------------------------------------
-
-def send_email(to_email: str, subject: str, body: str) -> bool:
-    """Send a plain-text email. Returns True on success, False on failure."""
-    try:
-        msg = EmailMessage()
-        msg["Subject"] = subject
-        msg["From"]    = EMAIL_ADDRESS
-        msg["To"]      = to_email
-        msg.set_content(body)
-
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-            smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
-            smtp.send_message(msg)
-        return True
-    except Exception as e:
-        app.logger.error("Email send failed to %s: %s", to_email, e)
-        return False
-
-
-def monitor_ride(report_id: int, interval: int = 60):
-    """
-    Background thread: sends repeated alert emails until the ride is marked
-    inactive (is_active = 0) in the database.
-
-    Stops automatically — no more infinite loops that require killing the process.
-    """
-    with get_db() as conn:
-        row = conn.execute("""
-            SELECT plate_number, vehicle_type, driver_name,
-                   pickup_text, dest_text, emergency_name, emergency_email
-            FROM ride_reports WHERE id = ?
-        """, (report_id,)).fetchone()
-
-    if not row:
+    if not ride:
         return
 
-    subject = "🚨 MOTUWA Alert: Ride Monitoring Active"
-    body = f"""Hello {row['emergency_name']},
+    subject = f"🚨 MOTUWA Alert: Ride Monitoring"
+    body = f"""
+Hello {ride[5]},
 
-Your loved one is currently on a ride. Here are the details:
+Your Love one is on a ride. Details:
+Taxi: {ride[1]} ({ride[0]})
+Driver: {ride[2]}
+From: {ride[3]} To: {ride[4]}
 
-  Vehicle : {row['vehicle_type']} — {row['plate_number']}
-  Driver  : {row['driver_name']}
-  Route   : {row['pickup_text']} → {row['dest_text']}
-
-You will receive this alert every {interval // 60} minute(s) until the ride is marked safe.
-
-— MOTUWA Safety Platform
+This alert will repeat every 1 minutes until the ride is marked safe.
 """
-
+    # Loop to send repeated alerts
     while True:
-        # Re-check whether the ride is still active before each alert
-        with get_db() as conn:
-            active = conn.execute(
-                "SELECT is_active FROM ride_reports WHERE id = ?", (report_id,)
-            ).fetchone()
-
-        if not active or not active["is_active"]:
-            break  # Ride ended — stop sending alerts
-
-        send_email(row["emergency_email"], subject, body)
+        send_email(ride[6], subject, body)
         time.sleep(interval)
+# Function to send email
+def send_email(to_email, subject, body):
+    EMAIL_ADDRESS = "paulndeh86@gmail.com"
+    EMAIL_PASSWORD = "qqww pglu zzje bcsd"
+    
+    msg = EmailMessage()
+    msg['Subject'] = subject
+    msg['From'] = EMAIL_ADDRESS
+    msg['To'] = to_email
+    msg.set_content(body)
 
-# ---------------------------------------------------------------------------
-# Routes
-# ---------------------------------------------------------------------------
-
-@app.route("/")
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+        smtp.send_message(msg)
+@app.route('/')
 def homepage():
-    return render_template("MOTUWALanding.html")
-
-
-@app.route("/uploads/<filename>")
+    return render_template('MOTUWALanding.html')
+@app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
-
-
-# ── Features / ride registration ──────────────────────────────────────────
-
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 @app.route("/features", methods=["GET", "POST"])
 def features():
     if request.method == "POST":
-        user_id = session.get("user_id")
+        user_id = session.get("user_id")  # logged-in user
 
-        fields = (
-            "plate_number", "vehicle_type", "driver_name", "driver_id",
-            "pickup_text", "dest_text", "unsafe_notes",
-            "emergency_name", "emergency_email",
-        )
-        data = {f: request.form.get(f) for f in fields}
-        data["user_id"]    = user_id
-        data["created_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        plate_number = request.form.get("plate_number")
+        vehicle_type = request.form.get("vehicle_type")
+        driver_name = request.form.get("driver_name")
+        driver_id = request.form.get("driver_id")
+        pickup_text = request.form.get("pickup_text")
+        dest_text = request.form.get("dest_text")
+        unsafe_notes = request.form.get("unsafe_notes")
+        emergency_name = request.form.get("emergency_name")
+        emergency_email = request.form.get("emergency_email")
 
-        with get_db() as conn:
-            cursor = conn.execute("""
-                INSERT INTO ride_reports
-                    (user_id, plate_number, vehicle_type, driver_name, driver_id,
-                     pickup_text, dest_text, unsafe_notes,
-                     emergency_name, emergency_email, created_at)
-                VALUES
-                    (:user_id, :plate_number, :vehicle_type, :driver_name, :driver_id,
-                     :pickup_text, :dest_text, :unsafe_notes,
-                     :emergency_name, :emergency_email, :created_at)
-            """, data)
-            report_id = cursor.lastrowid
-            conn.commit()
+        created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        threading.Thread(
-            target=monitor_ride, args=(report_id,), daemon=True
-        ).start()
+        # Save report
+        conn = sqlite3.connect(DB_NAME)
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO ride_reports
+            (user_id, plate_number, vehicle_type, driver_name, driver_id, 
+            pickup_text, dest_text, unsafe_notes, emergency_name, emergency_email, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (user_id, plate_number, vehicle_type, driver_name, driver_id,
+              pickup_text, dest_text, unsafe_notes, emergency_name, emergency_email, created_at))
+        report_id = cursor.lastrowid
+        conn.commit()
+        conn.close()
 
+        # Start background thread for email alerts
+        threading.Thread(target=monitor_ride, args=(report_id,), daemon=True).start()
+
+        # Render the same page with a success message
         return render_template(
             "FeaturesFlow.html",
-            alert_message=(
-                "Ride monitoring started. "
-                "Your emergency contact will receive email alerts every minute."
-            ),
+            alert_message="Ride monitoring started. Emergency contact will receive emails every 1 minutes."
         )
 
     return render_template("FeaturesFlow.html")
-
-
-@app.route("/ride/<int:report_id>/end", methods=["POST"])
-@login_required
-def end_ride(report_id):
-    """Mark a ride as complete so the alert monitor stops."""
-    with get_db() as conn:
-        conn.execute(
-            "UPDATE ride_reports SET is_active = 0 WHERE id = ? AND user_id = ?",
-            (report_id, session["user_id"]),
-        )
-        conn.commit()
-
-    # Notify the emergency contact that the rider arrived safely
-    with get_db() as conn:
-        row = conn.execute(
-            "SELECT emergency_name, emergency_email, driver_name, plate_number "
-            "FROM ride_reports WHERE id = ?", (report_id,)
-        ).fetchone()
-
-    if row:
-        send_email(
-            row["emergency_email"],
-            "✅ MOTUWA: Ride Completed Safely",
-            f"Hello {row['emergency_name']},\n\n"
-            f"Your loved one has arrived safely and marked their ride as complete.\n\n"
-            f"Driver: {row['driver_name']} | Vehicle: {row['plate_number']}\n\n"
-            "— MOTUWA Safety Platform",
-        )
-
-    flash("Ride marked as complete. Your emergency contact has been notified.", "success")
-    return redirect(url_for("features"))
-
-
-# ── Contact ────────────────────────────────────────────────────────────────
-
-@app.route("/contact", methods=["GET", "POST"])
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    if request.method == "POST":
-        data = {
-            "name":      request.form.get("name"),
-            "email":     request.form.get("email"),
-            "topic":     request.form.get("topic"),
-            "phone":     request.form.get("phone"),
-            "ride_date": request.form.get("ride_date"),
-            "message":   request.form.get("message"),
-            "timestamp": datetime.now().isoformat(),
-        }
-
-        with get_db() as conn:
-            conn.execute("""
-                INSERT INTO contacts (name, email, topic, phone, ride_date, message, timestamp)
-                VALUES (:name, :email, :topic, :phone, :ride_date, :message, :timestamp)
-            """, data)
-            conn.commit()
-
+    if request.method == 'POST':
+        name = request.form.get("name")
+        email = request.form.get("email")
+        topic = request.form.get("topic")
+        phone = request.form.get("phone")
+        ride_date = request.form.get("ride_date")
+        message = request.form.get("message")
         attachment = request.files.get("attachment")
-        if attachment and attachment.filename:
-            filename = secure_filename(attachment.filename)
-            attachment.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+
+        # Save to DB
+        conn = sqlite3.connect(DB_NAME)
+        c = conn.cursor()
+        c.execute("""INSERT INTO contacts (name, email, topic, phone, ride_date, message, timestamp)
+                     VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                  (name, email, topic, phone, ride_date, message, datetime.now().isoformat()))
+        conn.commit()
+        conn.close()
+
+        # Optionally save attachment
+        if attachment:
+            attachment.save(f"uploads/{attachment.filename}")
+        flash("Message sent successfully!", "success")
+        return redirect(url_for("contact"))
+    message = "Response Recorded SucessFully!!!"
+    return render_template('ContactSupport.html', message = message)
+
+    if request.method == 'POST':
+        name = request.form.get("name")
+        email = request.form.get("email")
+        message = request.form.get("message")
+
+        conn = sqlite3.connect(DB_NAME)
+        c = conn.cursor()
+        c.execute("INSERT INTO contacts (name, email, message, timestamp) VALUES (?, ?, ?, ?)",
+                  (name, email, message, datetime.now().isoformat()))
+        conn.commit()
+        conn.close()
 
         flash("Message sent successfully!", "success")
         return redirect(url_for("contact"))
 
-    return render_template("ContactSupport.html")
-
-
-# ── Auth ───────────────────────────────────────────────────────────────────
-
+    return render_template('ContactSupport.html')
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        email    = request.form.get("email", "").strip()
-        password = request.form.get("password", "")
+        email = request.form.get("email")
+        password = request.form.get("password")
 
-        # Admin shortcut (use env-var credentials)
+        # Check if admin login
         if email == ADMIN_USERNAME and password == ADMIN_PASSWORD:
-            session.clear()
             session["role"] = "admin"
             flash("Admin login successful!", "success")
-            return redirect(url_for("admin"))
+            return redirect(url_for("admin"))  # admin dashboard route
 
-        with get_db() as conn:
-            user = conn.execute(
-                "SELECT id, password FROM users WHERE email = ?", (email,)
-            ).fetchone()
+        # Otherwise check normal user login
+        conn = sqlite3.connect(DB_NAME)
+        conn.row_factory = sqlite3.Row
+        c = conn.cursor()
+        c.execute("SELECT id, password FROM users WHERE email = ?", (email,))
+        user = c.fetchone()
+        conn.close()
 
         if user and check_password_hash(user["password"], password):
-            session.clear()
             session["user_id"] = user["id"]
-            session["role"]    = "user"
+            session["role"] = "user"
             flash("Login successful!", "success")
-            return redirect(url_for("features"))
-
-        flash("Invalid email or password.", "danger")
-        return redirect(url_for("login"))
+            return redirect(url_for("features"))  # normal user dashboard
+        else:
+            flash("Invalid email or password", "danger")
+            return redirect(url_for("login"))
 
     return render_template("UserLogin.html")
-
-
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
-        name     = request.form.get("name", "").strip()
-        email    = request.form.get("email", "").strip()
-        phone    = request.form.get("phone", "").strip()
-        password = request.form.get("password", "")
-
-        emergency_name1  = request.form.get("emergency_name1", "")
-        emergency_email1 = request.form.get("emergency_email1", "")
-        emergency_name2  = request.form.get("emergency_name2", "")
-        emergency_email2 = request.form.get("emergency_email2", "")
-
+        name = request.form.get("name")
+        email = request.form.get("email")
+        phone = request.form.get("phone")
+        emergency_email1 = request.form.get("emergency_email1")
+        emergency_name1 = request.form.get("emergency_name1")
+        emergency_email2 = request.form.get("emergency_email2")
+        emergency_name2 = request.form.get("emergency_name2")
+        password = request.form.get("password")
+        national_id = request.files.get("national_id")
         if not valid_password(password):
-            flash(
-                "Password must be at least 8 characters and include "
-                "letters, numbers, and special symbols.",
-                "danger",
-            )
+            flash("Password must be at least 8 characters long and include letters, numbers, and special symbols.", "danger")
             return redirect(url_for("signup"))
 
-        with get_db() as conn:
-            if conn.execute(
-                "SELECT id FROM users WHERE email = ?", (email,)
-            ).fetchone():
-                flash("That email is already registered. Please log in.", "danger")
-                return redirect(url_for("signup"))
+        conn = sqlite3.connect(DB_NAME)
+        c = conn.cursor()
+        c.execute("SELECT id FROM users WHERE email=?", (email, ))
+        if c.fetchone():
+            flash("Email already exists. Please log in.", "danger")
+            return redirect(url_for("signup"))
+        # Handle file upload
+        filename = None
+        if national_id and national_id.filename != "":
+            filename = secure_filename(national_id.filename)
+            national_id.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
 
-            filename = None
-            national_id = request.files.get("national_id")
-            if national_id and national_id.filename:
-                filename = secure_filename(national_id.filename)
-                national_id.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+        # Insert into database
 
-            conn.execute("""
-                INSERT INTO users
-                    (name, email, phone,
-                     emergency_name1, emergency_phone1,
-                     emergency_name2, emergency_phone2,
-                     password, national_id_file, timestamp)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (
-                name, email, phone,
-                emergency_name1, emergency_email1,
-                emergency_name2, emergency_email2,
-                generate_password_hash(password),
-                filename,
-                datetime.now().isoformat(),
-            ))
-            conn.commit()
+        hashed_password = generate_password_hash(password)
+        c.execute("""INSERT INTO users 
+                     (name, email, phone, emergency_name1, emergency_phone1, emergency_name2, emergency_phone2, password, national_id_file, timestamp)
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                  (name, email, phone, emergency_email1, emergency_name1, emergency_email2, emergency_name2,
+                   hashed_password, filename, datetime.now().isoformat()))
+        conn.commit()
+        conn.close()
 
-        flash("Account created successfully! Please log in.", "success")
-        return redirect(url_for("login"))
+        flash("Account created successfully!", "success")
+        return redirect(url_for("signup"))
 
-    return render_template("UserRegistration.html")
-
-
-@app.route("/logout")
-def logout():
-    session.clear()
-    flash("You've been logged out.", "info")
-    return redirect(url_for("homepage"))
-
-
-# ── Reports / blog ─────────────────────────────────────────────────────────
-
+    return render_template('UserRegistration.html')
 @app.route("/submit-report", methods=["GET", "POST"])
 def submit_report():
     if request.method == "POST":
-        data = {
-            "user_id":        session.get("user_id"),
-            "transport_type": request.form.get("transport_type"),
-            "license_plate":  request.form.get("license_plate"),
-            "route":          request.form.get("route"),
-            "company":        request.form.get("company"),
-            "driver_name":    request.form.get("driver_name"),
-            "driver_contact": request.form.get("driver_contact"),
-            "driver_behavior":request.form.get("driver_behavior"),
-            "driving_quality":request.form.get("driving_quality"),
-            "rating":         request.form.get("rating"),
-            "review":         request.form.get("review"),
-            "created_at":     datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        }
+        # Get form data
+        transport_type = request.form.get("transport_type")
+        license_plate = request.form.get("license_plate")
+        route_name = request.form.get("route")
+        company = request.form.get("company")
 
-        with get_db() as conn:
-            conn.execute("""
-                INSERT INTO transport_reviews
-                    (user_id, transport_type, license_plate, route, company,
-                     driver_name, driver_contact, driver_behavior,
-                     driving_quality, rating, review, created_at)
-                VALUES
-                    (:user_id, :transport_type, :license_plate, :route, :company,
-                     :driver_name, :driver_contact, :driver_behavior,
-                     :driving_quality, :rating, :review, :created_at)
-            """, data)
-            conn.commit()
+        driver_name = request.form.get("driver_name")
+        driver_contact = request.form.get("driver_contact")
+        driver_behavior = request.form.get("driver_behavior")
+        driving_quality = request.form.get("driving_quality")
 
-        return redirect(url_for("blog"))
+        rating = request.form.get("rating")
+        review = request.form.get("review")
 
+        # Get user ID if login system exists
+        user_id = session.get("user_id")  # will be None if no login
+
+        created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        # Save to database
+        conn = sqlite3.connect(DB_NAME)
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO transport_reviews
+            (user_id, transport_type, license_plate, route, company,
+             driver_name, driver_contact, driver_behavior,
+             driving_quality, rating, review, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            user_id, transport_type, license_plate, route_name, company,
+            driver_name, driver_contact, driver_behavior,
+            driving_quality, rating, review, created_at
+        ))
+        conn.commit()
+        conn.close()
+
+        # After submitting, redirect to Weblog.html
+        return redirect("/blog")  # assuming /weblog route renders Weblog.html
+
+    # If GET request, show the QuickReport.html page
     return render_template("QuickReport.html")
-
-
 @app.route("/blog")
 def blog():
-    two_days_ago = (datetime.now() - timedelta(days=2)).strftime("%Y-%m-%d %H:%M:%S")
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute("""
+    SELECT transport_reviews.*, users.name, users.email
+FROM transport_reviews
+LEFT JOIN users ON transport_reviews.user_id = users.id
+WHERE transport_reviews.status = 'Approved'
+ORDER BY transport_reviews.created_at DESC;
 
-    with get_db() as conn:
-        rows = conn.execute("""
-            SELECT tr.transport_type, tr.license_plate, tr.route, tr.company,
-                   tr.driver_name, tr.driver_contact, tr.driver_behavior,
-                   tr.driving_quality, tr.rating, tr.review, tr.created_at,
-                   u.name AS user_name, u.email AS user_email
-            FROM transport_reviews tr
-            LEFT JOIN users u ON tr.user_id = u.id
-            WHERE tr.status = 'Approved'
-            ORDER BY tr.created_at DESC
-        """).fetchall()
+""")
+    reports = cursor.fetchall()
+    conn.close()
 
-    reports = []
-    for r in rows:
-        report          = dict(r)
-        report["is_new"] = report["created_at"] >= two_days_ago
-        reports.append(report)
+    # Convert to dicts if needed and add "is_new" flag
+    formatted_reports = []
+    for r in reports:
+        report = {
+            "transport_type": r[2],
+            "license_plate": r[3],
+            "route": r[4],
+            "company": r[5],
+            "driver_name": r[6],
+            "driver_contact": r[7],
+            "driver_behavior": r[8],
+            "driving_quality": r[9],
+            "rating": r[10],
+            "review": r[11],
+            "created_at": r[12],
+            "user_name": r[13],  # from users table
+            "user_email": r[14] # from users table
+        }
 
-    return render_template("Weblog.html", reports=reports)
+        # Check if report is within last 2 days
+        report_time = datetime.strptime(report["created_at"], "%Y-%m-%d %H:%M:%S")
+        report["is_new"] = (datetime.now() - report_time) <= timedelta(days=2)
 
+        formatted_reports.append(report)
 
-# ── Admin ──────────────────────────────────────────────────────────────────
-
+    return render_template("Weblog.html", reports=formatted_reports)
 @app.route("/admin")
-@admin_required
 def admin():
-    with get_db() as conn:
-        users = conn.execute(
-            "SELECT id, name, email, phone, emergency_name1, emergency_phone1, "
-            "emergency_name2, emergency_phone2, timestamp, national_id_file, status "
-            "FROM users"
-        ).fetchall()
-
-        reviews = conn.execute("""
-            SELECT tr.id, tr.transport_type, tr.license_plate, tr.route, tr.company,
-                   tr.driver_name, tr.driver_contact, tr.driver_behavior,
-                   tr.driving_quality, tr.rating, tr.review, tr.created_at, tr.status,
-                   u.name AS author_name, u.email AS author_email
-            FROM transport_reviews tr
-            LEFT JOIN users u ON tr.user_id = u.id
-            ORDER BY tr.created_at DESC
-        """).fetchall()
-
-    return render_template("MotuwaAdmin.html", users=users, reviews=reviews)
-
-
+    conn = sqlite3.connect(DB_NAME)
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    c.execute("SELECT id, name, email, timestamp, national_id_file, status FROM users ")
+    users = c.fetchall()
+    c.execute("""SELECT id, name, email, phone, emergency_name1, emergency_phone1, emergency_name2
+                    emergency_email2, timestamp, national_id_file, status
+             FROM users""")
+    user1s = c.fetchall()
+    c.execute("""
+    SELECT tr.id, tr.transport_type, tr.license_plate, tr.route, tr.company,
+           tr.driver_name, tr.driver_contact, tr.driver_behavior, tr.driving_quality,
+           tr.rating, tr.review, tr.created_at, tr.status,
+           u.name AS author_name, u.email AS author_email
+    FROM transport_reviews tr
+    JOIN users u ON tr.user_id = u.id
+""")
+    reviews = c.fetchall()
+    conn.close()
+    return render_template("MotuwaAdmin.html", users=users, user1s=user1s, reviews=reviews)
 @app.route("/verify/<int:user_id>", methods=["POST"])
-@admin_required
 def verify_user(user_id):
-    with get_db() as conn:
-        conn.execute("UPDATE users SET status = 'Verified' WHERE id = ?", (user_id,))
-        conn.commit()
+    conn = sqlite3.connect(DB_NAME)
+    c = conn.cursor()
+    c.execute("UPDATE users SET status = ? WHERE id = ?", ("Verified", user_id))
+    conn.commit()
+    conn.close()
     flash("User verified successfully!", "success")
     return redirect(url_for("admin"))
-
-
 @app.route("/revoke/<int:user_id>", methods=["POST"])
-@admin_required
 def revoke_user(user_id):
-    with get_db() as conn:
-        conn.execute("UPDATE users SET status = 'Unverified' WHERE id = ?", (user_id,))
-        conn.commit()
-    flash("User verification revoked.", "warning")
+    conn = sqlite3.connect(DB_NAME)
+    c = conn.cursor()
+    c.execute("UPDATE users SET status = ? WHERE id = ?", ("Unverified", user_id))
+    conn.commit()
+    conn.close()
+    flash("User status revoked.", "danger")
     return redirect(url_for("admin"))
-
-
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    flash("Logged out successfully.", "info")
+    return redirect(url_for("homepage"))
 @app.route("/admin/reviews/<int:review_id>/approve", methods=["POST"])
-@admin_required
 def approve_review(review_id):
-    with get_db() as conn:
-        conn.execute(
-            "UPDATE transport_reviews SET status = 'Approved' WHERE id = ?", (review_id,)
-        )
-        conn.commit()
+    conn = sqlite3.connect(DB_NAME)
+    c = conn.cursor()
+    # Example: mark review as approved
+    c.execute("UPDATE transport_reviews SET status = 'Approved' WHERE id = ?", (review_id,))
+    conn.commit()
+    conn.close()
     return redirect(url_for("admin"))
-
-
 @app.route("/admin/reviews/<int:review_id>/reject", methods=["POST"])
-@admin_required
 def reject_review(review_id):
-    with get_db() as conn:
-        conn.execute(
-            "UPDATE transport_reviews SET status = 'Rejected' WHERE id = ?", (review_id,)
-        )
-        conn.commit()
+    conn = sqlite3.connect(DB_NAME)
+    c = conn.cursor()
+    # Example: mark review as rejected
+    c.execute("UPDATE transport_reviews SET status = 'Rejected' WHERE id = ?", (review_id,))
+    conn.commit()
+    conn.close()
     return redirect(url_for("admin"))
-
-
-# ---------------------------------------------------------------------------
-# Entry point
-# ---------------------------------------------------------------------------
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     init_db()
     app.run(debug=True)
