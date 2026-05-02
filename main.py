@@ -225,6 +225,14 @@ def features():
         )
 
     return render_template("FeaturesFlow.html")
+@app.route("/debug/columns")
+def debug_columns():
+    conn = sqlite3.connect(DB_NAME)
+    c = conn.cursor()
+    c.execute("PRAGMA table_info(users)")
+    columns = c.fetchall()
+    conn.close()
+    return jsonify([col[1] for col in columns])
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
     if request.method == 'POST':
