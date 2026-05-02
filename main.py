@@ -305,36 +305,37 @@ def signup():
         name = request.form.get("name")
         email = request.form.get("email")
         phone = request.form.get("phone")
-        emergency_email1 = request.form.get("emergency_email1")
-        emergency_name1 = request.form.get("emergency_name1")
-        emergency_email2 = request.form.get("emergency_email2")
-        emergency_name2 = request.form.get("emergency_name2")
+        emergency_name1  = request.form.get("emergency_name1")
+        emergency_phone1 = request.form.get("emergency_phone1")
+        emergency_name2  = request.form.get("emergency_name2")
+        emergency_phone2 = request.form.get("emergency_phone2")
         password = request.form.get("password")
         national_id = request.files.get("national_id")
+
         if not valid_password(password):
             flash("Password must be at least 8 characters long and include letters, numbers, and special symbols.", "danger")
             return redirect(url_for("signup"))
 
         conn = sqlite3.connect(DB_NAME)
         c = conn.cursor()
-        c.execute("SELECT id FROM users WHERE email=?", (email, ))
+        c.execute("SELECT id FROM users WHERE email=?", (email,))
         if c.fetchone():
             flash("Email already exists. Please log in.", "danger")
+            conn.close()
             return redirect(url_for("signup"))
-        # Handle file upload
+
         filename = None
         if national_id and national_id.filename != "":
             filename = secure_filename(national_id.filename)
             national_id.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
 
-        # Insert into database
-
         hashed_password = generate_password_hash(password)
-        c.execute("""INSERT INTO users 
-                     (name, email, phone, emergency_name1, emergency_phone1, emergency_name2, emergency_phone2, password, national_id_file, timestamp)
-                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                  (name, email, phone, emergency_email1, emergency_name1, emergency_email2, emergency_name2,
-                   hashed_password, filename, datetime.now().isoformat()))
+        c.execute("""
+            INSERT INTO users 
+            (name, email, phone, emergency_name1, emergency_phone1, emergency_name2, emergency_phone2, password, national_id_file, timestamp)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (name, email, phone, emergency_name1, emergency_phone1, emergency_name2, emergency_phone2,
+              hashed_password, filename, datetime.now().isoformat()))
         conn.commit()
         conn.close()
 
