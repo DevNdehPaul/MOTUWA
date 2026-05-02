@@ -310,12 +310,12 @@ def login():
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
-        name = request.form.get("name")
-        email = request.form.get("email")
-        phone = request.form.get("phone")
-        emergency_name1  = request.form.get("emergency_name1")
+        name     = request.form.get("name")
+        email    = request.form.get("email")
+        phone    = request.form.get("phone")
+        emergency_email1 = request.form.get("emergency_email1")
         emergency_phone1 = request.form.get("emergency_phone1")
-        emergency_name2  = request.form.get("emergency_name2")
+        emergency_email2 = request.form.get("emergency_email2")
         emergency_phone2 = request.form.get("emergency_phone2")
         password = request.form.get("password")
         national_id = request.files.get("national_id")
@@ -340,9 +340,9 @@ def signup():
         hashed_password = generate_password_hash(password)
         c.execute("""
             INSERT INTO users 
-            (name, email, phone, emergency_name1, emergency_phone1, emergency_name2, emergency_phone2, password, national_id_file, timestamp)
+            (name, email, phone, emergency_email1, emergency_phone1, emergency_email2, emergency_phone2, password, national_id_file, timestamp)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (name, email, phone, emergency_name1, emergency_phone1, emergency_name2, emergency_phone2,
+        """, (name, email, phone, emergency_email1, emergency_phone1, emergency_email2, emergency_phone2,
               hashed_password, filename, datetime.now().isoformat()))
         conn.commit()
         conn.close()
