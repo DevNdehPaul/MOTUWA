@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session, flash, send_from_directory
-
+import os
+os.makedirs('uploads', exist_ok=True)
+os.makedirs('static/uploads', exist_ok=True)
 import sqlite3
 import re
 import os
